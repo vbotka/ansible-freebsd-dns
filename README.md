@@ -3,7 +3,7 @@ freebsd-dns
 
 [![Build Status](https://travis-ci.org/vbotka/ansible-freebsd-dns.svg?branch=master)](https://travis-ci.org/vbotka/ansible-freebsd-dns)
 
-Configure DNS in FreeBSD.
+[Ansible role.](https://galaxy.ansible.com/vbotka/freebsd-dns/) Configure DNS in FreeBSD.
 
 
 Requirements
