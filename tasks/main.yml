@@ -1,0 +1,17 @@
+---
+# tasks for freebsd-dns
+
+- include: packages.yml
+  tags:
+    - packages
+    - freebsd-dns-all
+
+- include: config_rc_conf.yml
+  tags:
+    - config_rc_conf
+    - freebsd-dns-all
+
+- include: config_named.yml
+  tags:
+    - config_named
+    - freebsd-dns-all

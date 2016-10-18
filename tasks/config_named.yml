@@ -1,0 +1,75 @@
+---
+
+- name: Configure {{bsd_named_conf_file}}
+  lineinfile: >
+    dest="{{bsd_named_conf_file}}"
+    regexp="{{item.regexp}}"
+    line="{{item.line}}"
+    backup="yes"
+  with_items: "{{bsd_named_conf_lines}}"
+  notify: reload named
+  tags: freebsd_dns_config_named_conf
+
+- name: Configure zones in {{bsd_named_conf_file}}
+  blockinfile:
+    dest: "{{bsd_named_conf_file}}"
+    marker: "// {mark} ANSIBLE MANAGED BLOCK {{item.zone}}"
+    insertafter: "EOF"
+    owner: "root"
+    group: "wheel"
+    mode: "0644"
+    backup: "yes"
+    block: |
+      zone "{{item.zone}}" {
+              type {{item.type}};
+              file "{{bsd_named_conf_path}}/{{item.type}}/{{item.zone}}";
+      };
+  with_items: "{{bsd_named_conf_zone}}"
+  notify: reload named
+  tags: freebsd_dns_config_zone
+
+- name: Configure reverse zones in {{bsd_named_conf_file}}
+  blockinfile:
+    dest: "{{bsd_named_conf_file}}"
+    marker: "// {mark} ANSIBLE MANAGED BLOCK {{item.in}}"
+    insertafter: "EOF"
+    owner: "root"
+    group: "wheel"
+    mode: "0644"
+    backup: "yes"
+    block: |
+      zone "{{item.in}}.IN-ADDR.ARPA" {
+              type {{item.type}};
+              file "{{bsd_named_conf_path}}/{{item.type}}/{{item.in}}.IN-ADDR.ARPA";
+      };
+  with_items: "{{bsd_named_conf_zone}}"
+  when: item.reverse == "yes"
+  notify: reload named
+  tags: freebsd_dns_config_zone_rev
+
+- name: Create zone files 
+  template: >
+    src="zone.j2"
+    dest="{{bsd_named_conf_path}}/{{item.type}}/{{item.zone}}"
+    owner="root"
+    group="wheel"
+    mode="0644"
+    backup="yes"
+  with_items: "{{bsd_named_conf_zone}}"
+  notify: reload named
+  tags: freebsd_dns_config_zone
+
+- name: Create reverse zone files 
+  template: >
+    src="zone-rev.j2"
+    dest="{{bsd_named_conf_path}}/{{item.type}}/{{item.in}}.IN-ADDR.ARPA"
+    owner="root"
+    group="wheel"
+    mode="0644"
+    backup="yes"
+  with_items: "{{bsd_named_conf_zone}}"
+  when: item.reverse == "yes"
+  notify: reload named
+  tags: freebsd_dns_config_zone_rev
+
+# EOF

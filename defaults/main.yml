@@ -1,0 +1,24 @@
+---
+# defaults freebsd-dns
+
+# install method
+freebsd_install_method: "packages"
+#freebsd_install_method: "ports"
+#freebsd_use_packages: "yes"
+
+# dns
+bsd_bind_version: "99"
+bsd_dns_packages:
+  - "bind{{bsd_bind_version}}"
+
+# named
+bsd_named_enable: "YES"
+bsd_named_service: "named"
+bsd_named_conf_path: "/usr/local/etc/namedb"
+bsd_named_conf_file: "{{bsd_named_conf_path}}/named.conf"
+bsd_named_conf_listen_on: "127.0.0.1;"
+bsd_named_conf_lines:
+  - { regexp: "^\tlisten-on\t{", line: "\tlisten-on\t{ {{bsd_named_conf_listen_on}} };" }
+bsd_named_conf_zone: []
+
+# EOF

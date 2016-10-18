@@ -1,0 +1,20 @@
+---
+
+- name: Install dns (packages)
+  pkgng: >
+    name="{{item}}"
+    state="present"
+  with_items: "{{bsd_dns_packages}}"
+  when: freebsd_install_method == "packages"
+  tags: packages
+
+- name: Install dns (ports)
+  portinstall: >
+    name="{{item}}"
+    state="present"
+    use_packages="{{freebsd_use_packages}}"
+  with_items: "{{bsd_dns_packages}}"
+  when: freebsd_install_method == "ports"
+  tags: ports
+
+# EOF

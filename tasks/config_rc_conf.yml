@@ -1,0 +1,24 @@
+---
+
+# named
+- name: Enable and start named
+  lineinfile: >
+    dest="/etc/rc.conf"
+    regexp="^named_enable"
+    line="named_enable=\"YES\""
+    backup="yes"
+  notify: enable and start named
+  when: bsd_named_enable == "YES"
+  tags: config_rc_conf_named
+  
+- name: Disable and stop named
+  lineinfile: >
+    dest="/etc/rc.conf"
+    regexp="^named_enable"
+    line="named_enable=\"NO\""
+    backup="yes"
+  notify: disable and stop named
+  when: bsd_named_enable == "NO"
+  tags: config_rc_conf_named
+
+# EOF

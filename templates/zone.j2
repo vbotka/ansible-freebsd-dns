@@ -1,0 +1,31 @@
+; {{ansible_managed}}
+$TTL 3600	; 1 hour default TTL
+{{item.zone}}.	IN	SOA	{{item.primary}}. {{item.admin}}. (
+				{{item.serial}}
+				{{item.refresh}}
+				{{item.retry}}
+				{{item.expire}}
+				{{item.negative}}
+			)
+
+; DNS Servers
+{% for server in item.server %}
+		IN	NS	{{server}}.
+{% endfor %}
+
+; MX Records
+{% for mx in item.mx %}
+		IN	MX {{mx.priority}}	{{mx.server}}.
+{% endfor %}
+
+		IN	A	{{item.ip}}
+localhost	IN	A	{{item.localhost}}
+; Machine Names
+{% for host in item.host %}
+{{host.host}}		IN	A	{{host.ip}}
+{% endfor %}
+
+; Aliases
+{% for alias in item.alias %}
+{{alias}}		IN	CNAME	{{item.zone}}.
+{% endfor %}

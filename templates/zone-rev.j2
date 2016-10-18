@@ -1,0 +1,19 @@
+; {{ansible_managed}}
+$TTL 3600	; 1 hour default TTL
+{{item.in}}.in-addr.arpa.	IN	SOA	{{item.primary}}. {{item.admin}}. (
+				{{item.serial}}
+				{{item.refresh}}
+				{{item.retry}}
+				{{item.expire}}
+				{{item.negative}}
+			)
+
+; DNS Servers
+{% for server in item.server %}
+		IN	NS	{{server}}.
+{% endfor %}
+
+; Machine Names
+{% for host in item.host %}
+{{host.ip24}}    IN	PTR	{{host.host}}.{{item.zone}}.
+{% endfor %}
