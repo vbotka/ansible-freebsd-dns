@@ -10,6 +10,19 @@
   notify: reload named
   tags: freebsd_dns_config_named_conf
 
+- name: Configure DNSSEC options in {{bsd_named_conf_file}}
+  lineinfile: >
+    dest="{{bsd_named_conf_file}}"
+    insertafter="^options "
+    regexp="{{item.regexp}}"
+    line="{{item.line}}"
+    backup="yes"
+  with_items:
+    - { regexp: "dnssec-enable ", line: "\t dnssec-enable \t yes;" }
+    - { regexp: "dnssec-validation ", line: "\t dnssec-validation \t yes;" }
+  notify: reload named
+  tags: freebsd_dns_config_named_conf_dnssec
+
 - name: Configure zones in {{bsd_named_conf_file}}
   blockinfile:
     dest: "{{bsd_named_conf_file}}"
@@ -22,6 +35,9 @@
     block: |
       zone "{{item.zone}}" {
               type {{item.type}};
+              key-directory "{{bsd_named_conf_path}}/keys";
+              update-policy local;
+              auto-dnssec maintain;
               file "{{bsd_named_conf_path}}/{{item.type}}/{{item.zone}}";
       };
   with_items: "{{bsd_named_conf_zone}}"
@@ -61,7 +77,7 @@
 
 - name: Create reverse zone files 
   template: >
-    src="zone-rev.j2"
+    src="zone-in.j2"
     dest="{{bsd_named_conf_path}}/{{item.type}}/{{item.in}}.IN-ADDR.ARPA"
     owner="root"
     group="wheel"
