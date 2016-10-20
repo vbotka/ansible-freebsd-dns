@@ -30,13 +30,13 @@ ansible do-bsd-test -e 'ansible_shell_type=csh ansible_shell_executable=/bin/csh
 2) Install role.
 
 ```
-ansible-galaxy install vbotka.ansible-freebsd-dns
+ansible-galaxy install vbotka.freebsd-dns
 ```
 
 3) Fit variables. Zones can be configured when DNSSEC keys are available. *dnssec-keygen* binary is needed to generate the keys.
 
 ```
-~/.ansible/roles/vbotka.ansible-freebsd-dns/vars/main.yml
+~/.ansible/roles/vbotka.freebsd-dns/vars/main.yml
 ```
 
 4) Create and run the playbook.
@@ -55,9 +55,17 @@ ansible-galaxy install vbotka.ansible-freebsd-dns
 
 5) Create keys as described in [Authoritative DNS Server Configuration](http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html#dns-dnssec-auth) and configure the zones
 
-- dnssec_KSK_public_key
-- dnssec_ZSK_public_key
+Example:
 
+```
+> cd /usr/local/etc/namedb/keys
+> dnssec-keygen -f KSK -a RSASHA256 -b 2048 -n ZONE example.com
+> mv Kexample.com.+008+20191.key Kexample.com.+008+20191.KSK.key
+> mv Knetng.co.+008+20191.private Knetng.co.+008+20191.KSK.private
+> dnssec-keygen -a RSASHA256 -b 2048 -n ZONE example.com
+> mv Kexample.com.+008+35529.key Kexample.com.+008+35529.ZSK.key
+> mv Kexample.com.+008+35529.private Kexample.com.+008+35529.ZSK.private
+```  
 
 6) Example of bsd_named_conf_zone
 
@@ -87,8 +95,8 @@ bsd_named_conf_zone:
       - { host: "mx1", ip: "192.168.1.4", ip24: "4" }
       - { host: "mx2", ip: "192.168.1.5", ip24: "5" }
     alias: [ "www", "nfs", "ftp" ]
-    dnssec_KSK_public_key: "Kexample.com.+008+30562.KSK.key"
-    dnssec_ZSK_public_key: "Kexample.com.+008+24408.ZSK.key"
+    dnssec_KSK_public_key: "Kexample.com.+008+20191.KSK.key"
+    dnssec_ZSK_public_key: "Kexample.com.+008+35529.ZSK.key"
 ```
 
 7) Run the playbook
@@ -97,13 +105,26 @@ bsd_named_conf_zone:
 ansible-playbook ~/.ansible/playbooks/freebsd-dns.yml
 ```
 
-8) Sign the zones as described in [Authoritative DNS Server Configuration](http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html#dns-dnssec-auth). The zones can be signed when the DNSSEC keys are included in the zone files.
+8) Sign and test the zones as described in [Authoritative DNS Server Configuration](http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html#dns-dnssec-auth). The zones can be signed when the DNSSEC keys are included in the zone files.
 
+Sign the zone
+
+```
+> dnssec-signzone -o example.com -k Kexample.com.+008+20191.KSK /usr/local/etc/namedb/master/example.com  Kexample.com.+008+35529.ZSK.key
+
+```
+
+Test the server
+
+```
+> dig @resolver +dnssec se ds 
+```
 
 TODO
 ----
-- automate the creation of the keys
-- automate the signing of the zones
+- automate creation of the keys
+- automate signing of the zones
+- automate testing of the server
 
 
 References
