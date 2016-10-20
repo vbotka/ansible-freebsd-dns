@@ -1,6 +1,10 @@
 ---
 # vars freebsd-dns
 
+# NOTE: Before the configuration of the zones create keys and sign the
+# zones as described in
+# www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html#dns-dnssec-auth
+
 #bsd_named_conf_zone:
 #  - zone: "example.com"
 #    reverse: "yes"
@@ -26,5 +30,7 @@
 #      - { host: "mx1", ip: "192.168.1.4", ip24: "4" }
 #      - { host: "mx2", ip: "192.168.1.5", ip24: "5" }
 #    alias: [ "www", "nfs", "ftp" ]
+#    dnssec_KSK_public_key: "Kexample.com.+008+30562.KSK.key"
+#    dnssec_ZSK_public_key: "Kexample.com.+008+24408.ZSK.key"
 
 # EOF

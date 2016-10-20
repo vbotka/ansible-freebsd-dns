@@ -29,3 +29,7 @@ localhost	IN	A	{{item.localhost}}
 {% for alias in item.alias %}
 {{alias}}		IN	CNAME	{{item.zone}}.
 {% endfor %}
+
+; DNSSEC keys
+$include {{item.dnssec_KSK_public_key}} ; KSK
+$include {{item.dnssec_ZSK_public_key}} ; ZSK
