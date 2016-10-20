@@ -105,7 +105,7 @@ bsd_named_conf_zone:
 ansible-playbook ~/.ansible/playbooks/freebsd-dns.yml
 ```
 
-8) Sign and test the zones as described in [Authoritative DNS Server Configuration](http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html#dns-dnssec-auth). The zones can be signed when the DNSSEC keys are included in the zone files.
+8) Sign the zones and test the server as described in [Authoritative DNS Server Configuration](http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html#dns-dnssec-auth). The zones can be signed when the DNSSEC keys are included in the zone files.
 
 Sign the zone
 
