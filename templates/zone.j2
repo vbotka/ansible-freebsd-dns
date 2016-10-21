@@ -31,5 +31,5 @@ localhost	IN	A	{{item.localhost}}
 {% endfor %}
 
 ; DNSSEC keys
-$include {{item.dnssec_KSK_public_key}} ; KSK
-$include {{item.dnssec_ZSK_public_key}} ; ZSK
+$include {{bsd_named_conf_keys}}/K{{item.zone}}.KSK.key ; KSK
+$include {{bsd_named_conf_keys}}/K{{item.zone}}.ZSK.key ; ZSK

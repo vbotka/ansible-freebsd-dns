@@ -14,10 +14,25 @@ bsd_dns_packages:
 # named
 bsd_named_enable: "YES"
 bsd_named_service: "named"
+bsd_named_program: "/usr/local/sbin/named"
+bsd_named_pidfile: "/var/run/named/pid"
+bsd_named_chrootdir: "/var/named"
+bsd_named_chroot_autoupdate: "YES"
+bsd_named_symlink_enable: "YES"
 bsd_named_conf_path: "/usr/local/etc/namedb"
 bsd_named_conf_file: "{{bsd_named_conf_path}}/named.conf"
+bsd_named_conf_working: "{{bsd_named_conf_path}}/working"
+bsd_named_conf_keys: "{{bsd_named_conf_path}}/keys"
+bsd_named_conf_managed_keys: "{{bsd_named_conf_path}}/dynamic"
+bsd_named_conf_dnssec_enable: "yes"
+bsd_named_conf_dnssec_validation: "auto"
+#bsd_named_conf_dnssec-validation: "yes"
 bsd_named_conf_listen_on: "127.0.0.1;"
 bsd_named_conf_lines:
+  - { regexp: "^\tpid-file\t", line: "\tpid-file\t\"{{bsd_named_pidfile}}\";" }
+  - { regexp: "^\tdirectory\t", line: "\tdirectory\t\"{{bsd_named_conf_working}}\";" }
+  - { regexp: "^\tkey-directory\t", line: "\tkey-directory\t\"{{bsd_named_conf_keys}}\";" }
+  - { regexp: "^\tmanaged-keys-directory\t", line: "\tmanaged-keys-directory\t\"{{bsd_named_conf_managed_keys}}\";" }
   - { regexp: "^\tlisten-on\t{", line: "\tlisten-on\t{ {{bsd_named_conf_listen_on}} };" }
 bsd_named_conf_zone: []
 

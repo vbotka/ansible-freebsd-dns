@@ -3,6 +3,7 @@
 - name: Configure {{bsd_named_conf_file}}
   lineinfile: >
     dest="{{bsd_named_conf_file}}"
+    insertafter="^options "
     regexp="{{item.regexp}}"
     line="{{item.line}}"
     backup="yes"
@@ -18,8 +19,8 @@
     line="{{item.line}}"
     backup="yes"
   with_items:
-    - { regexp: "dnssec-enable ", line: "\t dnssec-enable \t yes;" }
-    - { regexp: "dnssec-validation ", line: "\t dnssec-validation \t yes;" }
+    - { regexp: "^\tdnssec-enable", line: "\tdnssec-enable\t{{bsd_named_conf_dnssec_enable}};" }
+    - { regexp: "^\tdnssec-validation", line: "\tdnssec-validation\t{{bsd_named_conf_dnssec_validation}};" }
   notify: reload named
   tags: freebsd_dns_config_named_conf_dnssec
 
@@ -35,10 +36,10 @@
     block: |
       zone "{{item.zone}}" {
               type {{item.type}};
-              key-directory "{{bsd_named_conf_path}}/keys";
+              key-directory "{{bsd_named_conf_keys}}";
               update-policy local;
               auto-dnssec maintain;
-              file "{{bsd_named_conf_path}}/{{item.type}}/{{item.zone}}";
+              file "{{bsd_named_conf_path}}/{{item.type}}/{{item.zone}}.signed";
       };
   with_items: "{{bsd_named_conf_zone}}"
   notify: reload named
@@ -71,8 +72,12 @@
     group="wheel"
     mode="0644"
     backup="yes"
+  register: bsd_named_zones_created
   with_items: "{{bsd_named_conf_zone}}"
-  notify: reload named
+  notify:
+    - reload named
+# TODO: ERROR! 'dict object' has no attribute 'zone'
+#    - sign zones
   tags: freebsd_dns_config_zone
 
 - name: Create reverse zone files 
