@@ -96,9 +96,7 @@ bsd_named_conf_zone:
       - { host: "mx1", ip: "192.168.1.4", ip24: "4" }
       - { host: "mx2", ip: "192.168.1.5", ip24: "5" }
     alias: [ "www", "nfs", "ftp" ]
-    dnssec_KSK_public_key: "Kexample.com.KSK.key"
-    dnssec_ZSK_public_key: "Kexample.com.ZSK.key"
-```
+    ```
 
 7) Run the playbook
 
