@@ -1,10 +1,6 @@
 ---
 # vars freebsd-dns
 
-# NOTE: Before the configuration of the zones create keys and sign the
-# zones as described in
-# www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html#dns-dnssec-auth
-
 #bsd_named_conf_zone:
 #  - zone: "example.com"
 #    reverse: "yes"

@@ -7,9 +7,9 @@
     regexp="{{item.regexp}}"
     line="{{item.line}}"
     backup="yes"
-  with_items: "{{bsd_named_conf_lines}}"
-  notify: reload named
-  tags: freebsd_dns_config_named_conf
+  with_items: "{{bsd_named_conf_options}}"
+  notify: restart named
+  tags: bsd_dns_config_named_conf
 
 - name: Configure DNSSEC options in {{bsd_named_conf_file}}
   lineinfile: >
@@ -22,7 +22,7 @@
     - { regexp: "^\tdnssec-enable", line: "\tdnssec-enable\t{{bsd_named_conf_dnssec_enable}};" }
     - { regexp: "^\tdnssec-validation", line: "\tdnssec-validation\t{{bsd_named_conf_dnssec_validation}};" }
   notify: reload named
-  tags: freebsd_dns_config_named_conf_dnssec
+  tags: bsd_dns_config_named_conf_dnssec
 
 - name: Configure zones in {{bsd_named_conf_file}}
   blockinfile:
@@ -43,7 +43,7 @@
       };
   with_items: "{{bsd_named_conf_zone}}"
   notify: reload named
-  tags: freebsd_dns_config_zone
+  tags: bsd_dns_config_zone
 
 - name: Configure reverse zones in {{bsd_named_conf_file}}
   blockinfile:
@@ -62,7 +62,7 @@
   with_items: "{{bsd_named_conf_zone}}"
   when: item.reverse == "yes"
   notify: reload named
-  tags: freebsd_dns_config_zone_rev
+  tags: bsd_dns_config_zone_in
 
 - name: Create zone files 
   template: >
@@ -78,7 +78,7 @@
     - reload named
 # TODO: ERROR! 'dict object' has no attribute 'zone'
 #    - sign zones
-  tags: freebsd_dns_config_zone
+  tags: bsd_dns_config_zone
 
 - name: Create reverse zone files 
   template: >
@@ -91,6 +91,6 @@
   with_items: "{{bsd_named_conf_zone}}"
   when: item.reverse == "yes"
   notify: reload named
-  tags: freebsd_dns_config_zone_rev
+  tags: freebsd_dns_config_zone_in
 
 # EOF

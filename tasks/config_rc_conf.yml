@@ -1,6 +1,5 @@
 ---
 
-# named
 - name: Enable and start named
   lineinfile: >
     dest="/etc/rc.conf"
@@ -9,7 +8,7 @@
     backup="yes"
   notify: enable and start named
   when: bsd_named_enable == "YES"
-  tags: config_rc_conf_named
+  tags: bsd_rc_conf_named
   
 - name: Disable and stop named
   lineinfile: >
@@ -19,7 +18,7 @@
     backup="yes"
   notify: disable and stop named
   when: bsd_named_enable == "NO"
-  tags: config_rc_conf_named
+  tags: bsd_rc_conf_named
 
 - name: Configure named
   lineinfile: >
@@ -35,6 +34,6 @@
     - { regexp: "^named_symlink_enable=", line: "named_symlink_enable=\"{{bsd_named_symlink_enable}}\""}
   notify: restart named
   when: bsd_named_enable == "YES"
-  tags: config_rc_conf_named
+  tags: bsd_rc_conf_named
   
 # EOF
