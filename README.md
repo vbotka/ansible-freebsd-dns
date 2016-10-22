@@ -61,7 +61,7 @@ Example:
 > cd /usr/local/etc/namedb/keys
 > dnssec-keygen -f KSK -a RSASHA256 -b 2048 -n ZONE example.com
 > ln -s Kexample.com.+008+20191.key Kexample.com.KSK.key
-> ln -s Knetng.co.+008+20191.private Knetng.co.KSK.private
+> ln -s Kexample.com.+008+20191.private Kexample.com.KSK.private
 > dnssec-keygen -a RSASHA256 -b 2048 -n ZONE example.com
 > ln -s Kexample.com.+008+35529.key Kexample.com.ZSK.key
 > ln -s Kexample.com.+008+35529.private Kexample.com.ZSK.private
