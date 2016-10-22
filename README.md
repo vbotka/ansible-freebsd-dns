@@ -96,7 +96,7 @@ bsd_named_conf_zone:
       - { host: "mx1", ip: "192.168.1.4", ip24: "4" }
       - { host: "mx2", ip: "192.168.1.5", ip24: "5" }
     alias: [ "www", "nfs", "ftp" ]
-    ```
+```
 
 7) Run the playbook
 
