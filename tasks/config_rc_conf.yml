@@ -35,6 +35,6 @@
   notify: restart named
   when: bsd_named_enable == "YES"
   tags: bsd_rc_conf_named
-  
+
 # EOF
 ...

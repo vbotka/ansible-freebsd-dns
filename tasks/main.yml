@@ -6,6 +6,11 @@
     - bsd_packages
     - bsd_dns_all
 
+- include: create_dirs.yml
+  tags:
+    - bsd_create_dirs
+    - bsd_dns_all
+
 - include: config_rc_conf.yml
   tags:
     - bsd_rc_conf
