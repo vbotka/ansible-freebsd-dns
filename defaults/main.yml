@@ -1,12 +1,10 @@
 ---
 # defaults freebsd-dns
 
-# install method
 freebsd_install_method: "packages"
 #freebsd_install_method: "ports"
 #freebsd_use_packages: "yes"
 
-# dns
 bsd_bind_version: "99"
 bsd_dns_packages:
   - "bind{{bsd_bind_version}}"

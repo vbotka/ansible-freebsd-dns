@@ -1,6 +1,6 @@
 ; {{ansible_managed}}
 $TTL 3600	; 1 hour default TTL
-{{item.in}}.in-addr.arpa.	IN	SOA	{{item.primary}}. {{item.admin}}. (
+{{item.zone_in}}.in-addr.arpa.	IN	SOA	{{item.primary}}. {{item.admin}}. (
 				{{item.serial}}
 				{{item.refresh}}
 				{{item.retry}}
@@ -15,5 +15,5 @@ $TTL 3600	; 1 hour default TTL
 
 ; Machine Names
 {% for host in item.host %}
-{{host.ip24}}    IN	PTR	{{host.host}}.{{item.zone}}.
+{{host.ip.split('.')[-1] }}	IN	PTR	{{host.host}}.{{item.zone}}.
 {% endfor %}

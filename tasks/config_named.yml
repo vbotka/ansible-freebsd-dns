@@ -59,16 +59,16 @@
 - name: Configure reverse zones in {{bsd_named_conf_file}}
   blockinfile:
     dest: "{{bsd_named_conf_file}}"
-    marker: "// {mark} ANSIBLE MANAGED BLOCK {{item.in}}"
+    marker: "// {mark} ANSIBLE MANAGED BLOCK {{item.zone_in}}"
     insertafter: "EOF"
     owner: "root"
     group: "wheel"
     mode: "0644"
     backup: "yes"
     block: |
-      zone "{{item.in}}.IN-ADDR.ARPA" {
+      zone "{{item.zone_in}}.IN-ADDR.ARPA" {
               type {{item.type}};
-              file "{{bsd_named_conf_path}}/{{item.type}}/{{item.in}}.IN-ADDR.ARPA";
+              file "{{bsd_named_conf_path}}/{{item.type}}/{{item.zone_in}}.IN-ADDR.ARPA";
       };
   with_items: "{{bsd_named_conf_zone}}"
   when: item.reverse == "yes"
@@ -94,7 +94,7 @@
 - name: Create reverse zone files 
   template: >
     src="zone-in.j2"
-    dest="{{bsd_named_conf_path}}/{{item.type}}/{{item.in}}.IN-ADDR.ARPA"
+    dest="{{bsd_named_conf_path}}/{{item.type}}/{{item.zone_in}}.IN-ADDR.ARPA"
     owner="root"
     group="wheel"
     mode="0644"
@@ -102,7 +102,7 @@
   with_items: "{{bsd_named_conf_zone}}"
   when: item.reverse == "yes"
   notify: reload named
-  tags: freebsd_dns_config_zone_in
+  tags: bsd_dns_config_zone_in
 
 # EOF
 ...

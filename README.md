@@ -53,7 +53,7 @@ ansible-galaxy install vbotka.freebsd-dns
 > ansible-playbook ~/.ansible/playbooks/freebsd-dns.yml
 ```
 
-5) Create keys as described in [Authoritative DNS Server Configuration](http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html#dns-dnssec-auth) and configure the zones
+5) Create keys as described in [Authoritative DNS Server Configuration](http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html#dns-dnssec-auth).
 
 Example:
 
@@ -68,34 +68,40 @@ Example:
 > chown bind K*
 ```  
 
-6) Example of bsd_named_conf_zone
+6) Configure the zones.
+
+Example of bsd_named_conf_zone:
 
 ```
 bsd_named_conf_zone:
-  - zone: "example.com"
-    reverse: "yes"
-    type: "master"
-    primary: "ns1.example.com"
-    ip: "192.168.1.1"
-    in: "1.168.192"
-    localhost: "127.0.0.1"
-    admin: "admin.example.com"
-    serial: "2016101801"
-    refresh: "10800"
-    retry: "3600"
-    expire: "604800"
-    negative: "300"
-    server: [ "ns1.example.com", "ns2.example.com"]
-    mx:
-      - { server: "mx1.example.com", priority: "10" }
-      - { server: "mx2.example.com", priority: "20" }
-    host:
-      - { host: "srv", ip: "192.168.1.1", ip24: "1" }
-      - { host: "ns1", ip: "192.168.1.2", ip24: "2" }
-      - { host: "ms2", ip: "192.168.1.3", ip24: "3" }
-      - { host: "mx1", ip: "192.168.1.4", ip24: "4" }
-      - { host: "mx2", ip: "192.168.1.5", ip24: "5" }
-    alias: [ "www", "nfs", "ftp" ]
+- zone: "example.com"
+type: "master"
+reverse: "yes"
+zone_ip: "10.1.0.10"
+zone_in: "0.1.10"
+primary: "ns.example.com"
+primary_ip: "192.168.1.10"
+admin: "admin.example.com"
+serial: "2016102201"
+refresh: "10800"
+retry: "3600"
+expire: "604800"
+negative: "300"
+server:
+- "ns1.example.com"
+- "ns2.example.com"
+mx:
+- { server: "mx1.example.com", priority: "10" }
+- { server: "mx2.example.com", priority: "20" }
+host:
+- { host: "srv", ip: "10.1.0.10" }
+- { host: "ns1", ip: "10.1.0.2" }
+- { host: "ms2", ip: "10.1.0.3" }
+- { host: "mx1", ip: "10.1.0.4" }
+- { host: "mx2", ip: "10.1.0.5" }
+alias:
+- "www"
+- "mail"
 ```
 
 7) Run the playbook

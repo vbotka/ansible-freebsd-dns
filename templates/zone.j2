@@ -8,18 +8,9 @@ $TTL 3600	; 1 hour default TTL
 				{{item.negative}}
 			)
 
-; DNS Servers
-{% for server in item.server %}
-		IN	NS	{{server}}.
-{% endfor %}
+@		IN	A	{{item.zone_ip}}
+{{item.primary}}.	IN	A	{{item.primary_ip}}
 
-; MX Records
-{% for mx in item.mx %}
-		IN	MX {{mx.priority}}	{{mx.server}}.
-{% endfor %}
-
-		IN	A	{{item.ip}}
-localhost	IN	A	{{item.localhost}}
 ; Machine Names
 {% for host in item.host %}
 {{host.host}}		IN	A	{{host.ip}}
@@ -27,7 +18,17 @@ localhost	IN	A	{{item.localhost}}
 
 ; Aliases
 {% for alias in item.alias %}
-{{alias}}		IN	CNAME	{{item.zone}}.
+{{alias}}		IN	CNAME	@
+{% endfor %}
+
+; Mail servers
+{% for mx in item.mx %}
+@		IN	MX {{mx.priority}}	{{mx.server}}.
+{% endfor %}
+
+; DNS Servers
+{% for server in item.server %}
+@		IN	NS	{{server}}.
 {% endfor %}
 
 ; DNSSEC keys
