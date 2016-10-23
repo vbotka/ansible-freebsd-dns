@@ -126,6 +126,13 @@ Test the server.
 > dig @resolver +dnssec se ds 
 ```
 
+9) Consider to test the server with
+
+- [DNS Check in Pingdom Tools](http://dnscheck.pingdom.com/)
+- [Veisign LABS](http://dnssec-debugger.verisignlabs.com/)
+- [DNS VIZ](http://dnsviz.net/)
+
+
 TODO
 ----
 - automate creation of the keys
@@ -140,18 +147,20 @@ References
 - [Domain Name System (DNS)](https://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html)
 - [Authoritative DNS Server Configuration](http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html#dns-dnssec-auth)
 - [ISC: BIND 9 Configuration Reference](https://ftp.isc.org/isc/bind9/cur/9.10/doc/arm/Bv9ARM.ch06.html)
+- [ISC: Inline Signing in ISC BIND 9.9.0](https://kb.isc.org/article/AA-00626/0/Inline-Signing-in-ISC-BIND-9.9.0-Examples.html)
+- [Zytrax: DNS for Rocket Scientists](http://www.zytrax.com/books/dns/)
 - [Zytrax: BIND (Berkeley Internet Name Domain)](http://www.zytrax.com/books/dns/ch5/)
-- [DNS for Rocket Scientists](http://www.zytrax.com/books/dns/)
+- [Zytrax: DNS BIND Zone Transfers and Updates](http://www.zytrax.com/books/dns/ch7/xfer.html)
+- [Enabling DNSSec in Bind](http://networking.ringofsaturn.com/Unix/dnssec.php)
+- [Invalid TLD error when changing nameservers in godaddy](https://www.howtoforge.com/community/threads/invalid-tld-error-when-changing-nameservers-in-godaddy.62932/)
 - [www.bind9.net](http://www.bind9.net/)
 - [www.dnssec.net](http://www.dnssec.net/)
-- [Enabling DNSSec in Bind](http://networking.ringofsaturn.com/Unix/dnssec.php)
 
 
 License
 -------
 
 [![license](https://img.shields.io/badge/license-BSD-red.svg)](https://www.freebsd.org/doc/en/articles/bsdl-gpl/article.html)
-
 
 
 Author Information

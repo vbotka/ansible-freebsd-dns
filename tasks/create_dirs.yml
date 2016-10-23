@@ -10,7 +10,7 @@
   when: bsd_named_chrootdir is defined
   tags: bsd_dns_create_named_chrootdir
 
-- name: Create directory for keys {{bsd_named_chrootdir}}/{{bsd_named_conf_keys}}
+- name: Create chrooted directory for keys {{bsd_named_chrootdir}}/{{bsd_named_conf_keys}}
   file: >
     state="directory"
     path="{{bsd_named_chrootdir}}/{{bsd_named_conf_keys}}"
@@ -18,7 +18,16 @@
     group="wheel"
     mode="0755"
   when: bsd_named_chrootdir is defined
-  tags: bsd_dns_create_named_chrootdir
+  tags: bsd_dns_create_keydir_chrooted
+
+- name: Create directory for keys {{bsd_named_conf_keys}}
+  file: >
+    state="directory"
+    path="{{bsd_named_conf_keys}}"
+    owner="root"
+    group="wheel"
+    mode="0755"
+  tags: bsd_dns_create_keydir
 
 # EOF
 ...

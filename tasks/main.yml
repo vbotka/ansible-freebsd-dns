@@ -21,5 +21,10 @@
     - bsd_config_named
     - bsd_dns_all
 
+- include: config_named_zones.yml
+  tags:
+    - bsd_config_named_zones
+    - bsd_dns_all
+
 # EOF
 ...

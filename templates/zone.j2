@@ -8,8 +8,16 @@ $TTL 3600	; 1 hour default TTL
 				{{item.negative}}
 			)
 
+{% if item.zone_ip %}
 @		IN	A	{{item.zone_ip}}
-{{item.primary}}.	IN	A	{{item.primary_ip}}
+{% endif %}
+
+{% if item.primary  %}
+;{{item.primary}}.	IN	A	{{item.primary_ip}}
+{% endif %}
+{% if item.secondary  %}
+;{{item.secondary}}.	IN	A	{{item.secondary_ip}}
+{% endif %}
 
 ; Machine Names
 {% for host in item.host %}
