@@ -15,7 +15,8 @@
 #    serial: "2016102201"
 #    refresh: "10800"
 #    retry: "3600"
-#    expire: "604800"
+#    expire RFC 1912 recommends 1209600 - 2419200 seconds (14-28 days).
+#    expire: "1209600"
 #    negative: "300"
 #    server:
 #      - "ns1.example.com"
