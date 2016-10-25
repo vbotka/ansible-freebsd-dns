@@ -32,6 +32,7 @@ bsd_named_conf_options:
   - { regexp: "^\tmanaged-keys-directory\t", line: "\tmanaged-keys-directory\t\"{{bsd_named_conf_managed_keys}}\";" }
   - { regexp: "^\tlisten-on\t{", line: "\tlisten-on\t{ {{bsd_named_conf_listen_on}} };" }
 bsd_named_conf_listen_on: "127.0.0.1;"
+bsd_named_conf_allow_transfer_default: "\"none\";"
 bsd_named_conf_forwarders: []
 bsd_named_conf_zone: []
 

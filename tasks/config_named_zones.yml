@@ -13,6 +13,7 @@
       zone "{{item.zone}}" {
               type {{item.type}};
               key-directory "{{bsd_named_conf_keys}}";
+              allow-transfer  { {{item.allow_transfer}} };
               update-policy local;
               auto-dnssec maintain;
               file "{{bsd_named_conf_path}}/{{item.type}}/{{item.zone}}.signed";
@@ -58,6 +59,7 @@
     block: |
       zone "{{item.zone_in}}.IN-ADDR.ARPA" {
               type {{item.type}};
+              allow-transfer  { {{item.allow_transfer}} };
               file "{{bsd_named_conf_path}}/{{item.type}}/{{item.zone_in}}.IN-ADDR.ARPA";
       };
   with_items: "{{bsd_named_conf_zone}}"

@@ -11,7 +11,18 @@
   notify: restart named
   tags: bsd_dns_config_named_conf
 
-- name: Configure forwarders in {{bsd_named_conf_file}}
+- name: Configure default allow-transfer {{bsd_named_conf_allow_transfer_default}} in {{bsd_named_conf_file}}
+  lineinfile: >
+    dest="{{bsd_named_conf_file}}"
+    insertafter="^options "
+    regexp="^\tallow-transfer\t{"
+    line="\tallow-transfer\t{ {{bsd_named_conf_allow_transfer_default}} };"
+    backup="yes"
+  when: bsd_named_conf_allow_transfer_default|length > 0
+  notify: reload named
+  tags: bsd_dns_config_named_conf_allow_transfer_default
+
+- name: Configure forwarders {{bsd_named_conf_forwarders}} in {{bsd_named_conf_file}}
   lineinfile: >
     dest="{{bsd_named_conf_file}}"
     insertafter="^options "
