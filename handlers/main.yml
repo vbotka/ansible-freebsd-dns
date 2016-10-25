@@ -27,11 +27,13 @@
   service: >
     name="{{bsd_named_service}}"
     state="restarted"
+  when: bsd_named_enable == "YES"
 
 - name: reload named
   service: >
     name="{{bsd_named_service}}"
     state="reloaded"
+  when: bsd_named_enable == "YES"
 
 # TODO: ERROR! 'dict object' has no attribute 'zone'
 #- name: sign zones
