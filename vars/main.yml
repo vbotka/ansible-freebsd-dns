@@ -1,38 +1,44 @@
 ---
 # vars freebsd-dns
 
-#bsd_named_conf_listen_on: "127.0.0.1; 192.168.1.10;"
+#bsd_named_conf_listen_on: "127.0.0.1; 192.168.1.11;"
 #bsd_named_conf_forwarders: "8.8.8.8; 8.8.4.4;"
+
+# Example of master zone
 #bsd_named_conf_zone:
 #  - zone: "example.com"
 #    type: "master"
 #    reverse: "yes"
 #    zone_ip: "10.1.0.10"
 #    zone_in: "0.1.10"
-#    primary: "ns.example.com"
-#    primary_ip: "192.168.1.10"
+#    primary: "ns1.example.net"
+#    primary_ip: "192.168.1.11"
+#    secondary: "ns2.example.net"
+#    secondary_ip: "192.168.1.12"
 #    admin: "admin.example.com"
-#    serial: "2016102201"
+#    serial: "2016102401"
 #    refresh: "10800"
 #    retry: "3600"
-#    expire RFC 1912 recommends 1209600 - 2419200 seconds (14-28 days).
 #    expire: "1209600"
 #    negative: "300"
 #    server:
-#      - "ns1.example.com"
-#      - "ns2.example.com"
+#      - "ns1.example.net"
+#      - "ns2.example.net"
 #    mx:
-#      - { server: "mx1.example.com", priority: "10" }
-#      - { server: "mx2.example.com", priority: "20" }
+#      - { server: "srv.example.com", priority: "10" }
 #    host:
 #      - { host: "srv", ip: "10.1.0.10" }
-#      - { host: "ns1", ip: "10.1.0.2" }
-#      - { host: "ms2", ip: "10.1.0.3" }
-#      - { host: "mx1", ip: "10.1.0.4" }
-#      - { host: "mx2", ip: "10.1.0.5" }
 #    alias:
 #      - "www"
 #      - "mail"
+
+# Example of slave zone
+#bsd_named_conf_zone:
+#  - zone: "example.com"
+#    type: "slave"
+#    masters: "192.168.1.11;"
+#    reverse: "yes"
+#    zone_in: "0.1.10"
 
 # EOF
 ...
