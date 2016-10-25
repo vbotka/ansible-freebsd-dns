@@ -160,15 +160,19 @@ TODO
 References
 ----------
 
-- [DNSSEC in 6 minutes](http://static.usenix.org/event/lisa08/dnssec_bof.pdf)
-- [Domain Name System (DNS)](https://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html)
-- [Authoritative DNS Server Configuration](http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html#dns-dnssec-auth)
+- [USENIX: DNSSEC in 6 minutes](http://static.usenix.org/event/lisa08/dnssec_bof.pdf)
+- [BSD: Domain Name System (DNS)](https://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html)
+- [BSD: Authoritative DNS Server Configuration](http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html#dns-dnssec-auth)
 - [ISC: BIND 9 Configuration Reference](https://ftp.isc.org/isc/bind9/cur/9.10/doc/arm/Bv9ARM.ch06.html)
 - [ISC: Inline Signing in ISC BIND 9.9.0](https://kb.isc.org/article/AA-00626/0/Inline-Signing-in-ISC-BIND-9.9.0-Examples.html)
 - [ISC: BIND DNSSEC Guide](https://users.isc.org/~jreed/dnssec-guide/dnssec-guide.html)
 - [Zytrax: DNS for Rocket Scientists](http://www.zytrax.com/books/dns/)
 - [Zytrax: BIND (Berkeley Internet Name Domain)](http://www.zytrax.com/books/dns/ch5/)
 - [Zytrax: DNS BIND Zone Transfers and Updates](http://www.zytrax.com/books/dns/ch7/xfer.html)
+- [Zytrax: Define a DMARC Record](http://www.zytrax.com/books/dns/ch9/dmarc.html)
+- [Zytrax: Define an SPF Record](http://www.zytrax.com/books/dns/ch9/spf.html)
+- [OpenSPF: How a receiving mail server uses SPF](http://www.openspf.org/FAQ/Examples)
+
 - [Enabling DNSSec in Bind](http://networking.ringofsaturn.com/Unix/dnssec.php)
 - [Invalid TLD error when changing nameservers in godaddy](https://www.howtoforge.com/community/threads/invalid-tld-error-when-changing-nameservers-in-godaddy.62932/)
 - [www.bind9.net](http://www.bind9.net/)

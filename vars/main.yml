@@ -33,6 +33,8 @@
 #    alias:
 #      - "www"
 #      - "mail"
+#   dmarc_1: "v=DMARC1;p=none;sp=reject;pct=10;"
+#   dmarc_2: "adkim=r;aspf=r;fo=1;ri=86400;rua=mailto:admin@example.com"
 
 # Example of slave zone
 #bsd_named_conf_zone:

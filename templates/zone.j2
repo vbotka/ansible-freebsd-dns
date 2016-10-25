@@ -21,12 +21,12 @@ $TTL 3600	; 1 hour default TTL
 
 ; Machine Names
 {% for host in item.host %}
-{{host.host}}		IN	A	{{host.ip}}
+{{host.host}}	IN	A	{{host.ip}}
 {% endfor %}
 
 ; Aliases
 {% for alias in item.alias %}
-{{alias}}		IN	CNAME	@
+{{alias}}	IN	CNAME	@
 {% endfor %}
 
 ; Mail servers
@@ -36,14 +36,18 @@ $TTL 3600	; 1 hour default TTL
 
 ; SPF
 {% for mx in item.mx %}
-{{mx.server}}.	TXT  "v=spf1 a -all"
+{{mx.server}}.		TXT	"v=spf1 a -all"
 {% endfor %}
-{{item.zone}}.	TXT  "v=spf1 a:{{item.mx_domain}} -all"
+{{item.zone}}.		TXT	"v=spf1 a:{{item.mx_domain}} -all"
 
 ; DNS Servers
 {% for server in item.server %}
 @		IN	NS	{{server}}.
 {% endfor %}
+
+; DMARC
+_dmarc			TXT	( "{{item.dmarc_1}}"
+				  "{{item.dmarc_2}}" )
 
 ; DNSSEC keys
 $include {{bsd_named_conf_keys}}/K{{item.zone}}.KSK.key ; KSK
