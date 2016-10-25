@@ -131,11 +131,13 @@ Test the server.
 - [Add a DS record](https://uk.godaddy.com/help/add-a-ds-record-23865)
 - [Domain Name System Security (DNSSEC) Algorithm Numbers](http://www.iana.org/assignments/dns-sec-alg-numbers/dns-sec-alg-numbers.xhtml)
 - [DS records at Godaddy with .co tld](https://lists.opendnssec.org/pipermail/opendnssec-user/2015-April/003288.html)
+- [How To Setup DNSSEC on an Authoritative BIND DNS Server](https://www.digitalocean.com/community/tutorials/how-to-setup-dnssec-on-an-authoritative-bind-dns-server--2)
 
 10) Consider to test the server with
 
 - [dnscheck.iis.se](http://dnscheck.iis.se/)
 - [DNS Check in Pingdom Tools](http://dnscheck.pingdom.com/)
+- [Pingdom. Failed to deliver email. Can safely ignore this failure.](http://serverfault.com/questions/748923/how-can-i-fix-these-soa-dns-problems)
 - [Veisign LABS](http://dnssec-debugger.verisignlabs.com/)
 - [DNS VIZ](http://dnsviz.net/)
 
@@ -155,6 +157,7 @@ References
 - [Authoritative DNS Server Configuration](http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html#dns-dnssec-auth)
 - [ISC: BIND 9 Configuration Reference](https://ftp.isc.org/isc/bind9/cur/9.10/doc/arm/Bv9ARM.ch06.html)
 - [ISC: Inline Signing in ISC BIND 9.9.0](https://kb.isc.org/article/AA-00626/0/Inline-Signing-in-ISC-BIND-9.9.0-Examples.html)
+- [ISC: BIND DNSSEC Guide](https://users.isc.org/~jreed/dnssec-guide/dnssec-guide.html)
 - [Zytrax: DNS for Rocket Scientists](http://www.zytrax.com/books/dns/)
 - [Zytrax: BIND (Berkeley Internet Name Domain)](http://www.zytrax.com/books/dns/ch5/)
 - [Zytrax: DNS BIND Zone Transfers and Updates](http://www.zytrax.com/books/dns/ch7/xfer.html)
