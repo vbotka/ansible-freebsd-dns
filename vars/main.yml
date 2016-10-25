@@ -26,6 +26,7 @@
 #      - "ns2.example.net"
 #    mx:
 #      - { server: "srv.example.com", priority: "10" }
+#    mx_domain: "srv.example.com"
 #    host:
 #      - { host: "srv", ip: "10.1.0.10" }
 #    alias:
