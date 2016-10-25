@@ -32,6 +32,7 @@
   with_items:
     - { regexp: "^\tdnssec-enable", line: "\tdnssec-enable\t{{bsd_named_conf_dnssec_enable}};" }
     - { regexp: "^\tdnssec-validation", line: "\tdnssec-validation\t{{bsd_named_conf_dnssec_validation}};" }
+    - { regexp: "^\tdnssec-lookaside", line: "\tdnssec-lookaside\t{{bsd_named_conf_dnssec_lookaside}};" }
   notify: reload named
   tags: bsd_dns_config_named_conf_dnssec
 

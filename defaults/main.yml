@@ -24,6 +24,7 @@ bsd_named_conf_keys: "{{bsd_named_conf_path}}/keys"
 bsd_named_conf_managed_keys: "{{bsd_named_conf_path}}/dynamic"
 bsd_named_conf_dnssec_enable: "yes"
 bsd_named_conf_dnssec_validation: "yes"
+bsd_named_conf_dnssec_lookaside: "auto"
 bsd_named_conf_options:
   - { regexp: "^\tpid-file\t", line: "\tpid-file\t\"{{bsd_named_pidfile}}\";" }
   - { regexp: "^\tdirectory\t", line: "\tdirectory\t\"{{bsd_named_conf_working}}\";" }

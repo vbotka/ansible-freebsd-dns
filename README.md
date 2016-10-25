@@ -126,7 +126,13 @@ Test the server.
 > dig @resolver +dnssec se ds 
 ```
 
-9) Consider to test the server with
+9) Update registrar DS records.
+
+- [Add a DS record](https://uk.godaddy.com/help/add-a-ds-record-23865)
+- [Domain Name System Security (DNSSEC) Algorithm Numbers](http://www.iana.org/assignments/dns-sec-alg-numbers/dns-sec-alg-numbers.xhtml)
+- [DS records at Godaddy with .co tld](https://lists.opendnssec.org/pipermail/opendnssec-user/2015-April/003288.html)
+
+10)) Consider to test the server with
 
 - [DNS Check in Pingdom Tools](http://dnscheck.pingdom.com/)
 - [Veisign LABS](http://dnssec-debugger.verisignlabs.com/)
