@@ -34,6 +34,12 @@ $TTL 3600	; 1 hour default TTL
 @		IN	MX {{mx.priority}}	{{mx.server}}.
 {% endfor %}
 
+; SPF
+{% for mx in item.mx %}
+{{mx.server}}.	TXT  "v=spf1 a -all"
+{% endfor %}
+{{item.zone}}.	TXT  "v=spf1 a:{{item.mx_domain}} -all"
+
 ; DNS Servers
 {% for server in item.server %}
 @		IN	NS	{{server}}.
