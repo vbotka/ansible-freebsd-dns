@@ -70,38 +70,46 @@ Example:
 
 6) Configure the zones.
 
-Example of bsd_named_conf_zone:
+Example of master zone
 
 ```
-bsd_named_conf_zone:
-- zone: "example.com"
-type: "master"
-reverse: "yes"
-zone_ip: "10.1.0.10"
-zone_in: "0.1.10"
-primary: "ns.example.com"
-primary_ip: "192.168.1.10"
-admin: "admin.example.com"
-serial: "2016102201"
-refresh: "10800"
-retry: "3600"
-expire: "604800"
-negative: "300"
-server:
-- "ns1.example.com"
-- "ns2.example.com"
-mx:
-- { server: "mx1.example.com", priority: "10" }
-- { server: "mx2.example.com", priority: "20" }
-host:
-- { host: "srv", ip: "10.1.0.10" }
-- { host: "ns1", ip: "10.1.0.2" }
-- { host: "ms2", ip: "10.1.0.3" }
-- { host: "mx1", ip: "10.1.0.4" }
-- { host: "mx2", ip: "10.1.0.5" }
-alias:
-- "www"
-- "mail"
+sd_named_conf_zone:
+ - zone: "example.com"
+   type: "master"
+   reverse: "yes"
+   zone_ip: "10.1.0.10"
+   zone_in: "0.1.10"
+   primary: "ns1.example.net"
+   primary_ip: "192.168.1.11"
+   secondary: "ns2.example.net"
+   secondary_ip: "192.168.1.12"
+   admin: "admin.example.com"
+   serial: "2016102401"
+   refresh: "10800"
+   retry: "3600"
+   expire: "1209600"
+   negative: "300"
+   server:
+     - "ns1.example.net"
+     - "ns2.example.net"
+   mx:
+     - { server: "srv.example.com", priority: "10" }
+   host:
+     - { host: "srv", ip: "10.1.0.10" }
+   alias:
+     - "www"
+     - "mail"
+```
+
+Example of slave zone
+
+```
+sd_named_conf_zone:
+ - zone: "example.com"
+   type: "slave"
+   masters: "192.168.1.11;"
+   reverse: "yes"
+   zone_in: "0.1.10"
 ```
 
 7) Run the playbook
