@@ -29,5 +29,12 @@
     mode="0755"
   tags: bsd_dns_create_keydir
 
+#- name: Create log file {{bsd_named_conf_log_file}}
+#  shell: 'if [ ! -e {{bsd_named_conf_log_file}} ]; then printf "create"; fi'
+#  register: command_result
+#  changed_when: command_result.stdout == "create"
+#  notify: create log
+#  tags: bsd_dns_create_log
+  
 # EOF
 ...

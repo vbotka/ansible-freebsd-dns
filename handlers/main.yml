@@ -35,6 +35,9 @@
     state="reloaded"
   when: bsd_named_enable == "YES"
 
+#- name: create log
+#  shell: "touch {{bsd_named_conf_log_file}}; chmod 0640 {{bsd_named_conf_log_file}}"
+  
 # TODO: ERROR! 'dict object' has no attribute 'zone'
 #- name: sign zones
 #  shell: "dnssec-signzone -o {{item.zone}} -k K{{item.zone}}.KSK /usr/local/etc/namedb/master/{{item.zone}} K{{item.zone}}.ZSK.key"
