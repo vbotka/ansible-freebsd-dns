@@ -46,8 +46,10 @@ $TTL 3600	; 1 hour default TTL
 {% endfor %}
 
 ; DMARC
+{% if item.dmarc_1 and item.dmarc_2 %}
 _dmarc			TXT	( "{{item.dmarc_1}}"
 				  "{{item.dmarc_2}}" )
+{% endif %}
 
 ; DNSSEC keys
 $include {{bsd_named_conf_keys}}/K{{item.zone}}.KSK.key ; KSK
