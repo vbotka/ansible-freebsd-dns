@@ -137,6 +137,12 @@ Test the server.
 9) Update registrar DS records.
 
 - [Add a DS record](https://uk.godaddy.com/help/add-a-ds-record-23865)
+- ["Method used for encrypting the public key"](https://www.edge-cloud.net/2014/06/16/practical-guide-dns-based-authentication-named-entities-dane/) can be found wit the command
+
+```
+dig type48 example.com
+```
+
 - [Domain Name System Security (DNSSEC) Algorithm Numbers](http://www.iana.org/assignments/dns-sec-alg-numbers/dns-sec-alg-numbers.xhtml)
 - [DS records at Godaddy with .co tld](https://lists.opendnssec.org/pipermail/opendnssec-user/2015-April/003288.html)
 - [How To Setup DNSSEC on an Authoritative BIND DNS Server](https://www.digitalocean.com/community/tutorials/how-to-setup-dnssec-on-an-authoritative-bind-dns-server--2)

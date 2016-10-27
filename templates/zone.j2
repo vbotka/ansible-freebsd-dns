@@ -42,7 +42,7 @@ $TTL 3600	; 1 hour default TTL
 
 ; DNS Servers
 {% for server in item.server %}
-@		IN	NS	{{server}}.
+{{item.zone}}.	IN	NS	{{server}}.
 {% endfor %}
 
 ; DMARC
