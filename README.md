@@ -156,6 +156,15 @@ dig type48 example.com
 - [DNS VIZ](http://dnsviz.net/)
 
 
+NOTES
+-----
+
+- [In-line Signing](https://deepthought.isc.org/article/AA-00711/0/In-line-Signing-With-NSEC3-in-BIND-9.9-A-Walk-through.html)
+  works with the slave as expected, but not with the master.
+
+- Keys from master are copied to the slave manually..
+
+
 TODO
 ----
 - automate creation of the keys
