@@ -11,6 +11,8 @@ Requirements
 
 No requiremenst.
 
+Recommended: [YAZVS (Yet Another Zone Validation Script)](https://galaxy.ansible.com/vbotka/yazvs/)
+
 
 Variables
 ---------
