@@ -5,7 +5,7 @@ galaxy_info:
   company: https://botka.link
   github_branch: master
   license: BSD
-  min_ansible_version: 1.2
+  min_ansible_version: 2.3
   platforms:
     - name: FreeBSD
       versions:
@@ -13,7 +13,7 @@ galaxy_info:
         - 10.1
         - 10.2
         - 10.3
-#       - 11.0
+        - 11.0
   galaxy_tags:
     - installer
     - freebsd
