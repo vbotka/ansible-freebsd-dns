@@ -1,36 +1,36 @@
 ---
 
-- name: Create directory for chrooted named {{bsd_named_chrootdir}}
+- name: Create directory for chrooted named {{ bsd_named_chrootdir }}
   file: >
     state="directory"
-    path="{{bsd_named_chrootdir}}"
+    path="{{ bsd_named_chrootdir }}"
     owner="root"
     group="wheel"
     mode="0755"
   when: bsd_named_chrootdir is defined
   tags: bsd_dns_create_named_chrootdir
 
-- name: Create chrooted directory for keys {{bsd_named_chrootdir}}/{{bsd_named_conf_keys}}
+- name: Create chrooted directory for keys {{ bsd_named_chrootdir }}/{{ bsd_named_conf_keys }}
   file: >
     state="directory"
-    path="{{bsd_named_chrootdir}}/{{bsd_named_conf_keys}}"
+    path="{{ bsd_named_chrootdir }}/{{ bsd_named_conf_keys }}"
     owner="root"
     group="wheel"
     mode="0755"
   when: bsd_named_chrootdir is defined
   tags: bsd_dns_create_keydir_chrooted
 
-- name: Create directory for keys {{bsd_named_conf_keys}}
+- name: Create directory for keys {{ bsd_named_conf_keys }}
   file: >
     state="directory"
-    path="{{bsd_named_conf_keys}}"
+    path="{{ bsd_named_conf_keys }}"
     owner="root"
     group="wheel"
     mode="0755"
   tags: bsd_dns_create_keydir
 
-#- name: Create log file {{bsd_named_conf_log_file}}
-#  shell: 'if [ ! -e {{bsd_named_conf_log_file}} ]; then printf "create"; fi'
+#- name: Create log file {{ bsd_named_conf_log_file }}
+#  shell: 'if [ ! -e {{ bsd_named_conf_log_file }} ]; then printf "create"; fi'
 #  register: command_result
 #  changed_when: command_result.stdout == "create"
 #  notify: create log

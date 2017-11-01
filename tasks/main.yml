@@ -4,6 +4,7 @@
 - include: packages.yml
   tags:
     - bsd_packages
+    - bsd_ports
     - bsd_dns_all
 
 - include: create_dirs.yml

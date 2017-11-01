@@ -1,88 +1,88 @@
 ---
 
-- name: Configure master zones in {{bsd_named_conf_file}}
+- name: Configure master zones in {{ bsd_named_conf_file }}
   blockinfile:
-    dest: "{{bsd_named_conf_file}}"
-    marker: "// {mark} ANSIBLE MANAGED BLOCK master {{item.zone}}"
+    dest: "{{ bsd_named_conf_file }}"
+    marker: "// {mark} ANSIBLE MANAGED BLOCK master {{ item.zone }}"
     insertafter: "EOF"
     owner: "root"
     group: "wheel"
     mode: "0644"
     backup: "yes"
     block: |
-      zone "{{item.zone}}" {
-              type {{item.type}};
-              key-directory "{{bsd_named_conf_keys}}";
-              allow-transfer  { {{item.allow_transfer}} };
+      zone "{{ item.zone }}" {
+              type {{ item.type }};
+              key-directory "{{ bsd_named_conf_keys }}";
+              allow-transfer  { {{ item.allow_transfer }} };
               update-policy local;
               auto-dnssec maintain;
-              file "{{bsd_named_conf_path}}/{{item.type}}/{{item.zone}}.signed";
+              file "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone }}.signed";
       };
-  with_items: "{{bsd_named_conf_zone}}"
+  with_items: "{{ bsd_named_conf_zone }}"
   when: item.type == "master"
   notify: restart named
   tags: bsd_dns_config_zone
 
-- name: Configure slave zones in {{bsd_named_conf_file}}
+- name: Configure slave zones in {{ bsd_named_conf_file }}
   blockinfile:
-    dest: "{{bsd_named_conf_file}}"
-    marker: "// {mark} ANSIBLE MANAGED BLOCK slave {{item.zone}}"
+    dest: "{{ bsd_named_conf_file }}"
+    marker: "// {mark} ANSIBLE MANAGED BLOCK slave {{ item.zone }}"
     insertafter: "EOF"
     owner: "root"
     group: "wheel"
     mode: "0644"
     backup: "yes"
     block: |
-      zone "{{item.zone}}" {
-              type {{item.type}};
-              masters { {{item.masters}} };
-              allow-notify { {{item.masters}} };
-              key-directory "{{bsd_named_conf_keys}}";
+      zone "{{ item.zone }}" {
+              type {{ item.type }};
+              masters { {{ item.masters }} };
+              allow-notify { {{ item.masters }} };
+              key-directory "{{ bsd_named_conf_keys }}";
               auto-dnssec maintain;
               inline-signing yes;
-              file "{{bsd_named_conf_path}}/{{item.type}}/{{item.zone}}.bk";
+              file "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone }}.bk";
       };
-  with_items: "{{bsd_named_conf_zone}}"
+  with_items: "{{ bsd_named_conf_zone }}"
   when: item.type == "slave"
   notify: restart named
   tags: bsd_dns_config_zone
 
-- name: Configure master reverse zones in {{bsd_named_conf_file}}
+- name: Configure master reverse zones in {{ bsd_named_conf_file }}
   blockinfile:
-    dest: "{{bsd_named_conf_file}}"
-    marker: "// {mark} ANSIBLE MANAGED BLOCK master {{item.zone_in}}"
+    dest: "{{ bsd_named_conf_file }}"
+    marker: "// {mark} ANSIBLE MANAGED BLOCK master {{ item.zone_in }}"
     insertafter: "EOF"
     owner: "root"
     group: "wheel"
     mode: "0644"
     backup: "yes"
     block: |
-      zone "{{item.zone_in}}.IN-ADDR.ARPA" {
-              type {{item.type}};
-              allow-transfer  { {{item.allow_transfer}} };
-              file "{{bsd_named_conf_path}}/{{item.type}}/{{item.zone_in}}.IN-ADDR.ARPA";
+      zone "{{ item.zone_in }}.IN-ADDR.ARPA" {
+              type {{ item.type }};
+              allow-transfer  { {{ item.allow_transfer }} };
+              file "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone_in }}.IN-ADDR.ARPA";
       };
-  with_items: "{{bsd_named_conf_zone}}"
+  with_items: "{{ bsd_named_conf_zone }}"
   when: item.reverse == "yes" and item.type == "master"
   notify: restart named
   tags: bsd_dns_config_zone_in
 
-- name: Configure slave reverse zones in {{bsd_named_conf_file}}
+- name: Configure slave reverse zones in {{ bsd_named_conf_file }}
   blockinfile:
-    dest: "{{bsd_named_conf_file}}"
-    marker: "// {mark} ANSIBLE MANAGED BLOCK slave {{item.zone_in}}"
+    dest: "{{ bsd_named_conf_file }}"
+    marker: "// {mark} ANSIBLE MANAGED BLOCK slave {{ item.zone_in }}"
     insertafter: "EOF"
     owner: "root"
     group: "wheel"
     mode: "0644"
     backup: "yes"
     block: |
-      zone "{{item.zone_in}}.IN-ADDR.ARPA" {
-              type {{item.type}};
-              masters { {{item.masters}} };
-              file "{{bsd_named_conf_path}}/{{item.type}}/{{item.zone_in}}.IN-ADDR.ARPA";
+      zone "{{ item.zone_in }}.IN-ADDR.ARPA" {
+              type {{ item.type }};
+              masters { {{ item.masters }} };
+              file "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone_in }}.IN-ADDR.ARPA";
       };
-  with_items: "{{bsd_named_conf_zone}}"
+  with_items: "{{ bsd_named_conf_zone }}"
   when: item.reverse == "yes" and item.type == "slave"
   notify: restart named
   tags: bsd_dns_config_zone_in
@@ -90,13 +90,13 @@
 - name: Create zone files 
   template: >
     src="zone.j2"
-    dest="{{bsd_named_conf_path}}/{{item.type}}/{{item.zone}}"
+    dest="{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone }}"
     owner="root"
     group="wheel"
     mode="0644"
     backup="yes"
   register: bsd_named_zones_created
-  with_items: "{{bsd_named_conf_zone}}"
+  with_items: "{{ bsd_named_conf_zone }}"
   when: item.type == "master"
   notify:
     - restart named
@@ -107,12 +107,12 @@
 - name: Create reverse zone files 
   template: >
     src="zone-in.j2"
-    dest="{{bsd_named_conf_path}}/{{item.type}}/{{item.zone_in}}.IN-ADDR.ARPA"
+    dest="{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone_in }}.IN-ADDR.ARPA"
     owner="root"
     group="wheel"
     mode="0644"
     backup="yes"
-  with_items: "{{bsd_named_conf_zone}}"
+  with_items: "{{ bsd_named_conf_zone }}"
   when: item.reverse == "yes" and item.type == "master"
   notify: restart named
   tags: bsd_dns_config_zone_in

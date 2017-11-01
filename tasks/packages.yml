@@ -2,18 +2,18 @@
 
 - name: Install dns (packages)
   pkgng: >
-    name="{{item}}"
+    name="{{ item }}"
     state="present"
-  with_items: "{{bsd_dns_packages}}"
+  with_items: "{{ bsd_dns_packages }}"
   when: freebsd_install_method == "packages"
   tags: bsd_packages
 
 - name: Install dns (ports)
   portinstall: >
-    name="{{item}}"
+    name="{{ item }}"
     state="present"
-    use_packages="{{freebsd_use_packages}}"
-  with_items: "{{bsd_dns_packages}}"
+    use_packages="{{ freebsd_use_packages }}"
+  with_items: "{{ bsd_dns_packages }}"
   when: freebsd_install_method == "ports"
   tags: bsd_ports
 
