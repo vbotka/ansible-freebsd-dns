@@ -1,39 +1,39 @@
 ---
-# handlers freebsd-dns
+# handlers vbotka.freebsd-dns
 
 - name: enable and start named
   service: >
-    name="{{bsd_named_service}}"
+    name="{{ bsd_named_service }}"
     state="started"
     enabled="yes"
 
 - name: disable and stop named
   service: >
-    name="{{bsd_named_service}}"
+    name="{{ bsd_named_service }}"
     state="stopped"
     enabled="no"
 
 - name: start named
   service: >
-    name="{{bsd_named_service}}"
+    name="{{ bsd_named_service }}"
     state="started"
 
 - name: stop named
   service: >
-    name="{{bsd_named_service}}"
+    name="{{ bsd_named_service }}"
     state="stopped"
 
 - name: restart named
   service: >
-    name="{{bsd_named_service}}"
+    name="{{ bsd_named_service }}"
     state="restarted"
-  when: bsd_named_enable == "YES"
+  when: bsd_named_enable|lower == "yes"
 
 - name: reload named
   service: >
-    name="{{bsd_named_service}}"
+    name="{{ bsd_named_service }}"
     state="reloaded"
-  when: bsd_named_enable == "YES"
+  when: bsd_named_enable|lower == "yes"
 
 #- name: create log
 #  shell: "touch {{bsd_named_conf_log_file}}; chmod 0640 {{bsd_named_conf_log_file}}"

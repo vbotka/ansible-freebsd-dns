@@ -7,7 +7,7 @@
     line="named_enable=\"YES\""
     backup="yes"
   notify: enable and start named
-  when: bsd_named_enable == "YES"
+  when: bsd_named_enable|lower == "yes"
   tags: bsd_rc_conf_named
   
 - name: Disable and stop named
@@ -17,7 +17,7 @@
     line="named_enable=\"NO\""
     backup="yes"
   notify: disable and stop named
-  when: bsd_named_enable == "NO"
+  when: bsd_named_enable|lower == "no"
   tags: bsd_rc_conf_named
 
 - name: Configure named
@@ -27,13 +27,13 @@
     line="{{ item.line }}"
     backup="yes"
   with_items:
-    - { regexp: "^named_program=", line: "named_program=\"{{bsd_named_program}}\""}
-    - { regexp: "^named_pidfile=", line: "named_pidfile=\"{{bsd_named_pidfile}}\""}
-    - { regexp: "^named_chrootdir=", line: "named_chrootdir=\"{{bsd_named_chrootdir}}\""}
-    - { regexp: "^named_chroot_autoupdate=", line: "named_chroot_autoupdate=\"{{bsd_named_chroot_autoupdate}}\""}
-    - { regexp: "^named_symlink_enable=", line: "named_symlink_enable=\"{{bsd_named_symlink_enable}}\""}
+    - { regexp: "^named_program=", line: "named_program=\"{{ bsd_named_program }}\""}
+    - { regexp: "^named_pidfile=", line: "named_pidfile=\"{{ bsd_named_pidfile }}\""}
+    - { regexp: "^named_chrootdir=", line: "named_chrootdir=\"{{ bsd_named_chrootdir }}\""}
+    - { regexp: "^named_chroot_autoupdate=", line: "named_chroot_autoupdate=\"{{ bsd_named_chroot_autoupdate }}\""}
+    - { regexp: "^named_symlink_enable=", line: "named_symlink_enable=\"{{ bsd_named_symlink_enable }}\""}
   notify: restart named
-  when: bsd_named_enable == "YES"
+  when: bsd_named_enable|lower == "yes"
   tags: bsd_rc_conf_named
 
 # EOF

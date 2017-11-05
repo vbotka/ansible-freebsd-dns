@@ -98,8 +98,7 @@
   register: bsd_named_zones_created
   with_items: "{{ bsd_named_conf_zone }}"
   when: item.type == "master"
-  notify:
-    - restart named
+  notify: restart named
 # TODO: ERROR! 'dict object' has no attribute 'zone'
 #    - sign zones
   tags: bsd_dns_config_zone

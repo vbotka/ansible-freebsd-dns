@@ -1,56 +1,56 @@
-; {{ansible_managed}}
+; {{ ansible_managed }}
 $TTL 3600	; 1 hour default TTL
-{{item.zone}}.	IN	SOA	{{item.primary}}. {{item.admin}}. (
-				{{item.serial}}
-				{{item.refresh}}
-				{{item.retry}}
-				{{item.expire}}
-				{{item.negative}}
+{{ item.zone }}.	IN	SOA	{{ item.primary }}. {{ item.admin }}. (
+				{{ item.serial }}
+				{{ item.refresh }}
+				{{ item.retry }}
+				{{ item.expire }}
+				{{ item.negative }}
 			)
 
 {% if item.zone_ip %}
-@		IN	A	{{item.zone_ip}}
+@		IN	A	{{ item.zone_ip }}
 {% endif %}
 
 {% if item.primary  %}
-;{{item.primary}}.	IN	A	{{item.primary_ip}}
+;{{ item.primary }}.	IN	A	{{ item.primary_ip }}
 {% endif %}
 {% if item.secondary  %}
-;{{item.secondary}}.	IN	A	{{item.secondary_ip}}
+;{{ item.secondary }}.	IN	A	{{ item.secondary_ip }}
 {% endif %}
 
 ; Machine Names
 {% for host in item.host %}
-{{host.host}}	IN	A	{{host.ip}}
+{{ host.host }}	IN	A	{{ host.ip }}
 {% endfor %}
 
 ; Aliases
 {% for alias in item.alias %}
-{{alias}}	IN	CNAME	@
+{{ alias }}	IN	CNAME	@
 {% endfor %}
 
 ; Mail servers
 {% for mx in item.mx %}
-@		IN	MX {{mx.priority}}	{{mx.server}}.
+@		IN	MX {{ mx.priority }}	{{ mx.server }}.
 {% endfor %}
 
 ; SPF
 {% for mx in item.mx %}
-{{mx.server}}.	IN	TXT	"v=spf1 a -all"
+{{ mx.server }}.	IN	TXT	"v=spf1 a -all"
 {% endfor %}
-{{item.zone}}.	IN	TXT	"v=spf1 a:{{item.mx_domain}} -all"
+{{ item.zone }}.	IN	TXT	"v=spf1 a:{{ item.mx_domain }} -all"
 
 ; DNS Servers
 {% for server in item.server %}
-{{item.zone}}.	IN	NS	{{server}}.
+{{ item.zone }}.	IN	NS	{{ server }}.
 {% endfor %}
 
 ; DMARC
 {% if item.dmarc_1 and item.dmarc_2 %}
-_dmarc		IN	TXT	( "{{item.dmarc_1}}"
-				  "{{item.dmarc_2}}" )
+_dmarc		IN	TXT	( "{{ item.dmarc_1 }}"
+				  "{{ item.dmarc_2 }}" )
 {% endif %}
 
 ; DNSSEC keys
-$include {{bsd_named_conf_keys}}/K{{item.zone}}.KSK.key ; KSK
-$include {{bsd_named_conf_keys}}/K{{item.zone}}.ZSK.key ; ZSK
+$include {{ bsd_named_conf_keys }}/K{{ item.zone }}.KSK.key ; KSK
+$include {{ bsd_named_conf_keys }}/K{{ item.zone }}.ZSK.key ; ZSK

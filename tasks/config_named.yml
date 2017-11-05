@@ -9,7 +9,7 @@
     backup="yes"
   with_items: "{{ bsd_named_conf_options }}"
   notify: restart named
-  tags: bsd_dns_config_named_conf
+  tags: bsd_dns_named_conf
 
 - name: Configure default allow-transfer {{ bsd_named_conf_allow_transfer_default }} in {{ bsd_named_conf_file }}
   lineinfile: >
@@ -20,7 +20,7 @@
     backup="yes"
   when: bsd_named_conf_allow_transfer_default|length > 0
   notify: reload named
-  tags: bsd_dns_config_named_conf_allow_transfer_default
+  tags: bsd_dns_named_conf_allow_transfer_default
 
 - name: Configure forwarders {{ bsd_named_conf_forwarders }} in {{ bsd_named_conf_file }}
   lineinfile: >
@@ -31,7 +31,7 @@
     backup="yes"
   when: bsd_named_conf_forwarders|length > 0
   notify: reload named
-  tags: bsd_dns_config_named_conf_forwarders
+  tags: bsd_dns_named_conf_forwarders
 
 - name: Configure DNSSEC options in {{ bsd_named_conf_file }}
   lineinfile: >
@@ -45,7 +45,7 @@
     - { regexp: "^\tdnssec-validation", line: "\tdnssec-validation\t{{ bsd_named_conf_dnssec_validation }};" }
     - { regexp: "^\tdnssec-lookaside", line: "\tdnssec-lookaside\t{{ bsd_named_conf_dnssec_lookaside }};" }
   notify: reload named
-  tags: bsd_dns_config_named_conf_dnssec
+  tags: bsd_dns_named_conf_dnssec
 
 - name: Configure logging in {{ bsd_named_conf_file }}
   blockinfile:
@@ -70,7 +70,7 @@
         };
       };
   notify: reload named
-  tags: bsd_dns_config_kog
+  tags: bsd_dns_config_log
   
 # EOF
 ...

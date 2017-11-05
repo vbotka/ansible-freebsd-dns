@@ -1,5 +1,5 @@
 ---
-# tasks freebsd-dns
+# tasks vbotka.freebsd-dns
 
 - include: packages.yml
   tags:

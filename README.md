@@ -26,7 +26,7 @@ Workflow
 1) Change shell to /bin/sh.
 
 ```
-ansible do-bsd-test -e 'ansible_shell_type=csh ansible_shell_executable=/bin/csh' -a 'sudo pw usermod freebsd -s /bin/sh'
+ansible host -e 'ansible_shell_type=csh ansible_shell_executable=/bin/csh' -a 'sudo pw usermod admin -s /bin/sh'
 ```
 
 2) Install role.
@@ -46,11 +46,11 @@ ansible-galaxy install vbotka.freebsd-dns
 ```
 > cat ~/.ansible/playbooks/freebsd-dns.yml
 ---
-- hosts: do-bsd-tetst
+- hosts: host
   become: yes
   become_method: sudo
   roles:
-    - role: vbotka.ansible-freebsd-dns
+    - role: vbotka.freebsd-dns
     
 > ansible-playbook ~/.ansible/playbooks/freebsd-dns.yml
 ```
