@@ -17,7 +17,7 @@ Recommended: [YAZVS (Yet Another Zone Validation Script)](https://galaxy.ansible
 Variables
 ---------
 
-TBD (Check the defaults).
+TBD. Check the defaults and examples in vars.
 
 
 Workflow
@@ -26,33 +26,31 @@ Workflow
 1) Change shell to /bin/sh.
 
 ```
-ansible host -e 'ansible_shell_type=csh ansible_shell_executable=/bin/csh' -a 'sudo pw usermod admin -s /bin/sh'
+# ansible host -e 'ansible_shell_type=csh ansible_shell_executable=/bin/csh' -a 'sudo pw usermod admin -s /bin/sh'
 ```
 
 2) Install role.
 
 ```
-ansible-galaxy install vbotka.freebsd-dns
+# ansible-galaxy install vbotka.freebsd-dns
 ```
 
 3) Fit variables. Zones can be configured when DNSSEC keys are available. *dnssec-keygen* binary is needed to generate the keys.
 
 ```
-~/.ansible/roles/vbotka.freebsd-dns/vars/main.yml
+# editor vbotka.freebsd-dns/vars/main.yml
 ```
 
 4) Create and run the playbook.
 
 ```
-> cat ~/.ansible/playbooks/freebsd-dns.yml
----
-- hosts: host
-  become: yes
-  become_method: sudo
+# cat freebsd-dns.yml
+
+- hosts: ns1.example.com
   roles:
     - role: vbotka.freebsd-dns
     
-> ansible-playbook ~/.ansible/playbooks/freebsd-dns.yml
+# ansible-playbook freebsd-dns.yml
 ```
 
 5) Create keys as described in [Authoritative DNS Server Configuration](http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html#dns-dnssec-auth).
@@ -117,7 +115,7 @@ sd_named_conf_zone:
 7) Run the playbook
 
 ```
-ansible-playbook ~/.ansible/playbooks/freebsd-dns.yml
+# ansible-playbook freebsd-dns.yml
 ```
 
 8) Sign the zones, reload the server and test the server as described in [Authoritative DNS Server Configuration](http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html#dns-dnssec-auth). The zones can be signed when the DNSSEC keys are included in the zone files.
@@ -177,6 +175,7 @@ TODO
 References
 ----------
 
+- [BIND 9.11.3 Release Notes](https://kb.isc.org/article/AA-01597/0/BIND-9.11.3-Release-Notes.html)
 - [USENIX: DNSSEC in 6 minutes](http://static.usenix.org/event/lisa08/dnssec_bof.pdf)
 - [BSD: Domain Name System (DNS)](https://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html)
 - [BSD: Authoritative DNS Server Configuration](http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html#dns-dnssec-auth)

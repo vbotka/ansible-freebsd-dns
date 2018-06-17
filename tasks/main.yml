@@ -1,31 +1,24 @@
 ---
 # tasks vbotka.freebsd-dns
 
-- include: packages.yml
-  tags:
-    - bsd_packages
-    - bsd_ports
-    - bsd_dns_all
+- import_tasks: debug.yml
+  when: bsd_dns_debug
+  tags: bsd_dns_debug
 
-- include: create_dirs.yml
-  tags:
-    - bsd_create_dirs
-    - bsd_dns_all
+- import_tasks: packages.yml
+  tags: bsd_dns_packages
 
-- include: config_rc_conf.yml
-  tags:
-    - bsd_rc_conf
-    - bsd_dns_all
+- import_tasks: dirs.yml
+  tags: bsd_dns_dirs
 
-- include: config_named.yml
-  tags:
-    - bsd_config_named
-    - bsd_dns_all
+- import_tasks: named.yml
+  tags: bsd_dns_named
 
-- include: config_named_zones.yml
-  tags:
-    - bsd_config_named_zones
-    - bsd_dns_all
+- import_tasks: named_zones.yml
+  tags: bsd_dns_named_zones
+
+- import_tasks: rcconf.yml
+  tags: bsd_dns_rcconf
 
 # EOF
 ...

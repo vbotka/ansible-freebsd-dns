@@ -8,7 +8,8 @@
     owner: "root"
     group: "wheel"
     mode: "0644"
-    backup: "yes"
+    validate: "named-checkconf %s"
+    backup: "{{ bsd_named_backup_conf }}"
     block: |
       zone "{{ item.zone }}" {
               type {{ item.type }};
@@ -31,7 +32,8 @@
     owner: "root"
     group: "wheel"
     mode: "0644"
-    backup: "yes"
+    validate: "named-checkconf %s"
+    backup: "{{ bsd_named_backup_conf }}"
     block: |
       zone "{{ item.zone }}" {
               type {{ item.type }};
@@ -55,7 +57,8 @@
     owner: "root"
     group: "wheel"
     mode: "0644"
-    backup: "yes"
+    validate: "named-checkconf %s"
+    backup: "{{ bsd_named_backup_conf }}"
     block: |
       zone "{{ item.zone_in }}.IN-ADDR.ARPA" {
               type {{ item.type }};
@@ -75,7 +78,8 @@
     owner: "root"
     group: "wheel"
     mode: "0644"
-    backup: "yes"
+    validate: "named-checkconf %s"
+    backup: "{{ bsd_named_backup_conf }}"
     block: |
       zone "{{ item.zone_in }}.IN-ADDR.ARPA" {
               type {{ item.type }};
@@ -88,13 +92,14 @@
   tags: bsd_dns_config_zone_in
 
 - name: Create zone files 
-  template: >
-    src="zone.j2"
-    dest="{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone }}"
-    owner="root"
-    group="wheel"
-    mode="0644"
-    backup="yes"
+  template:
+    src: "zone.j2"
+    dest: "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone }}"
+    owner: "root"
+    group: "wheel"
+    mode: "0644"
+    validate: "named-checkconf %s"
+    backup: "{{ bsd_named_backup_conf }}"
   register: bsd_named_zones_created
   with_items: "{{ bsd_named_conf_zone }}"
   when: item.type == "master"
@@ -104,13 +109,14 @@
   tags: bsd_dns_config_zone
 
 - name: Create reverse zone files 
-  template: >
-    src="zone-in.j2"
-    dest="{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone_in }}.IN-ADDR.ARPA"
-    owner="root"
-    group="wheel"
-    mode="0644"
-    backup="yes"
+  template:
+    src: "zone-in.j2"
+    dest: "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone_in }}.IN-ADDR.ARPA"
+    owner: "root"
+    group: "wheel"
+    mode: "0644"
+    validate: "named-checkconf %s"
+    backup: "{{ bsd_named_backup_conf }}"
   with_items: "{{ bsd_named_conf_zone }}"
   when: item.reverse == "yes" and item.type == "master"
   notify: restart named

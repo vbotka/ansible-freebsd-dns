@@ -1,42 +1,56 @@
 ---
 # defaults vbotka.freebsd-dns
 
+bsd_dns_debug: False
+
 freebsd_install_method: "packages"
 #freebsd_install_method: "ports"
-#freebsd_use_packages: "yes"
+freebsd_use_packages: "yes"
 
-bsd_bind_version: "99"
+bsd_bind_version: "911"
 bsd_dns_packages:
-  - "bind{{ bsd_bind_version }}"
+  - "dns/bind{{ bsd_bind_version }}"
 
+bsd_named_backup_conf: "no"
 # rc.conf
-bsd_named_enable: "YES"
+bsd_named_enable: True
 bsd_named_service: "named"
 bsd_named_program: "/usr/local/sbin/named"
 bsd_named_pidfile: "/var/run/named/pid"
 bsd_named_chrootdir: "/var/named"
-bsd_named_chroot_autoupdate: "YES"
+bsd_named_chroot_autoupdate: "NO"
 bsd_named_symlink_enable: "YES"
-
+bsd_named_rcconf:
+  - { regexp: "^named_program=", line: "named_program=\"{{ bsd_named_program }}\""}
+#  - { regexp: "^named_pidfile=", line: "named_pidfile=\"{{ bsd_named_pidfile }}\""}
+#  - { regexp: "^named_chrootdir=", line: "named_chrootdir=\"{{ bsd_named_chrootdir }}\""}
+#  - { regexp: "^named_chroot_autoupdate=", line: "named_chroot_autoupdate=\"{{ bsd_named_chroot_autoupdate }}\""}
+#  - { regexp: "^named_symlink_enable=", line: "named_symlink_enable=\"{{ bsd_named_symlink_enable }}\""}
 # named
 bsd_named_conf_path: "/usr/local/etc/namedb"
 bsd_named_conf_file: "{{ bsd_named_conf_path }}/named.conf"
 bsd_named_conf_working: "{{ bsd_named_conf_path }}/working"
 bsd_named_conf_keys: "{{ bsd_named_conf_path }}/keys"
 bsd_named_conf_managed_keys: "{{ bsd_named_conf_path }}/dynamic"
-bsd_named_conf_dnssec_enable: "yes"
-bsd_named_conf_dnssec_validation: "yes"
-bsd_named_conf_dnssec_lookaside: "auto"
 bsd_named_conf_listen_on: "127.0.0.1;"
 bsd_named_conf_options:
-  - { regexp: "^\tpid-file\t", line: "\tpid-file\t\"{{ bsd_named_pidfile }}\";" }
   - { regexp: "^\tdirectory\t", line: "\tdirectory\t\"{{ bsd_named_conf_working }}\";" }
   - { regexp: "^\tkey-directory\t", line: "\tkey-directory\t\"{{ bsd_named_conf_keys }}\";" }
   - { regexp: "^\tmanaged-keys-directory\t", line: "\tmanaged-keys-directory\t\"{{ bsd_named_conf_managed_keys }}\";" }
   - { regexp: "^\tlisten-on\t{", line: "\tlisten-on\t{ {{ bsd_named_conf_listen_on }} };" }
+#  - { regexp: "^\tpid-file\t", line: "\tpid-file\t\"{{ bsd_named_pidfile }}\";" }
 bsd_named_conf_allow_transfer_default: "\"none\";"
 bsd_named_conf_forwarders: ""
+# dnssec
+bsd_named_conf_dnssec_enable: "yes"
+bsd_named_conf_dnssec_validation: "yes"
+bsd_named_conf_dnssec_lookaside: "auto"
+bsd_named_conf_dnssec_options:
+  - { regexp: "^\tdnssec-enable", line: "\tdnssec-enable\t{{ bsd_named_conf_dnssec_enable }};" }
+  - { regexp: "^\tdnssec-validation", line: "\tdnssec-validation\t{{ bsd_named_conf_dnssec_validation }};" }
+# - { regexp: "^\tdnssec-lookaside", line: "\tdnssec-lookaside\t{{ bsd_named_conf_dnssec_lookaside }};" }
 # loging
+bsd_dns_config_log: False
 bsd_named_conf_log_file: "/var/log/named.log"
 bsd_named_conf_log_file_versions: "3"
 bsd_named_conf_log_file_size: "2m"

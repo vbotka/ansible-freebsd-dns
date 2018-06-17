@@ -1,0 +1,79 @@
+---
+
+- name: "named: Configure {{ bsd_named_conf_file }}"
+  lineinfile:
+    dest: "{{ bsd_named_conf_file }}"
+    insertafter: "^options "
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    validate: "named-checkconf %s"
+    backup: "{{ bsd_named_backup_conf }}"
+  with_items: "{{ bsd_named_conf_options }}"
+  notify: restart named
+  tags: bsd_dns_named_conf
+
+- name: "named: Configure default allow-transfer {{ bsd_named_conf_allow_transfer_default }} in {{ bsd_named_conf_file }}"
+  lineinfile:
+    dest: "{{ bsd_named_conf_file }}"
+    insertafter: "^options "
+    regexp: "^\tallow-transfer\t{"
+    line: "\tallow-transfer\t{ {{ bsd_named_conf_allow_transfer_default }} };"
+    validate: "named-checkconf %s"
+    backup: "{{ bsd_named_backup_conf }}"
+  when: bsd_named_conf_allow_transfer_default|length > 0
+  notify: reload named
+  tags: bsd_dns_named_conf_allow_transfer_default
+
+- name: "named: Configure forwarders {{ bsd_named_conf_forwarders }} in {{ bsd_named_conf_file }}"
+  lineinfile:
+    dest: "{{ bsd_named_conf_file }}"
+    insertafter: "^options "
+    regexp: "^\tforwarders\t{"
+    line: "\tforwarders\t{ {{ bsd_named_conf_forwarders }} };"
+    validate: "named-checkconf %s"
+    backup: "{{ bsd_named_backup_conf }}"
+  when: bsd_named_conf_forwarders|length > 0
+  notify: reload named
+  tags: bsd_dns_named_conf_forwarders
+
+- name: "named: Configure DNSSEC options in {{ bsd_named_conf_file }}"
+  lineinfile:
+    dest: "{{ bsd_named_conf_file }}"
+    insertafter: "^options "
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    validate: "named-checkconf %s"
+    backup: "{{ bsd_named_backup_conf }}"
+  with_items: "{{ bsd_named_conf_dnssec_options }}"
+  notify: reload named
+  tags: bsd_dns_named_conf_dnssec
+
+- name: "named: Configure logging in {{ bsd_named_conf_file }}"
+  blockinfile:
+    dest: "{{ bsd_named_conf_file }}"
+    marker: "// {mark} ANSIBLE MANAGED BLOCK logging"
+    insertafter: "EOF"
+    validate: "named-checkconf %s"
+    backup: "{{ bsd_named_backup_conf }}"
+    block: |
+      logging {
+        channel named_log {
+          file "{{ bsd_named_conf_log_file }}" versions {{ bsd_named_conf_log_file_versions }} size {{ bsd_named_conf_log_file_size }};
+          severity {{ bsd_named_conf_log_severity }};
+          print-severity {{ bsd_named_conf_log_print_severity }};
+          print-time {{ bsd_named_conf_log_print_time }};
+          print-category {{ bsd_named_conf_log_print_category }};
+        };
+        category default {
+          named_log;
+        };
+        category lame-servers {
+          null;
+        };
+      };
+  when: bsd_dns_config_log
+  notify: reload named
+  tags: bsd_dns_config_log
+  
+# EOF
+...
