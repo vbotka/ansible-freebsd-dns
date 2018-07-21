@@ -21,8 +21,8 @@
 - name: "rcconf: Configure named"
   lineinfile:
     dest: "/etc/rc.conf"
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
+    regexp: "^{{ item.regexp }}"
+    line: "{{ item.regexp }}{{ item.line }}"
     backup: "{{ bsd_named_backup_conf }}"
   with_items: "{{ bsd_named_rcconf }}"
   notify: restart named

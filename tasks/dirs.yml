@@ -2,7 +2,7 @@
 
 - name: "dirs: Create directory for chrooted named {{ bsd_named_chrootdir }}"
   file:
-    state: "directory"
+    state: directory
     path: "{{ bsd_named_chrootdir }}"
     owner: "root"
     group: "wheel"
@@ -12,7 +12,7 @@
 
 - name: "dirs: Create chrooted directory for keys {{ bsd_named_chrootdir }}/{{ bsd_named_conf_keys }}"
   file:
-    state: "directory"
+    state: directory
     path: "{{ bsd_named_chrootdir }}/{{ bsd_named_conf_keys }}"
     owner: "root"
     group: "wheel"
@@ -22,7 +22,7 @@
 
 - name: "dirs: Create directory for keys {{ bsd_named_conf_keys }}"
   file:
-    state: "directory"
+    state: directory
     path: "{{ bsd_named_conf_keys }}"
     owner: "root"
     group: "wheel"

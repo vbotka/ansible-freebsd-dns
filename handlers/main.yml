@@ -1,42 +1,49 @@
 ---
 # handlers vbotka.freebsd-dns
 
-- name: enable and start named
+- name: "handlers: enable and start named"
   service:
     name: "{{ bsd_named_service }}"
-    state: "started"
+    state: started
     enabled: yes
 
-- name: disable and stop named
+- name: "handlers: disable and stop named"
   service:
     name: "{{ bsd_named_service }}"
-    state: "stopped"
+    state: stopped
     enabled: no
 
-- name: start named
+- name: "handlers: start named"
   service:
     name: "{{ bsd_named_service }}"
-    state: "started"
+    state: started
 
-- name: stop named
+- name: "handlers: stop named"
   service:
     name: "{{ bsd_named_service }}"
-    state: "stopped"
+    state: stopped
 
-- name: restart named
+- name: "handlers: restart named"
   service:
     name: "{{ bsd_named_service }}"
-    state: "restarted"
+    state: restarted
   when: bsd_named_enable
 
-- name: reload named
+- name: "handlers: reload named"
   service:
     name: "{{ bsd_named_service }}"
-    state: "reloaded"
+    state: reloaded
   when: bsd_named_enable
 
-- name: create log
-  shell: "touch {{bsd_named_conf_log_file}} && chmod 0660 {{bsd_named_conf_log_file}} && chown root:bind {{bsd_named_conf_log_file}}"
+- name: "handlers: create log"
+  file:
+    state: touch
+    path: "{{ bsd_named_conf_log_file }}"
+    mode: "0660"
+    owber: "root"
+    group: "bind"
+
+#  shell: "touch {{bsd_named_conf_log_file}} && chmod 0660 {{bsd_named_conf_log_file}} && chown root:bind {{bsd_named_conf_log_file}}"
   
 # TODO: ERROR! 'dict object' has no attribute 'zone'
 #- name: sign zones

@@ -4,11 +4,11 @@
   lineinfile:
     dest: "{{ bsd_named_conf_file }}"
     insertafter: "^options "
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
+    regexp: "^{{ item.regexp }}"
+    line: "{{ item.regexp }}{{ item.line }}"
     validate: "named-checkconf %s"
     backup: "{{ bsd_named_backup_conf }}"
-  with_items: "{{ bsd_named_conf_options }}"
+  loop: "{{ bsd_named_conf_options }}"
   notify: restart named
   tags: bsd_dns_named_conf
 
@@ -40,11 +40,11 @@
   lineinfile:
     dest: "{{ bsd_named_conf_file }}"
     insertafter: "^options "
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
+    regexp: "^{{ item.regexp }}"
+    line: "{{ item.regexp }}{{ item.line }}"
     validate: "named-checkconf %s"
     backup: "{{ bsd_named_backup_conf }}"
-  with_items: "{{ bsd_named_conf_dnssec_options }}"
+  loop: "{{ bsd_named_conf_dnssec_options }}"
   notify: reload named
   tags: bsd_dns_named_conf_dnssec
 

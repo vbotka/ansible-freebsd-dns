@@ -1,6 +1,11 @@
 ---
 
-- name: Configure master zones in {{ bsd_named_conf_file }}
+- name: "zones: Set signed zone files for DNSSEC"
+  set_fact:
+    bsd_named_zone_signed: ".signed"
+  when: bsd_named_conf_dnssec_enable == "yes"
+
+- name: "zones: Configure master zones in {{ bsd_named_conf_file }}"
   blockinfile:
     dest: "{{ bsd_named_conf_file }}"
     marker: "// {mark} ANSIBLE MANAGED BLOCK master {{ item.zone }}"
@@ -17,14 +22,14 @@
               allow-transfer  { {{ item.allow_transfer }} };
               update-policy local;
               auto-dnssec maintain;
-              file "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone }}.signed";
+              file "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone }}{{ bsd_named_zone_signed }}";
       };
-  with_items: "{{ bsd_named_conf_zone }}"
+  loop: "{{ bsd_named_conf_zone }}"
   when: item.type == "master"
   notify: restart named
   tags: bsd_dns_config_zone
 
-- name: Configure slave zones in {{ bsd_named_conf_file }}
+- name: "zones: Configure slave zones in {{ bsd_named_conf_file }}"
   blockinfile:
     dest: "{{ bsd_named_conf_file }}"
     marker: "// {mark} ANSIBLE MANAGED BLOCK slave {{ item.zone }}"
@@ -44,12 +49,12 @@
               inline-signing yes;
               file "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone }}.bk";
       };
-  with_items: "{{ bsd_named_conf_zone }}"
+  loop: "{{ bsd_named_conf_zone }}"
   when: item.type == "slave"
   notify: restart named
   tags: bsd_dns_config_zone
 
-- name: Configure master reverse zones in {{ bsd_named_conf_file }}
+- name: "zones: Configure master reverse zones in {{ bsd_named_conf_file }}"
   blockinfile:
     dest: "{{ bsd_named_conf_file }}"
     marker: "// {mark} ANSIBLE MANAGED BLOCK master {{ item.zone_in }}"
@@ -65,12 +70,12 @@
               allow-transfer  { {{ item.allow_transfer }} };
               file "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone_in }}.IN-ADDR.ARPA";
       };
-  with_items: "{{ bsd_named_conf_zone }}"
+  loop: "{{ bsd_named_conf_zone }}"
   when: item.reverse == "yes" and item.type == "master"
   notify: restart named
   tags: bsd_dns_config_zone_in
 
-- name: Configure slave reverse zones in {{ bsd_named_conf_file }}
+- name: "zones: Configure slave reverse zones in {{ bsd_named_conf_file }}"
   blockinfile:
     dest: "{{ bsd_named_conf_file }}"
     marker: "// {mark} ANSIBLE MANAGED BLOCK slave {{ item.zone_in }}"
@@ -86,38 +91,34 @@
               masters { {{ item.masters }} };
               file "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone_in }}.IN-ADDR.ARPA";
       };
-  with_items: "{{ bsd_named_conf_zone }}"
+  loop: "{{ bsd_named_conf_zone }}"
   when: item.reverse == "yes" and item.type == "slave"
   notify: restart named
   tags: bsd_dns_config_zone_in
 
-- name: Create zone files 
+- name: "zones: Create zone files"
   template:
     src: "zone.j2"
     dest: "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone }}"
     owner: "root"
     group: "wheel"
     mode: "0644"
-    validate: "named-checkconf %s"
     backup: "{{ bsd_named_backup_conf }}"
   register: bsd_named_zones_created
-  with_items: "{{ bsd_named_conf_zone }}"
+  loop: "{{ bsd_named_conf_zone }}"
   when: item.type == "master"
   notify: restart named
-# TODO: ERROR! 'dict object' has no attribute 'zone'
-#    - sign zones
   tags: bsd_dns_config_zone
 
-- name: Create reverse zone files 
+- name: "zones: Create reverse zone files"
   template:
     src: "zone-in.j2"
     dest: "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone_in }}.IN-ADDR.ARPA"
     owner: "root"
     group: "wheel"
     mode: "0644"
-    validate: "named-checkconf %s"
     backup: "{{ bsd_named_backup_conf }}"
-  with_items: "{{ bsd_named_conf_zone }}"
+  loop: "{{ bsd_named_conf_zone }}"
   when: item.reverse == "yes" and item.type == "master"
   notify: restart named
   tags: bsd_dns_config_zone_in

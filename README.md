@@ -3,7 +3,7 @@ freebsd-dns
 
 [![Build Status](https://travis-ci.org/vbotka/ansible-freebsd-dns.svg?branch=master)](https://travis-ci.org/vbotka/ansible-freebsd-dns)
 
-[Ansible role.](https://galaxy.ansible.com/vbotka/freebsd-dns/) Configure DNS in FreeBSD.
+[Ansible role.](https://galaxy.ansible.com/vbotka/freebsd-dns/) FreeBSD. Configure DNS.
 
 
 Requirements
@@ -17,7 +17,18 @@ Recommended: [YAZVS (Yet Another Zone Validation Script)](https://galaxy.ansible
 Variables
 ---------
 
-TBD. Check the defaults and examples in vars.
+TBD. Review the defaults and examples in vars.
+
+By default *named* and *dnssec* are disabled.
+
+```
+bsd_named_enable: False
+bsd_named_conf_dnssec_enable: 'no'
+bsd_named_conf_dnssec_validation: 'no'
+```
+
+- Keys are needed to enable DNSSEC (see workflow).
+- *dnssec-keygen* binary is needed to generate the keys.
 
 
 Workflow
@@ -35,7 +46,7 @@ Workflow
 # ansible-galaxy install vbotka.freebsd-dns
 ```
 
-3) Fit variables. Zones can be configured when DNSSEC keys are available. *dnssec-keygen* binary is needed to generate the keys.
+3) Fit variables.
 
 ```
 # editor vbotka.freebsd-dns/vars/main.yml
@@ -45,15 +56,14 @@ Workflow
 
 ```
 # cat freebsd-dns.yml
-
 - hosts: ns1.example.com
   roles:
-    - role: vbotka.freebsd-dns
+    - vbotka.freebsd-dns
     
 # ansible-playbook freebsd-dns.yml
 ```
 
-5) Create keys as described in [Authoritative DNS Server Configuration](http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html#dns-dnssec-auth).
+5) If DNSSEC is enabled create keys as described in [Authoritative DNS Server Configuration](http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html#dns-dnssec-auth).
 
 Example:
 
@@ -162,7 +172,7 @@ NOTES
 - [In-line Signing](https://deepthought.isc.org/article/AA-00711/0/In-line-Signing-With-NSEC3-in-BIND-9.9-A-Walk-through.html)
   works with the slave as expected, but not with the master.
 
-- Keys from master are copied to the slave manually..
+- Keys from master are copied to the slave manually.
 
 
 TODO
