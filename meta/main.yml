@@ -12,7 +12,7 @@ galaxy_info:
         - 10.4
         - 11.2
   galaxy_tags:
-    - FreeBSD
+    - freebsd
     - dns
     - dnssec
     - bind
