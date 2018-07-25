@@ -25,8 +25,8 @@ $TTL 3600	; 1 hour default TTL
 {% endfor %}
 
 ; Aliases
-{% for alias in item.alias %}
-{{ alias }}	IN	CNAME	@
+{% for aitem in item.alias %}
+{{ aitem.alias }}	IN	CNAME	{{ aitem.cname | default('@') }}
 {% endfor %}
 
 ; Mail servers

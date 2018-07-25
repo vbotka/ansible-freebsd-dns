@@ -1,41 +1,41 @@
 ---
 # handlers vbotka.freebsd-dns
 
-- name: "handlers: enable and start named"
+- name: "enable and start named"
   service:
     name: "{{ bsd_named_service }}"
     state: started
     enabled: yes
 
-- name: "handlers: disable and stop named"
+- name: "disable and stop named"
   service:
     name: "{{ bsd_named_service }}"
     state: stopped
     enabled: no
 
-- name: "handlers: start named"
+- name: "start named"
   service:
     name: "{{ bsd_named_service }}"
     state: started
 
-- name: "handlers: stop named"
+- name: "stop named"
   service:
     name: "{{ bsd_named_service }}"
     state: stopped
 
-- name: "handlers: restart named"
+- name: "restart named"
   service:
     name: "{{ bsd_named_service }}"
     state: restarted
   when: bsd_named_enable
 
-- name: "handlers: reload named"
+- name: "reload named"
   service:
     name: "{{ bsd_named_service }}"
     state: reloaded
   when: bsd_named_enable
 
-- name: "handlers: create log"
+- name: "create log"
   file:
     state: touch
     path: "{{ bsd_named_conf_log_file }}"
