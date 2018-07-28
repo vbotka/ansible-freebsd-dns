@@ -1,5 +1,6 @@
 ---
 galaxy_info:
+  role_name: freebsd_dns
   author: Vladimir Botka
   description: FreeBSD. Install and configure DNS server.
   company: https://botka.link

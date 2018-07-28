@@ -3,7 +3,7 @@ freebsd-dns
 
 [![Build Status](https://travis-ci.org/vbotka/ansible-freebsd-dns.svg?branch=master)](https://travis-ci.org/vbotka/ansible-freebsd-dns)
 
-[Ansible role.](https://galaxy.ansible.com/vbotka/freebsd-dns/) FreeBSD. Configure DNS.
+[Ansible role.](https://galaxy.ansible.com/vbotka/freebsd_dns/) FreeBSD. Configure DNS.
 
 
 Requirements
@@ -43,13 +43,13 @@ Workflow
 2) Install role.
 
 ```
-# ansible-galaxy install vbotka.freebsd-dns
+# ansible-galaxy install vbotka.freebsd_dns
 ```
 
 3) Fit variables.
 
 ```
-# editor vbotka.freebsd-dns/vars/main.yml
+# editor vbotka.freebsd_dns/vars/main.yml
 ```
 
 4) Create and run the playbook.
@@ -58,7 +58,7 @@ Workflow
 # cat freebsd-dns.yml
 - hosts: ns1.example.com
   roles:
-    - vbotka.freebsd-dns
+    - vbotka.freebsd_dns
     
 # ansible-playbook freebsd-dns.yml
 ```
