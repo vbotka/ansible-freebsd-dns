@@ -41,7 +41,8 @@ bsd_named_conf_options:
   - { regexp: "\tmanaged-keys-directory\t", line: "\"{{ bsd_named_conf_managed_keys }}\";" }
   - { regexp: "\tlisten-on\t", line: "{ {{ bsd_named_conf_listen_on }} };" }
 #  - { regexp: "\tpid-file\t", line: "\"{{ bsd_named_pidfile }}\";" }
-bsd_named_conf_allow_transfer_default: "\"none\";"
+bsd_named_conf_allow_transfer_default:
+  - "none"
 bsd_named_conf_forwarders: ""
 
 # dnssec

@@ -8,11 +8,11 @@ $TTL 3600	; 1 hour default TTL
 				{{ item.negative }}
 			)
 
-{% if item.zone_ip %}
+{% if item.zone_ip is defined %}
 @		IN	A	{{ item.zone_ip }}
 {% endif %}
 
-{% if item.primary  %}
+{% if item.primary is defined  %}
 ;{{ item.primary }}.	IN	A	{{ item.primary_ip }}
 {% endif %}
 {% if item.secondary  %}
@@ -46,7 +46,7 @@ $TTL 3600	; 1 hour default TTL
 {% endfor %}
 
 ; DMARC
-{% if item.dmarc_1 and item.dmarc_2 %}
+{% if item.dmarc_1 is defined and item.dmarc_2 is defined %}
 _dmarc		IN	TXT	( "{{ item.dmarc_1 }}"
 				  "{{ item.dmarc_2 }}" )
 {% endif %}
