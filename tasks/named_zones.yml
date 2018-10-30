@@ -19,7 +19,7 @@
       zone "{{ item.zone }}" {
               type {{ item.type }};
               key-directory "{{ bsd_named_conf_keys }}";
-              allow-transfer  { {{ item.allow_transfer }} };
+              allow-transfer  { {{ item.allow_transfer | join (';'); }} };
               update-policy local;
               auto-dnssec maintain;
               file "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone }}{{ bsd_named_zone_signed }}";
