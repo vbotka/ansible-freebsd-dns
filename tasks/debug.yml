@@ -30,15 +30,20 @@
          bsd_named_conf_dnssec_enable [ {{ bsd_named_conf_dnssec_enable }} ]
          bsd_named_conf_dnssec_validation [ {{ bsd_named_conf_dnssec_validation }} ]
          bsd_named_conf_dnssec_lookaside [ {{ bsd_named_conf_dnssec_lookaside }} ]
-         bsd_named_conf_listen_on [ {{ bsd_named_conf_listen_on }} ]
+
          bsd_named_conf_options
          {{ bsd_named_conf_options | to_yaml }}
-         bsd_named_conf_allow_transfer_default
-         {{ bsd_named_conf_allow_transfer_default | to_nice_yaml }}
+         bsd_named_conf_listen_on
+         {{ bsd_named_conf_listen_on | to_yaml }}
+         bsd_named_conf_listen_on_v6
+         {{ bsd_named_conf_listen_on_v6 | to_yaml }}
          bsd_named_conf_forwarders
          {{ bsd_named_conf_forwarders | to_nice_yaml }}
+         bsd_named_conf_allow_transfer_default
+         {{ bsd_named_conf_allow_transfer_default | to_nice_yaml }}
          bsd_named_rcconf
          {{ bsd_named_rcconf | to_nice_yaml }}
+
          bsd_named_conf_log [ {{ bsd_named_conf_log }} ]
          bsd_named_conf_log_file [ {{ bsd_named_conf_log_file }} ]
          bsd_named_conf_log_file_versions  [ {{ bsd_named_conf_log_file_versions }} ]

@@ -39,7 +39,7 @@ bsd_named_conf_options:
   - { key: "managed-keys-directory", val: "\"{{ bsd_named_conf_managed_keys }}\";" }
 #  - { key: "pid-file", val: "\"{{ bsd_named_pidfile }}\";" }
 bsd_named_conf_listen_on:
-  - "127.0.0.1;"
+  - "127.0.0.1"
 bsd_named_conf_listen_on_v6: []
 bsd_named_conf_forwarders: []
 bsd_named_conf_allow_transfer_default:
@@ -51,8 +51,8 @@ bsd_named_conf_dnssec_validation: "no"
 bsd_named_conf_dnssec_lookaside: "auto"
 bsd_named_zone_signed: ""
 bsd_named_conf_dnssec_options:
-  - { key: "dnssec-enable ", val: "{{ bsd_named_conf_dnssec_enable }};" }
-  - { key: "dnssec-validation ", val: "{{ bsd_named_conf_dnssec_validation }};" }
+  - { key: "dnssec-enable", val: "{{ bsd_named_conf_dnssec_enable }};" }
+  - { key: "dnssec-validation", val: "{{ bsd_named_conf_dnssec_validation }};" }
 # - { key: "dnssec-lookaside", val: "{{ bsd_named_conf_dnssec_lookaside }};" }
 
 # loging

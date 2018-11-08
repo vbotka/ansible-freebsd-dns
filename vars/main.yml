@@ -33,7 +33,8 @@
 #    primary_ip: "192.168.1.11"
 #    secondary: "ns2.example.net"
 #    secondary_ip: "192.168.1.12"
-#    allow_transfer: "192.168.1.12;"
+#    allow_transfer:
+#      - 192.168.1.12
 #    admin: "admin.example.com"
 #    serial: "2016102401"
 #    refresh: "10800"

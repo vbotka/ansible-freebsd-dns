@@ -10,14 +10,20 @@
     dest: "{{ bsd_named_conf_file }}"
     marker: "// *** {mark} ANSIBLE MANAGED BLOCK master {{ item.zone }} ***"
     insertafter: "EOF"
-    owner: "root"
-    group: "wheel"
+    owner: root
+    group: wheel
     mode: "0644"
-    block: |
+    block: |2
       zone "{{ item.zone }}" {
               type {{ item.type }};
               key-directory "{{ bsd_named_conf_keys }}";
-              allow-transfer  { {{ item.allow_transfer | join (';') }}; };
+      {% if item.allow_transfer|length > 0 %}
+              allow-transfer  {
+              {% for host in item.allow_transfer %}
+              {{ item }};
+              {% endfor %}
+              };
+      {% endif %}
               update-policy local;
               auto-dnssec maintain;
               file "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone }}{{ bsd_named_zone_signed }}";
@@ -34,8 +40,8 @@
     dest: "{{ bsd_named_conf_file }}"
     marker: "// *** {mark} ANSIBLE MANAGED BLOCK slave {{ item.zone }} ***"
     insertafter: "EOF"
-    owner: "root"
-    group: "wheel"
+    owner: root
+    group: wheel
     mode: "0644"
     block: |
       zone "{{ item.zone }}" {
@@ -59,13 +65,19 @@
     dest: "{{ bsd_named_conf_file }}"
     marker: "// *** {mark} ANSIBLE MANAGED BLOCK master {{ item.zone_in }} ***"
     insertafter: "EOF"
-    owner: "root"
-    group: "wheel"
+    owner: root
+    group: wheel
     mode: "0644"
     block: |
       zone "{{ item.zone_in }}.IN-ADDR.ARPA" {
               type {{ item.type }};
-              allow-transfer  { {{ item.allow_transfer }} };
+      {% if item.allow_transfer|length > 0 %}
+              allow-transfer  {
+              {% for host in item.allow_transfer %}
+              {{ item }};
+              {% endfor %}
+              };
+      {% endif %}
               file "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone_in }}.IN-ADDR.ARPA";
       };
     validate: "named-checkconf %s"
@@ -80,8 +92,8 @@
     dest: "{{ bsd_named_conf_file }}"
     marker: "// *** {mark} ANSIBLE MANAGED BLOCK slave {{ item.zone_in }} ***"
     insertafter: "EOF"
-    owner: "root"
-    group: "wheel"
+    owner: root
+    group: wheel
     mode: "0644"
     block: |
       zone "{{ item.zone_in }}.IN-ADDR.ARPA" {
@@ -100,8 +112,8 @@
   template:
     src: "zone.j2"
     dest: "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone }}"
-    owner: "root"
-    group: "wheel"
+    owner: root
+    group: wheel
     mode: "0644"
     backup: "{{ bsd_named_backup_conf }}"
   register: bsd_named_zones_created
@@ -114,8 +126,8 @@
   template:
     src: "zone-in.j2"
     dest: "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone_in }}.IN-ADDR.ARPA"
-    owner: "root"
-    group: "wheel"
+    owner: root
+    group: wheel
     mode: "0644"
     backup: "{{ bsd_named_backup_conf }}"
   loop: "{{ bsd_named_conf_zone }}"
