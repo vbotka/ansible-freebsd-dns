@@ -7,8 +7,9 @@
 
 - name: "packages: Install DNS ports."
   portinstall:
-    name: "{{ bsd_dns_packages }}"
+    name: "{{ item }}"
     use_packages: "{{ freebsd_use_packages }}"
+  loop: "{{ bsd_dns_packages }}"
   when: freebsd_install_method == "ports"
 
 # EOF
