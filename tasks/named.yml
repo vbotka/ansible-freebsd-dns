@@ -1,79 +1,107 @@
 ---
 
-- name: "named: Configure {{ bsd_named_conf_file }}"
-  lineinfile:
-    dest: "{{ bsd_named_conf_file }}"
-    insertafter: "^options "
-    regexp: "^{{ item.regexp }}"
-    line: "{{ item.regexp }}{{ item.line }}"
-    validate: "named-checkconf %s"
-    backup: "{{ bsd_named_backup_conf }}"
-  loop: "{{ bsd_named_conf_options }}"
-  notify: restart named
-  tags: bsd_dns_named_conf
+- name: "named: Stat {{ bsd_named_conf_file }}"
+  stat:
+    path: "{{ bsd_named_conf_file }}"
+  register: result
+  tags: bsd_named_conf
 
-- name: "named: Configure default allow-transfer {{ bsd_named_conf_allow_transfer_default }} in {{ bsd_named_conf_file }}"
-  lineinfile:
-    dest: "{{ bsd_named_conf_file }}"
-    insertafter: "^options "
-    regexp: "^\tallow-transfer\t{"
-    line: "\tallow-transfer\t{ {{ bsd_named_conf_allow_transfer_default }} };"
-    validate: "named-checkconf %s"
-    backup: "{{ bsd_named_backup_conf }}"
-  when: bsd_named_conf_allow_transfer_default|length > 0
-  notify: reload named
-  tags: bsd_dns_named_conf_allow_transfer_default
+- name: "named: Create {{ bsd_named_conf_file }}"
+  block:
+    - name: "named: Create {{ bsd_named_conf_file }}"
+      command: "cp {{ bsd_named_conf_file }}.sample {{ bsd_named_conf_file }}"
+      args:
+        creates: "{{ bsd_named_conf_file }}"
+    - name: "named: Create BEGIN BLOCK options marker in {{ bsd_named_conf_file }}"
+      lineinfile:
+        path: "{{ bsd_named_conf_file }}"
+        insertbefore: "^options {"
+        firstmatch: yes
+        line: "// *** BEGIN ANSIBLE MANAGED BLOCK options ***"
+    - name: "named: Create END BLOCK options marker in {{ bsd_named_conf_file }}"
+      lineinfile:
+        path: "{{ bsd_named_conf_file }}"
+        insertafter: "^};"
+        firstmatch: yes
+        line: "// *** END ANSIBLE MANAGED BLOCK options ***"
+  when: not result.stat.exists
+  tags: bsd_named_conf
 
-- name: "named: Configure forwarders {{ bsd_named_conf_forwarders }} in {{ bsd_named_conf_file }}"
-  lineinfile:
+- name: "named: Configure options in {{ bsd_named_conf_file }}"
+  blockinfile:
     dest: "{{ bsd_named_conf_file }}"
-    insertafter: "^options "
-    regexp: "^\tforwarders\t{"
-    line: "\tforwarders\t{ {{ bsd_named_conf_forwarders }} };"
+    marker: "// *** {mark} ANSIBLE MANAGED BLOCK options ***"
+    block: |2
+      options {
+      {% for item in bsd_named_conf_options %}
+              {{ item.key }} {{ item.val }}
+      {% endfor %}
+      {% for item in bsd_named_conf_dnssec_options %}
+              {{ item.key }} {{ item.val }}
+      {% endfor %}
+      {% if bsd_named_conf_listen_on|length > 0 %}
+              listen-on {
+              {% for item in bsd_named_conf_listen_on %}
+              {{ item }};
+              {% endfor %}
+              };
+      {% endif %}
+      {% if bsd_named_conf_listen_on_v6|length > 0 %}
+              listen-on-v6 {
+              {% for item in bsd_named_conf_listen_on_v6 %}
+              {{ item }};
+              {% endfor %}
+              };
+      {% endif %}
+      {% if bsd_named_conf_forwarders|length > 0 %}
+              forwarders {
+              {% for item in bsd_named_conf_forwarders %}
+              {{ item }};
+              {% endfor %}
+              };
+      {% endif %}
+      {% if bsd_named_conf_allow_transfer_default|length > 0 %}
+              allow-transfer {
+              {% for item in bsd_named_conf_allow_transfer_default %}
+              {{ item }};
+              {% endfor %}
+              };
+      {% endif %}
+              disable-empty-zone "255.255.255.255.IN-ADDR.ARPA";
+              disable-empty-zone "0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.IP6.ARPA";
+              disable-empty-zone "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.IP6.ARPA";
+      };
     validate: "named-checkconf %s"
     backup: "{{ bsd_named_backup_conf }}"
-  when: bsd_named_conf_forwarders|length > 0
   notify: reload named
-  tags: bsd_dns_named_conf_forwarders
-
-- name: "named: Configure DNSSEC options in {{ bsd_named_conf_file }}"
-  lineinfile:
-    dest: "{{ bsd_named_conf_file }}"
-    insertafter: "^options "
-    regexp: "^{{ item.regexp }}"
-    line: "{{ item.regexp }}{{ item.line }}"
-    validate: "named-checkconf %s"
-    backup: "{{ bsd_named_backup_conf }}"
-  loop: "{{ bsd_named_conf_dnssec_options }}"
-  notify: reload named
-  tags: bsd_dns_named_conf_dnssec
+  tags: bsd_named_conf_options
 
 - name: "named: Configure logging in {{ bsd_named_conf_file }}"
   blockinfile:
     dest: "{{ bsd_named_conf_file }}"
-    marker: "// {mark} ANSIBLE MANAGED BLOCK logging"
+    marker: "// *** {mark} ANSIBLE MANAGED BLOCK logging ***"
     insertafter: "EOF"
+    block: |2
+      logging {
+              channel named_log {
+                file "{{ bsd_named_conf_log_file }}" versions {{ bsd_named_conf_log_file_versions }} size {{ bsd_named_conf_log_file_size }};
+                severity {{ bsd_named_conf_log_severity }};
+                print-severity {{ bsd_named_conf_log_print_severity }};
+                print-time {{ bsd_named_conf_log_print_time }};
+                print-category {{ bsd_named_conf_log_print_category }};
+                };
+                category default {
+                  named_log;
+                };
+                category lame-servers {
+                  null;
+                };
+      };
     validate: "named-checkconf %s"
     backup: "{{ bsd_named_backup_conf }}"
-    block: |
-      logging {
-        channel named_log {
-          file "{{ bsd_named_conf_log_file }}" versions {{ bsd_named_conf_log_file_versions }} size {{ bsd_named_conf_log_file_size }};
-          severity {{ bsd_named_conf_log_severity }};
-          print-severity {{ bsd_named_conf_log_print_severity }};
-          print-time {{ bsd_named_conf_log_print_time }};
-          print-category {{ bsd_named_conf_log_print_category }};
-        };
-        category default {
-          named_log;
-        };
-        category lame-servers {
-          null;
-        };
-      };
-  when: bsd_dns_config_log
+  when: bsd_named_conf_log
   notify: reload named
-  tags: bsd_dns_config_log
+  tags: bsd_named_conf_log
   
 # EOF
 ...

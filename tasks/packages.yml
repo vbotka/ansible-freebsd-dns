@@ -1,16 +1,14 @@
 ---
 
-- name: "package: Install dns packages"
+- name: "package: Install DNS packages."
   pkgng:
-    name: "{{ item }}"
-  loop: "{{ bsd_dns_packages }}"
+    name: "{{ bsd_dns_packages }}"
   when: freebsd_install_method == "packages"
 
-- name: "packages: Install dns ports"
+- name: "packages: Install DNS ports."
   portinstall:
-    name: "{{ item }}"
+    name: "{{ bsd_dns_packages }}"
     use_packages: "{{ freebsd_use_packages }}"
-  loop: "{{ bsd_dns_packages }}"
   when: freebsd_install_method == "ports"
 
 # EOF

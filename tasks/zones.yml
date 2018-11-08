@@ -8,22 +8,22 @@
 - name: "zones: Configure master zones in {{ bsd_named_conf_file }}"
   blockinfile:
     dest: "{{ bsd_named_conf_file }}"
-    marker: "// {mark} ANSIBLE MANAGED BLOCK master {{ item.zone }}"
+    marker: "// *** {mark} ANSIBLE MANAGED BLOCK master {{ item.zone }} ***"
     insertafter: "EOF"
     owner: "root"
     group: "wheel"
     mode: "0644"
-    validate: "named-checkconf %s"
-    backup: "{{ bsd_named_backup_conf }}"
     block: |
       zone "{{ item.zone }}" {
               type {{ item.type }};
               key-directory "{{ bsd_named_conf_keys }}";
-              allow-transfer  { {{ item.allow_transfer | join (';'); }} };
+              allow-transfer  { {{ item.allow_transfer | join (';') }}; };
               update-policy local;
               auto-dnssec maintain;
               file "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone }}{{ bsd_named_zone_signed }}";
       };
+    validate: "named-checkconf %s"
+    backup: "{{ bsd_named_backup_conf }}"
   loop: "{{ bsd_named_conf_zone }}"
   when: item.type == "master"
   notify: restart named
@@ -32,13 +32,11 @@
 - name: "zones: Configure slave zones in {{ bsd_named_conf_file }}"
   blockinfile:
     dest: "{{ bsd_named_conf_file }}"
-    marker: "// {mark} ANSIBLE MANAGED BLOCK slave {{ item.zone }}"
+    marker: "// *** {mark} ANSIBLE MANAGED BLOCK slave {{ item.zone }} ***"
     insertafter: "EOF"
     owner: "root"
     group: "wheel"
     mode: "0644"
-    validate: "named-checkconf %s"
-    backup: "{{ bsd_named_backup_conf }}"
     block: |
       zone "{{ item.zone }}" {
               type {{ item.type }};
@@ -49,6 +47,8 @@
               inline-signing yes;
               file "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone }}.bk";
       };
+    validate: "named-checkconf %s"
+    backup: "{{ bsd_named_backup_conf }}"
   loop: "{{ bsd_named_conf_zone }}"
   when: item.type == "slave"
   notify: restart named
@@ -57,19 +57,19 @@
 - name: "zones: Configure master reverse zones in {{ bsd_named_conf_file }}"
   blockinfile:
     dest: "{{ bsd_named_conf_file }}"
-    marker: "// {mark} ANSIBLE MANAGED BLOCK master {{ item.zone_in }}"
+    marker: "// *** {mark} ANSIBLE MANAGED BLOCK master {{ item.zone_in }} ***"
     insertafter: "EOF"
     owner: "root"
     group: "wheel"
     mode: "0644"
-    validate: "named-checkconf %s"
-    backup: "{{ bsd_named_backup_conf }}"
     block: |
       zone "{{ item.zone_in }}.IN-ADDR.ARPA" {
               type {{ item.type }};
               allow-transfer  { {{ item.allow_transfer }} };
               file "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone_in }}.IN-ADDR.ARPA";
       };
+    validate: "named-checkconf %s"
+    backup: "{{ bsd_named_backup_conf }}"
   loop: "{{ bsd_named_conf_zone }}"
   when: item.reverse == "yes" and item.type == "master"
   notify: restart named
@@ -78,19 +78,19 @@
 - name: "zones: Configure slave reverse zones in {{ bsd_named_conf_file }}"
   blockinfile:
     dest: "{{ bsd_named_conf_file }}"
-    marker: "// {mark} ANSIBLE MANAGED BLOCK slave {{ item.zone_in }}"
+    marker: "// *** {mark} ANSIBLE MANAGED BLOCK slave {{ item.zone_in }} ***"
     insertafter: "EOF"
     owner: "root"
     group: "wheel"
     mode: "0644"
-    validate: "named-checkconf %s"
-    backup: "{{ bsd_named_backup_conf }}"
     block: |
       zone "{{ item.zone_in }}.IN-ADDR.ARPA" {
               type {{ item.type }};
               masters { {{ item.masters }} };
               file "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone_in }}.IN-ADDR.ARPA";
       };
+    validate: "named-checkconf %s"
+    backup: "{{ bsd_named_backup_conf }}"
   loop: "{{ bsd_named_conf_zone }}"
   when: item.reverse == "yes" and item.type == "slave"
   notify: restart named

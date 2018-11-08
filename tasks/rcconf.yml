@@ -1,28 +1,28 @@
 ---
 
-- name: "rcconf: Enable and start named"
+- name: "rcconf: Enable and start named."
   lineinfile:
-    dest: "/etc/rc.conf"
+    dest: /etc/rc.conf
     regexp: "^named_enable"
     line: "named_enable=\"YES\""
     backup: "{{ bsd_named_backup_conf }}"
   notify: enable and start named
   when: bsd_named_enable
   
-- name: "rcconf: Disable and stop named"
+- name: "rcconf: Disable and stop named."
   lineinfile:
-    dest: "/etc/rc.conf"
+    dest: /etc/rc.conf
     regexp: "^named_enable"
     line: "named_enable=\"NO\""
     backup: "{{ bsd_named_backup_conf }}"
   notify: disable and stop named
   when: not bsd_named_enable
 
-- name: "rcconf: Configure named"
+- name: "rcconf: Configure named."
   lineinfile:
-    dest: "/etc/rc.conf"
-    regexp: "^{{ item.regexp }}"
-    line: "{{ item.regexp }}{{ item.line }}"
+    dest: /etc/rc.conf
+    regexp: "^{{ item.key }}\\s*="
+    line: "{{ item.key }}={{ item.val }}"
     backup: "{{ bsd_named_backup_conf }}"
   with_items: "{{ bsd_named_rcconf }}"
   notify: restart named

@@ -3,7 +3,7 @@
 
 - import_tasks: debug.yml
   when: bsd_dns_debug
-  tags: bsd_dns_debug
+  tags: [bsd_dns_debug, always]
 
 - import_tasks: packages.yml
   tags: bsd_dns_packages
@@ -14,8 +14,8 @@
 - import_tasks: named.yml
   tags: bsd_dns_named
 
-- import_tasks: named_zones.yml
-  tags: bsd_dns_named_zones
+- import_tasks: zones.yml
+  tags: bsd_dns_zones
 
 - import_tasks: rcconf.yml
   tags: bsd_dns_rcconf

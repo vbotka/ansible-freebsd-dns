@@ -3,6 +3,7 @@
 
 bsd_named_enable: False
 bsd_dns_debug: False
+bsd_named_backup_conf: no
 
 freebsd_install_method: "packages"
 #freebsd_install_method: "ports"
@@ -12,8 +13,6 @@ bsd_bind_version: "911"
 bsd_dns_packages:
   - "dns/bind{{ bsd_bind_version }}"
 
-bsd_named_backup_conf: "no"
-
 # rc.conf
 bsd_named_service: "named"
 bsd_named_program: "/usr/local/sbin/named"
@@ -22,11 +21,11 @@ bsd_named_chrootdir: "/var/named"
 bsd_named_chroot_autoupdate: "NO"
 bsd_named_symlink_enable: "YES"
 bsd_named_rcconf:
-  - { regexp: "named_program=", line: "\"{{ bsd_named_program }}\""}
-#  - { regexp: "named_pidfile=", line: "\"{{ bsd_named_pidfile }}\""}
-#  - { regexp: "named_chrootdir=", line: "\"{{ bsd_named_chrootdir }}\""}
-#  - { regexp: "named_chroot_autoupdate=", line: "\"{{ bsd_named_chroot_autoupdate }}\""}
-#  - { regexp: "named_symlink_enable=", line: "\"{{ bsd_named_symlink_enable }}\""}
+  - { key: "named_program", val: "\"{{ bsd_named_program }}\""}
+#  - { key: "named_pidfile", val: "\"{{ bsd_named_pidfile }}\""}
+#  - { key: "named_chrootdir", val: "\"{{ bsd_named_chrootdir }}\""}
+#  - { key: "named_chroot_autoupdate", val: "\"{{ bsd_named_chroot_autoupdate }}\""}
+#  - { key: "named_symlink_enable", val: "\"{{ bsd_named_symlink_enable }}\""}
 
 # named
 bsd_named_conf_path: "/usr/local/etc/namedb"
@@ -34,16 +33,17 @@ bsd_named_conf_file: "{{ bsd_named_conf_path }}/named.conf"
 bsd_named_conf_working: "{{ bsd_named_conf_path }}/working"
 bsd_named_conf_keys: "{{ bsd_named_conf_path }}/keys"
 bsd_named_conf_managed_keys: "{{ bsd_named_conf_path }}/dynamic"
-bsd_named_conf_listen_on: "127.0.0.1;"
 bsd_named_conf_options:
-  - { regexp: "\tdirectory\t", line: "\"{{ bsd_named_conf_working }}\";" }
-  - { regexp: "\tkey-directory\t", line: "\"{{ bsd_named_conf_keys }}\";" }
-  - { regexp: "\tmanaged-keys-directory\t", line: "\"{{ bsd_named_conf_managed_keys }}\";" }
-  - { regexp: "\tlisten-on\t", line: "{ {{ bsd_named_conf_listen_on }} };" }
-#  - { regexp: "\tpid-file\t", line: "\"{{ bsd_named_pidfile }}\";" }
+  - { key: "directory", val: "\"{{ bsd_named_conf_working }}\";" }
+  - { key: "key-directory", val: "\"{{ bsd_named_conf_keys }}\";" }
+  - { key: "managed-keys-directory", val: "\"{{ bsd_named_conf_managed_keys }}\";" }
+#  - { key: "pid-file", val: "\"{{ bsd_named_pidfile }}\";" }
+bsd_named_conf_listen_on:
+  - "127.0.0.1;"
+bsd_named_conf_listen_on_v6: []
+bsd_named_conf_forwarders: []
 bsd_named_conf_allow_transfer_default:
-  - "none"
-bsd_named_conf_forwarders: ""
+  - "\"none\""
 
 # dnssec
 bsd_named_conf_dnssec_enable: "no"
@@ -51,13 +51,16 @@ bsd_named_conf_dnssec_validation: "no"
 bsd_named_conf_dnssec_lookaside: "auto"
 bsd_named_zone_signed: ""
 bsd_named_conf_dnssec_options:
-  - { regexp: "\tdnssec-enable ", line: "{{ bsd_named_conf_dnssec_enable }};" }
-  - { regexp: "\tdnssec-validation ", line: "{{ bsd_named_conf_dnssec_validation }};" }
-# - { regexp: "\tdnssec-lookaside", line: "{{ bsd_named_conf_dnssec_lookaside }};" }
+  - { key: "dnssec-enable ", val: "{{ bsd_named_conf_dnssec_enable }};" }
+  - { key: "dnssec-validation ", val: "{{ bsd_named_conf_dnssec_validation }};" }
+# - { key: "dnssec-lookaside", val: "{{ bsd_named_conf_dnssec_lookaside }};" }
 
 # loging
-bsd_dns_config_log: False
+bsd_named_conf_log: False
 bsd_named_conf_log_file: "/var/log/named.log"
+bsd_named_conf_log_file_owner: root
+bsd_named_conf_log_file_group: bind
+bsd_named_conf_log_file_mode: "0660"
 bsd_named_conf_log_file_versions: "3"
 bsd_named_conf_log_file_size: "2m"
 # severity: (critical | error | warning | notice | info | debug [ level ] | dynamic )

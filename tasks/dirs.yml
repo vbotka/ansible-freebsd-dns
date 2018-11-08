@@ -4,8 +4,8 @@
   file:
     state: directory
     path: "{{ bsd_named_chrootdir }}"
-    owner: "root"
-    group: "wheel"
+    owner: root
+    group: wheel
     mode: "0755"
   when: bsd_named_chrootdir is defined
   tags: bsd_dns_create_named_chrootdir
@@ -14,8 +14,8 @@
   file:
     state: directory
     path: "{{ bsd_named_chrootdir }}/{{ bsd_named_conf_keys }}"
-    owner: "root"
-    group: "wheel"
+    owner: root
+    group: wheel
     mode: "0755"
   when: bsd_named_chrootdir is defined
   tags: bsd_dns_create_keydir_chrooted
@@ -24,16 +24,25 @@
   file:
     state: directory
     path: "{{ bsd_named_conf_keys }}"
-    owner: "root"
-    group: "wheel"
+    owner: root
+    group: wheel
     mode: "0755"
   tags: bsd_dns_create_keydir
 
 - name: "dirs: Create log file {{ bsd_named_conf_log_file }}"
-  shell: 'if [ ! -e {{ bsd_named_conf_log_file }} ]; then printf "create"; fi'
-  register: command_result
-  changed_when: command_result.stdout == "create"
-  notify: create log
+  command: "touch {{ bsd_named_conf_log_file }}"
+  args:
+    creates: "{{ bsd_named_conf_log_file }}"
+  when: bsd_named_conf_log
+  tags: bsd_dns_create_log
+
+- name: "dirs: Set atributes of {{ bsd_named_conf_log_file }}"
+  file:
+    path: "{{ bsd_named_conf_log_file }}"
+    owner: "{{ bsd_named_conf_log_file_owner }}"
+    group: "{{ bsd_named_conf_log_file_group }}"
+    mode: "{{ bsd_named_conf_log_file_mode }}"
+  when: bsd_named_conf_log
   tags: bsd_dns_create_log
   
 # EOF
