@@ -3,7 +3,7 @@
 - name: "named: Stat {{ bsd_named_conf_file }}"
   stat:
     path: "{{ bsd_named_conf_file }}"
-  register: result
+  register: conf_file
   tags: bsd_named_conf
 
 - name: "named: Create {{ bsd_named_conf_file }}"
@@ -18,13 +18,21 @@
         insertbefore: "^options {"
         firstmatch: yes
         line: "// *** BEGIN ANSIBLE MANAGED BLOCK options ***"
+      when: not ansible_check_mode
     - name: "named: Create END BLOCK options marker in {{ bsd_named_conf_file }}"
       lineinfile:
         path: "{{ bsd_named_conf_file }}"
         insertafter: "^};"
         firstmatch: yes
         line: "// *** END ANSIBLE MANAGED BLOCK options ***"
-  when: not result.stat.exists
+      when: not ansible_check_mode
+  when: not conf_file.stat.exists
+  tags: bsd_named_conf
+
+- name: "named: Stat {{ bsd_named_conf_file }}"
+  stat:
+    path: "{{ bsd_named_conf_file }}"
+  register: conf_file
   tags: bsd_named_conf
 
 - name: "named: Configure options in {{ bsd_named_conf_file }}"
@@ -74,6 +82,7 @@
     validate: "named-checkconf %s"
     backup: "{{ bsd_named_backup_conf }}"
   notify: reload named
+  when: conf_file.stat.exists
   tags: bsd_named_conf_options
 
 - name: "named: Configure logging in {{ bsd_named_conf_file }}"
@@ -99,7 +108,9 @@
       };
     validate: "named-checkconf %s"
     backup: "{{ bsd_named_backup_conf }}"
-  when: bsd_named_conf_log
+  when:
+    - bsd_named_conf_log
+    - conf_file.stat.exists
   notify: reload named
   tags: bsd_named_conf_log
   
