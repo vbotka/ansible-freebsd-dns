@@ -1,10 +1,16 @@
 ---
 
+- name: "zones: Stat {{ bsd_named_conf_file }}"
+  stat:
+    path: "{{ bsd_named_conf_file }}"
+  register: conf_file
+  tags: bsd_named_conf
+
 - name: "zones: Set signed zone files for DNSSEC"
   set_fact:
     bsd_named_zone_signed: ".signed"
   when: bsd_named_conf_dnssec_enable == "yes"
-  tags: bsd_dns_config_zone
+  tags: bsd_dns_conf_zone
 
 - name: "zones: Configure master zones in {{ bsd_named_conf_file }}"
   blockinfile:
@@ -14,21 +20,7 @@
     owner: root
     group: wheel
     mode: "0644"
-    block: |2
-      zone "{{ item.zone }}" {
-              type {{ item.type }};
-              key-directory "{{ bsd_named_conf_keys }}";
-      {% if item.allow_transfer|length > 0 %}
-              allow-transfer  {
-              {% for host in item.allow_transfer %}
-              {{ host }};
-              {% endfor %}
-              };
-      {% endif %}
-              update-policy local;
-              auto-dnssec maintain;
-              file "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone }}{{ bsd_named_zone_signed }}";
-      };
+    block: "{{ lookup('template', 'block-named-master-zone.j2') }}"
     validate: "named-checkconf %s"
     backup: "{{ bsd_named_backup_conf }}"
   loop: "{{ bsd_named_conf_zone }}"
@@ -36,7 +28,7 @@
     - item.type == "master"
     - conf_file.stat.exists
   notify: restart named
-  tags: bsd_dns_config_zone
+  tags: bsd_dns_conf_zone
 
 - name: "zones: Configure slave zones in {{ bsd_named_conf_file }}"
   blockinfile:
@@ -46,16 +38,7 @@
     owner: root
     group: wheel
     mode: "0644"
-    block: |
-      zone "{{ item.zone }}" {
-              type {{ item.type }};
-              masters { {{ item.masters }} };
-              allow-notify { {{ item.masters }} };
-              key-directory "{{ bsd_named_conf_keys }}";
-              auto-dnssec maintain;
-              inline-signing yes;
-              file "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone }}.bk";
-      };
+    block: "{{ lookup('template', 'block-named-slave-zone.j2') }}"
     validate: "named-checkconf %s"
     backup: "{{ bsd_named_backup_conf }}"
   loop: "{{ bsd_named_conf_zone }}"
@@ -63,7 +46,7 @@
     - item.type == "slave"
     - conf_file.stat.exists
   notify: restart named
-  tags: bsd_dns_config_zone
+  tags: bsd_dns_conf_zone
 
 - name: "zones: Configure master reverse zones in {{ bsd_named_conf_file }}"
   blockinfile:
@@ -73,18 +56,7 @@
     owner: root
     group: wheel
     mode: "0644"
-    block: |
-      zone "{{ item.zone_in }}.IN-ADDR.ARPA" {
-              type {{ item.type }};
-      {% if item.allow_transfer|length > 0 %}
-              allow-transfer  {
-              {% for host in item.allow_transfer %}
-              {{ host }};
-              {% endfor %}
-              };
-      {% endif %}
-              file "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone_in }}.IN-ADDR.ARPA";
-      };
+    block: "{{ lookup('template', 'block-named-master-zone-reverse.j2') }}"
     validate: "named-checkconf %s"
     backup: "{{ bsd_named_backup_conf }}"
   loop: "{{ bsd_named_conf_zone }}"
@@ -93,7 +65,7 @@
     - item.reverse == "yes"
     - conf_file.stat.exists
   notify: restart named
-  tags: bsd_dns_config_zone_in
+  tags: bsd_dns_conf_zone_in
 
 - name: "zones: Configure slave reverse zones in {{ bsd_named_conf_file }}"
   blockinfile:
@@ -103,12 +75,7 @@
     owner: root
     group: wheel
     mode: "0644"
-    block: |
-      zone "{{ item.zone_in }}.IN-ADDR.ARPA" {
-              type {{ item.type }};
-              masters { {{ item.masters }} };
-              file "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone_in }}.IN-ADDR.ARPA";
-      };
+    block: "{{ lookup('template', 'block-named-slave-zone-reverse.j2') }}"
     validate: "named-checkconf %s"
     backup: "{{ bsd_named_backup_conf }}"
   loop: "{{ bsd_named_conf_zone }}"
@@ -117,7 +84,7 @@
     - item.reverse == "yes"
     - conf_file.stat.exists
   notify: restart named
-  tags: bsd_dns_config_zone_in
+  tags: bsd_dns_conf_zone_in
 
 - name: "zones: Create zone files"
   template:

@@ -1,0 +1,14 @@
+zone "{{ item.zone }}" {
+	type {{ item.type }};
+	key-directory "{{ bsd_named_conf_keys }}";
+{% if item.allow_transfer|length > 0 %}
+	allow-transfer  {
+	{% for host in item.allow_transfer %}
+	{{ host }};
+	{% endfor %}
+	};
+{% endif %}
+	update-policy local;
+	auto-dnssec maintain;
+	file "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone }}{{ bsd_named_zone_signed }}";
+};

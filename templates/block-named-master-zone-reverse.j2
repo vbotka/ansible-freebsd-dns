@@ -1,0 +1,11 @@
+zone "{{ item.zone_in }}.IN-ADDR.ARPA" {
+	type {{ item.type }};
+{% if item.allow_transfer|length > 0 %}
+	allow-transfer  {
+	{% for host in item.allow_transfer %}
+	{{ host }};
+	{% endfor %}
+	};
+{% endif %}
+	file "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone_in }}.IN-ADDR.ARPA";
+};

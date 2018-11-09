@@ -1,0 +1,39 @@
+options {
+{% for item in bsd_named_conf_options %}
+	{{ item.key }} {{ item.val }}
+{% endfor %}
+{% for item in bsd_named_conf_dnssec_options %}
+	{{ item.key }} {{ item.val }}
+{% endfor %}
+{% if bsd_named_conf_listen_on|length > 0 %}
+	listen-on {
+	{% for item in bsd_named_conf_listen_on %}
+	{{ item }};
+	{% endfor %}
+        };
+{% endif %}
+{% if bsd_named_conf_listen_on_v6|length > 0 %}
+	listen-on-v6 {
+	{% for item in bsd_named_conf_listen_on_v6 %}
+	{{ item }};
+	{% endfor %}
+	};
+{% endif %}
+{% if bsd_named_conf_forwarders|length > 0 %}
+	forwarders {
+	{% for item in bsd_named_conf_forwarders %}
+	{{ item }};
+	{% endfor %}
+	};
+{% endif %}
+{% if bsd_named_conf_allow_transfer_default|length > 0 %}
+	allow-transfer {
+	{% for item in bsd_named_conf_allow_transfer_default %}
+	{{ item }};
+	{% endfor %}
+	};
+{% endif %}
+        disable-empty-zone "255.255.255.255.IN-ADDR.ARPA";
+        disable-empty-zone "0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.IP6.ARPA";
+        disable-empty-zone "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.IP6.ARPA";
+};

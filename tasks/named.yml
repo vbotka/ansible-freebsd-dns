@@ -39,80 +39,24 @@
   blockinfile:
     dest: "{{ bsd_named_conf_file }}"
     marker: "// *** {mark} ANSIBLE MANAGED BLOCK options ***"
-    block: |2
-      options {
-      {% for item in bsd_named_conf_options %}
-              {{ item.key }} {{ item.val }}
-      {% endfor %}
-      {% for item in bsd_named_conf_dnssec_options %}
-              {{ item.key }} {{ item.val }}
-      {% endfor %}
-      {% if bsd_named_conf_listen_on|length > 0 %}
-              listen-on {
-              {% for item in bsd_named_conf_listen_on %}
-              {{ item }};
-              {% endfor %}
-              };
-      {% endif %}
-      {% if bsd_named_conf_listen_on_v6|length > 0 %}
-              listen-on-v6 {
-              {% for item in bsd_named_conf_listen_on_v6 %}
-              {{ item }};
-              {% endfor %}
-              };
-      {% endif %}
-      {% if bsd_named_conf_forwarders|length > 0 %}
-              forwarders {
-              {% for item in bsd_named_conf_forwarders %}
-              {{ item }};
-              {% endfor %}
-              };
-      {% endif %}
-      {% if bsd_named_conf_allow_transfer_default|length > 0 %}
-              allow-transfer {
-              {% for item in bsd_named_conf_allow_transfer_default %}
-              {{ item }};
-              {% endfor %}
-              };
-      {% endif %}
-              disable-empty-zone "255.255.255.255.IN-ADDR.ARPA";
-              disable-empty-zone "0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.IP6.ARPA";
-              disable-empty-zone "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.IP6.ARPA";
-      };
+    block: "{{ lookup('template', 'block-named-options.j2') }}"
     validate: "named-checkconf %s"
     backup: "{{ bsd_named_backup_conf }}"
   notify: reload named
   when: conf_file.stat.exists
-  tags: bsd_named_conf_options
 
 - name: "named: Configure logging in {{ bsd_named_conf_file }}"
   blockinfile:
     dest: "{{ bsd_named_conf_file }}"
     marker: "// *** {mark} ANSIBLE MANAGED BLOCK logging ***"
     insertafter: "EOF"
-    block: |2
-      logging {
-              channel named_log {
-                file "{{ bsd_named_conf_log_file }}" versions {{ bsd_named_conf_log_file_versions }} size {{ bsd_named_conf_log_file_size }};
-                severity {{ bsd_named_conf_log_severity }};
-                print-severity {{ bsd_named_conf_log_print_severity }};
-                print-time {{ bsd_named_conf_log_print_time }};
-                print-category {{ bsd_named_conf_log_print_category }};
-                };
-                category default {
-                  named_log;
-                };
-                category lame-servers {
-                  null;
-                };
-      };
+    block: "{{ lookup('template', 'block-named-logging.j2') }}"
     validate: "named-checkconf %s"
     backup: "{{ bsd_named_backup_conf }}"
   when:
     - bsd_named_conf_log
     - conf_file.stat.exists
   notify: reload named
-  tags: bsd_named_conf_log
   
 # EOF
 ...

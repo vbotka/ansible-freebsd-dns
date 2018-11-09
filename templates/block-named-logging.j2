@@ -1,0 +1,15 @@
+logging {
+	channel named_log {
+		file "{{ bsd_named_conf_log_file }}" versions {{ bsd_named_conf_log_file_versions }} size {{ bsd_named_conf_log_file_size }};
+		severity {{ bsd_named_conf_log_severity }};
+		print-severity {{ bsd_named_conf_log_print_severity }};
+		print-time {{ bsd_named_conf_log_print_time }};
+		print-category {{ bsd_named_conf_log_print_category }};
+		};
+	category default {
+		named_log;
+	};
+	category lame-servers {
+		null;
+	};
+};
