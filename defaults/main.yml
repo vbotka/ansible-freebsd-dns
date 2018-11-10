@@ -30,7 +30,7 @@ bsd_named_rcconf:
 
 # named
 bsd_named_conf_owner: root
-bsd_named_conf_group: bind
+bsd_named_conf_group: wheel
 bsd_named_conf_mode: "0644"
 bsd_named_conf_path: "/usr/local/etc/namedb"
 bsd_named_conf_file: "{{ bsd_named_conf_path }}/named.conf"
