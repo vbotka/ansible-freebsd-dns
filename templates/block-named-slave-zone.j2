@@ -1,5 +1,5 @@
 zone "{{ item.zone }}" {
-type {{ item.type }};
+	type {{ item.type }};
 	masters { {{ item.masters }} };
 	allow-notify { {{ item.masters }} };
 	key-directory "{{ bsd_named_conf_keys }}";

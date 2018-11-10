@@ -13,9 +13,10 @@
          freebsd_install_method [ {{ freebsd_install_method }} ]
          freebsd_use_packages [ {{ freebsd_use_packages }} ]
 
-         bsd_dns_packages [
-         {{ bsd_dns_packages | to_nice_yaml }} ]
+         bsd_dns_packages
+         {{ bsd_dns_packages | to_nice_yaml }}
          bsd_named_enable [ {{ bsd_named_enable }} ]
+         bsd_named_conf_recreate [ {{ bsd_named_conf_recreate }} ]
          bsd_named_service [ {{ bsd_named_service }} ]
          bsd_named_program [ {{ bsd_named_program }} ]
          bsd_named_pidfile [ {{ bsd_named_pidfile }} ]
@@ -34,15 +35,15 @@
          bsd_named_conf_options
          {{ bsd_named_conf_options | to_yaml }}
          bsd_named_conf_listen_on
-         {{ bsd_named_conf_listen_on | to_yaml }}
+         {{ bsd_named_conf_listen_on | to_nice_yaml }}
          bsd_named_conf_listen_on_v6
-         {{ bsd_named_conf_listen_on_v6 | to_yaml }}
+         {{ bsd_named_conf_listen_on_v6 | to_nice_yaml }}
          bsd_named_conf_forwarders
          {{ bsd_named_conf_forwarders | to_nice_yaml }}
          bsd_named_conf_allow_transfer_default
          {{ bsd_named_conf_allow_transfer_default | to_nice_yaml }}
          bsd_named_rcconf
-         {{ bsd_named_rcconf | to_nice_yaml }}
+         {{ bsd_named_rcconf | to_yaml }}
 
          bsd_named_conf_log [ {{ bsd_named_conf_log }} ]
          bsd_named_conf_log_file [ {{ bsd_named_conf_log_file }} ]
@@ -53,7 +54,7 @@
          bsd_named_conf_log_print_time [ {{ bsd_named_conf_log_print_time }} ]
          bsd_named_conf_log_print_category [ {{ bsd_named_conf_log_print_category }} ]
          bsd_named_conf_zone
-         {{ bsd_named_conf_zone | to_yaml }}
+         {{ bsd_named_conf_zone | to_nice_yaml }}
   debug:
     msg: "{{ msg.split('\n') }}"
 

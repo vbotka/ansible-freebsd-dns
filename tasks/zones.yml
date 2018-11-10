@@ -4,58 +4,53 @@
   stat:
     path: "{{ bsd_named_conf_file }}"
   register: conf_file
-  tags: bsd_named_conf
+
+- fail: msg="[ERROR] {{ bsd_named_conf_file }} is missing. End of play."
+  when: not conf_file.stat.exists
 
 - name: "zones: Set signed zone files for DNSSEC"
   set_fact:
     bsd_named_zone_signed: ".signed"
   when: bsd_named_conf_dnssec_enable == "yes"
-  tags: bsd_dns_conf_zone
 
 - name: "zones: Configure master zones in {{ bsd_named_conf_file }}"
   blockinfile:
     dest: "{{ bsd_named_conf_file }}"
     marker: "// *** {mark} ANSIBLE MANAGED BLOCK master {{ item.zone }} ***"
     insertafter: "EOF"
-    owner: root
-    group: wheel
-    mode: "0644"
+    owner: "{{ bsd_named_conf_owner }}"
+    group: "{{ bsd_named_conf_group }}"
+    mode: "{{ bsd_named_conf_mode }}"
     block: "{{ lookup('template', 'block-named-master-zone.j2') }}"
     validate: "named-checkconf %s"
     backup: "{{ bsd_named_backup_conf }}"
   loop: "{{ bsd_named_conf_zone }}"
-  when:
-    - item.type == "master"
-    - conf_file.stat.exists
+  when: item.type == "master"
   notify: restart named
-  tags: bsd_dns_conf_zone
 
 - name: "zones: Configure slave zones in {{ bsd_named_conf_file }}"
   blockinfile:
     dest: "{{ bsd_named_conf_file }}"
     marker: "// *** {mark} ANSIBLE MANAGED BLOCK slave {{ item.zone }} ***"
     insertafter: "EOF"
-    owner: root
-    group: wheel
-    mode: "0644"
+    owner: "{{ bsd_named_conf_owner }}"
+    group: "{{ bsd_named_conf_group }}"
+    mode: "{{ bsd_named_conf_mode }}"
     block: "{{ lookup('template', 'block-named-slave-zone.j2') }}"
     validate: "named-checkconf %s"
     backup: "{{ bsd_named_backup_conf }}"
   loop: "{{ bsd_named_conf_zone }}"
-  when:
-    - item.type == "slave"
-    - conf_file.stat.exists
+  when: item.type == "slave"
   notify: restart named
-  tags: bsd_dns_conf_zone
 
 - name: "zones: Configure master reverse zones in {{ bsd_named_conf_file }}"
   blockinfile:
     dest: "{{ bsd_named_conf_file }}"
     marker: "// *** {mark} ANSIBLE MANAGED BLOCK master {{ item.zone_in }} ***"
     insertafter: "EOF"
-    owner: root
-    group: wheel
-    mode: "0644"
+    owner: "{{ bsd_named_conf_owner }}"
+    group: "{{ bsd_named_conf_group }}"
+    mode: "{{ bsd_named_conf_mode }}"
     block: "{{ lookup('template', 'block-named-master-zone-reverse.j2') }}"
     validate: "named-checkconf %s"
     backup: "{{ bsd_named_backup_conf }}"
@@ -63,18 +58,16 @@
   when:
     - item.type == "master"
     - item.reverse == "yes"
-    - conf_file.stat.exists
   notify: restart named
-  tags: bsd_dns_conf_zone_in
 
 - name: "zones: Configure slave reverse zones in {{ bsd_named_conf_file }}"
   blockinfile:
     dest: "{{ bsd_named_conf_file }}"
     marker: "// *** {mark} ANSIBLE MANAGED BLOCK slave {{ item.zone_in }} ***"
     insertafter: "EOF"
-    owner: root
-    group: wheel
-    mode: "0644"
+    owner: "{{ bsd_named_conf_owner }}"
+    group: "{{ bsd_named_conf_group }}"
+    mode: "{{ bsd_named_conf_mode }}"
     block: "{{ lookup('template', 'block-named-slave-zone-reverse.j2') }}"
     validate: "named-checkconf %s"
     backup: "{{ bsd_named_backup_conf }}"
@@ -82,38 +75,34 @@
   when:
     - item.type == "slave"
     - item.reverse == "yes"
-    - conf_file.stat.exists
   notify: restart named
-  tags: bsd_dns_conf_zone_in
 
 - name: "zones: Create zone files"
   template:
     src: "zone.j2"
     dest: "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone }}"
-    owner: root
-    group: wheel
-    mode: "0644"
+    owner: "{{ bsd_named_conf_owner }}"
+    group: "{{ bsd_named_conf_group }}"
+    mode: "{{ bsd_named_conf_mode }}"
     backup: "{{ bsd_named_backup_conf }}"
   register: bsd_named_zones_created
   loop: "{{ bsd_named_conf_zone }}"
   when: item.type == "master"
   notify: restart named
-  tags: bsd_dns_create_zone
 
 - name: "zones: Create reverse zone files"
   template:
     src: "zone-in.j2"
     dest: "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone_in }}.IN-ADDR.ARPA"
-    owner: root
-    group: wheel
-    mode: "0644"
+    owner: "{{ bsd_named_conf_owner }}"
+    group: "{{ bsd_named_conf_group }}"
+    mode: "{{ bsd_named_conf_mode }}"
     backup: "{{ bsd_named_backup_conf }}"
   loop: "{{ bsd_named_conf_zone }}"
   when:
     - item.type == "master"
     - item.reverse == "yes"
   notify: restart named
-  tags: bsd_dns_create_zone_in
 
 # EOF
 ...

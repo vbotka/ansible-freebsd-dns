@@ -1,5 +1,12 @@
 ---
 
+- name: "named: Remove {{ bsd_named_conf_file }}"
+  file:
+    path: "{{ bsd_named_conf_file }}"
+    state: absent
+  when: bsd_named_conf_recreate
+  tags: bsd_named_conf
+
 - name: "named: Stat {{ bsd_named_conf_file }}"
   stat:
     path: "{{ bsd_named_conf_file }}"
@@ -35,6 +42,10 @@
   register: conf_file
   tags: bsd_named_conf
 
+- fail: msg="End of play. {{ bsd_named_conf_file }} is missing."
+  when: not conf_file.stat.exists
+  tags: bsd_named_conf
+
 - name: "named: Configure options in {{ bsd_named_conf_file }}"
   blockinfile:
     dest: "{{ bsd_named_conf_file }}"
@@ -43,7 +54,7 @@
     validate: "named-checkconf %s"
     backup: "{{ bsd_named_backup_conf }}"
   notify: reload named
-  when: conf_file.stat.exists
+  tags: bsd_named_conf_options
 
 - name: "named: Configure logging in {{ bsd_named_conf_file }}"
   blockinfile:
@@ -53,10 +64,9 @@
     block: "{{ lookup('template', 'block-named-logging.j2') }}"
     validate: "named-checkconf %s"
     backup: "{{ bsd_named_backup_conf }}"
-  when:
-    - bsd_named_conf_log
-    - conf_file.stat.exists
+  when: bsd_named_conf_log
   notify: reload named
+  tags: bsd_named_conf_logging
   
 # EOF
 ...
