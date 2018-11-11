@@ -54,7 +54,7 @@
          bsd_named_conf_log_print_time [ {{ bsd_named_conf_log_print_time }} ]
          bsd_named_conf_log_print_category [ {{ bsd_named_conf_log_print_category }} ]
          bsd_named_conf_zone
-         {{ bsd_named_conf_zone | to_nice_yaml }}
+         {{ bsd_named_conf_zone | to_yaml }}
   debug:
     msg: "{{ msg.split('\n') }}"
 

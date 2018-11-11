@@ -15,7 +15,7 @@ $TTL 3600	; 1 hour default TTL
 {% if item.primary is defined  %}
 ;{{ item.primary }}.	IN	A	{{ item.primary_ip }}
 {% endif %}
-{% if item.secondary  %}
+{% if item.secondary is defined  %}
 ;{{ item.secondary }}.	IN	A	{{ item.secondary_ip }}
 {% endif %}
 

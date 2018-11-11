@@ -1,6 +1,8 @@
 zone "{{ item.zone }}" {
 	type {{ item.type }};
-	key-directory "{{ bsd_named_conf_keys }}";
+{% for option in item.options|default({}) %}
+	{{ option.key }} {{ option.val }};
+{% endfor %}
 {% if item.allow_transfer|length > 0 %}
 	allow-transfer  {
 	{% for host in item.allow_transfer %}
@@ -8,7 +10,5 @@ zone "{{ item.zone }}" {
 	{% endfor %}
 	};
 {% endif %}
-	update-policy local;
-	auto-dnssec maintain;
 	file "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone }}{{ bsd_named_zone_signed }}";
 };

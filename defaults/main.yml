@@ -38,10 +38,10 @@ bsd_named_conf_working: "{{ bsd_named_conf_path }}/working"
 bsd_named_conf_keys: "{{ bsd_named_conf_path }}/keys"
 bsd_named_conf_managed_keys: "{{ bsd_named_conf_path }}/dynamic"
 bsd_named_conf_options:
-  - { key: "directory", val: "\"{{ bsd_named_conf_working }}\";" }
-  - { key: "key-directory", val: "\"{{ bsd_named_conf_keys }}\";" }
-  - { key: "managed-keys-directory", val: "\"{{ bsd_named_conf_managed_keys }}\";" }
-#  - { key: "pid-file", val: "\"{{ bsd_named_pidfile }}\";" }
+  - { key: "directory", val: "\"{{ bsd_named_conf_working }}\"" }
+  - { key: "key-directory", val: "\"{{ bsd_named_conf_keys }}\"" }
+  - { key: "managed-keys-directory", val: "\"{{ bsd_named_conf_managed_keys }}\"" }
+#  - { key: "pid-file", val: "\"{{ bsd_named_pidfile }}\"" }
 bsd_named_conf_listen_on:
   - "127.0.0.1"
 bsd_named_conf_listen_on_v6: []
@@ -53,11 +53,11 @@ bsd_named_conf_allow_transfer_default:
 bsd_named_conf_dnssec_enable: "no"
 bsd_named_conf_dnssec_validation: "no"
 bsd_named_conf_dnssec_lookaside: "auto"
-bsd_named_zone_signed: ""
 bsd_named_conf_dnssec_options:
-  - { key: "dnssec-enable", val: "{{ bsd_named_conf_dnssec_enable }};" }
-  - { key: "dnssec-validation", val: "{{ bsd_named_conf_dnssec_validation }};" }
-# - { key: "dnssec-lookaside", val: "{{ bsd_named_conf_dnssec_lookaside }};" }
+  - { key: "dnssec-enable", val: "{{ bsd_named_conf_dnssec_enable }}" }
+  - { key: "dnssec-validation", val: "{{ bsd_named_conf_dnssec_validation }}" }
+# - { key: "dnssec-lookaside", val: "{{ bsd_named_conf_dnssec_lookaside }}" }
+bsd_named_zone_signed: ""
 
 # loging
 bsd_named_conf_log: False
@@ -73,6 +73,11 @@ bsd_named_conf_log_print_severity: "yes"
 bsd_named_conf_log_print_time: "yes"
 bsd_named_conf_log_print_category: "yes"
 
+# zones
+bsd_named_conf_template_master_zone: "block-named-master-zone.j2"
+bsd_named_conf_template_master_zone_reverse: "block-named-master-zone-reverse.j2"
+bsd_named_conf_template_slave_zone: "block-named-slave-zone.j2"
+bsd_named_conf_template_slave_zone_reverse: "block-named-slave-zone-reverse.j2"
 # see example of zone in vars
 bsd_named_conf_zone: {}
 

@@ -1,9 +1,9 @@
 options {
 {% for item in bsd_named_conf_options %}
-	{{ item.key }} {{ item.val }}
+	{{ item.key }} {{ item.val }};
 {% endfor %}
 {% for item in bsd_named_conf_dnssec_options %}
-	{{ item.key }} {{ item.val }}
+	{{ item.key }} {{ item.val }};
 {% endfor %}
 {% if bsd_named_conf_listen_on|length > 0 %}
 	listen-on {
