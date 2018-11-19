@@ -44,6 +44,6 @@
     mode: "{{ bsd_named_conf_log_file_mode }}"
   when: bsd_named_conf_log
   tags: bsd_dns_create_log
-  
+
 # EOF
 ...

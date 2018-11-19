@@ -8,7 +8,7 @@
     backup: "{{ bsd_named_backup_conf }}"
   notify: enable and start named
   when: bsd_named_enable
-  
+
 - name: "rcconf: Disable and stop named."
   lineinfile:
     dest: /etc/rc.conf

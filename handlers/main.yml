@@ -37,9 +37,11 @@
 
 # TODO: ERROR! 'dict object' has no attribute 'zone'
 #- name: sign zones
-#  shell: "dnssec-signzone -o {{item.zone}} -k K{{item.zone}}.KSK /usr/local/etc/namedb/master/{{item.zone}} K{{item.zone}}.ZSK.key"
+#  command: >
+#    dnssec-signzone -o {{ item.zone }} -k K{{ item.zone }}.KSK
+#    /usr/local/etc/namedb/master/{{ item.zone }} K{{ item.zone }}.ZSK.key
 #  when: item.changed
 #  with_items: bsd_named_zones_created.results
-    
+
 # EOF
 ...

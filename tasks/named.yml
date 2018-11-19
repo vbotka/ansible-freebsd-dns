@@ -42,7 +42,8 @@
   register: conf_file
   tags: bsd_named_conf
 
-- fail: msg="End of play. {{ bsd_named_conf_file }} is missing."
+- name: "named: Fail when {{ bsd_named_conf_file }} is missing"
+  fail: msg="End of play. {{ bsd_named_conf_file }} is missing."
   when: not conf_file.stat.exists
   tags: bsd_named_conf
 
@@ -67,6 +68,6 @@
   when: bsd_named_conf_log
   notify: reload named
   tags: bsd_named_conf_logging
-  
+
 # EOF
 ...

@@ -5,7 +5,8 @@
     path: "{{ bsd_named_conf_file }}"
   register: conf_file
 
-- fail: msg="[ERROR] {{ bsd_named_conf_file }} is missing. End of play."
+- name: "zones: Fail whem {{ bsd_named_conf_file }} is missing"
+  fail: msg="[ERROR] {{ bsd_named_conf_file }} is missing. End of play."
   when: not conf_file.stat.exists
 
 - name: "zones: Set signed zone files for DNSSEC"
