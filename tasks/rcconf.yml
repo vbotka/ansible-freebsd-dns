@@ -21,10 +21,10 @@
 - name: "rcconf: Configure named."
   lineinfile:
     dest: /etc/rc.conf
-    regexp: "^{{ item.key }}\\s*="
+    regexp: "^{{ item.key }}"
     line: "{{ item.key }}={{ item.val }}"
     backup: "{{ bsd_named_backup_conf }}"
-  with_items: "{{ bsd_named_rcconf }}"
+  loop: "{{ bsd_named_rcconf }}"
   notify: restart named
   when: bsd_named_enable
 
