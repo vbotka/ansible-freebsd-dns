@@ -43,7 +43,7 @@
   tags: bsd_named_conf
 
 - name: "named: Fail when {{ bsd_named_conf_file }} is missing"
-  fail: msg="End of play. {{ bsd_named_conf_file }} is missing."
+  fail: msg="[ERROR] {{ bsd_named_conf_file }} is missing. End of play."
   when: not conf_file.stat.exists
   tags: bsd_named_conf
 
