@@ -33,6 +33,14 @@
   command: "touch {{ bsd_named_conf_log_file }}"
   args:
     creates: "{{ bsd_named_conf_log_file }}"
+    warn: False
+  when: bsd_named_conf_log
+  tags: bsd_dns_create_log
+
+- name: "dirs: Stats log file {{ bsd_named_conf_log_file }}"
+  stat:
+    path: "{{ bsd_named_conf_log_file }}"
+  register: result
   when: bsd_named_conf_log
   tags: bsd_dns_create_log
 
@@ -42,7 +50,9 @@
     owner: "{{ bsd_named_conf_log_file_owner }}"
     group: "{{ bsd_named_conf_log_file_group }}"
     mode: "{{ bsd_named_conf_log_file_mode }}"
-  when: bsd_named_conf_log
+  when:
+    - bsd_named_conf_log
+    - result.stat.exists
   tags: bsd_dns_create_log
 
 # EOF
