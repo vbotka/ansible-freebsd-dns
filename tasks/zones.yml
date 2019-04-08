@@ -6,104 +6,44 @@
   register: conf_file
 
 - name: "zones: Fail whem {{ bsd_named_conf_file }} is missing"
-  fail: msg="[ERROR] {{ bsd_named_conf_file }} is missing. End of play."
   when: not conf_file.stat.exists
+  fail:
+    msg: "[ERROR] {{ bsd_named_conf_file }} is missing. End of play."
 
 - name: "zones: Set signed zone files for DNSSEC"
+  when: bsd_named_conf_dnssec_enable == "yes"
   set_fact:
     bsd_named_zone_signed: ".signed"
-  when: bsd_named_conf_dnssec_enable == "yes"
 
 - name: "zones: Configure master zones in {{ bsd_named_conf_file }}"
-  blockinfile:
-    dest: "{{ bsd_named_conf_file }}"
-    marker: "// *** {mark} ANSIBLE MANAGED BLOCK master {{ item.zone }} ***"
-    insertafter: "EOF"
-    owner: "{{ bsd_named_conf_owner }}"
-    group: "{{ bsd_named_conf_group }}"
-    mode: "{{ bsd_named_conf_mode }}"
-    block: "{{ lookup('template', 'block-named-master-zone.j2') }}"
-    validate: "named-checkconf %s"
-    backup: "{{ bsd_named_backup_conf }}"
-  loop: "{{ bsd_named_conf_zone }}"
   when: item.type == "master"
-  notify: restart named
+  include_tasks: fn/conf_master_zone.yml
+  loop: "{{ bsd_named_conf_zone }}"
 
 - name: "zones: Configure slave zones in {{ bsd_named_conf_file }}"
-  blockinfile:
-    dest: "{{ bsd_named_conf_file }}"
-    marker: "// *** {mark} ANSIBLE MANAGED BLOCK slave {{ item.zone }} ***"
-    insertafter: "EOF"
-    owner: "{{ bsd_named_conf_owner }}"
-    group: "{{ bsd_named_conf_group }}"
-    mode: "{{ bsd_named_conf_mode }}"
-    block: "{{ lookup('template', 'block-named-slave-zone.j2') }}"
-    validate: "named-checkconf %s"
-    backup: "{{ bsd_named_backup_conf }}"
-  loop: "{{ bsd_named_conf_zone }}"
   when: item.type == "slave"
-  notify: restart named
+  include_tasks: fn/conf_slave_zone.yml
+  loop: "{{ bsd_named_conf_zone }}"
 
 - name: "zones: Configure master reverse zones in {{ bsd_named_conf_file }}"
-  blockinfile:
-    dest: "{{ bsd_named_conf_file }}"
-    marker: "// *** {mark} ANSIBLE MANAGED BLOCK master {{ item.zone_in }} ***"
-    insertafter: "EOF"
-    owner: "{{ bsd_named_conf_owner }}"
-    group: "{{ bsd_named_conf_group }}"
-    mode: "{{ bsd_named_conf_mode }}"
-    block: "{{ lookup('template', 'block-named-master-zone-reverse.j2') }}"
-    validate: "named-checkconf %s"
-    backup: "{{ bsd_named_backup_conf }}"
+  when: item.type == "master" and item.reverse == "yes"
+  include_tasks: fn/conf_master_zone_reverse.yml
   loop: "{{ bsd_named_conf_zone }}"
-  when:
-    - item.type == "master"
-    - item.reverse == "yes"
-  notify: restart named
 
 - name: "zones: Configure slave reverse zones in {{ bsd_named_conf_file }}"
-  blockinfile:
-    dest: "{{ bsd_named_conf_file }}"
-    marker: "// *** {mark} ANSIBLE MANAGED BLOCK slave {{ item.zone_in }} ***"
-    insertafter: "EOF"
-    owner: "{{ bsd_named_conf_owner }}"
-    group: "{{ bsd_named_conf_group }}"
-    mode: "{{ bsd_named_conf_mode }}"
-    block: "{{ lookup('template', 'block-named-slave-zone-reverse.j2') }}"
-    validate: "named-checkconf %s"
-    backup: "{{ bsd_named_backup_conf }}"
+  when: item.type == "slave" and item.reverse == "yes"
+  include_tasks: fn/conf_slave_zone_reverse.yml
   loop: "{{ bsd_named_conf_zone }}"
-  when:
-    - item.type == "slave"
-    - item.reverse == "yes"
-  notify: restart named
 
 - name: "zones: Create zone files"
-  template:
-    src: "zone.j2"
-    dest: "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone }}"
-    owner: "{{ bsd_named_conf_owner }}"
-    group: "{{ bsd_named_conf_group }}"
-    mode: "{{ bsd_named_conf_mode }}"
-    backup: "{{ bsd_named_backup_conf }}"
-  register: bsd_named_zones_created
-  loop: "{{ bsd_named_conf_zone }}"
   when: item.type == "master"
-  notify: restart named
+  include_tasks: fn/create_zone_file.yml
+  loop: "{{ bsd_named_conf_zone }}"
 
 - name: "zones: Create reverse zone files"
-  template:
-    src: "zone-in.j2"
-    dest: "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone_in }}.IN-ADDR.ARPA"
-    owner: "{{ bsd_named_conf_owner }}"
-    group: "{{ bsd_named_conf_group }}"
-    mode: "{{ bsd_named_conf_mode }}"
-    backup: "{{ bsd_named_backup_conf }}"
+  when: item.type == "master" and item.reverse == "yes"
+  include_tasks: fn/create_zone_reverse_file.yml
   loop: "{{ bsd_named_conf_zone }}"
-  when:
-    - item.type == "master"
-    - item.reverse == "yes"
-  notify: restart named
 
 # EOF
 ...

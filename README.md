@@ -203,6 +203,8 @@ References
 - [Invalid TLD error when changing nameservers in godaddy](https://www.howtoforge.com/community/threads/invalid-tld-error-when-changing-nameservers-in-godaddy.62932/)
 - [www.bind9.net](http://www.bind9.net/)
 - [www.dnssec.net](http://www.dnssec.net/)
+- [FreeBSD man named-checkconf(8)](https://www.freebsd.org/cgi/man.cgi?query=named-checkconf&sektion=8)
+- [FreeBSD man named-checkzone(8)](https://www.freebsd.org/cgi/man.cgi?query=named-checkzone&sektion=8)
 
 
 License

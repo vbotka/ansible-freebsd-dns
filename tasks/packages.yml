@@ -1,15 +1,16 @@
 ---
 
 - name: "package: Install DNS packages."
+  when: freebsd_install_method == "packages"
   pkgng:
     name: "{{ bsd_dns_packages }}"
   register: result
   retries: "{{ freebsd_install_retries }}"
   until: result is succeeded
   delay: "{{ freebsd_install_delay }}"
-  when: freebsd_install_method == "packages"
 
 - name: "packages: Install DNS ports."
+  when: freebsd_install_method == "ports"
   portinstall:
     name: "{{ item }}"
     use_packages: "{{ freebsd_use_packages }}"
@@ -18,7 +19,6 @@
   retries: "{{ freebsd_install_retries }}"
   until: result is succeeded
   delay: "{{ freebsd_install_delay }}"
-  when: freebsd_install_method == "ports"
 
 # EOF
 ...

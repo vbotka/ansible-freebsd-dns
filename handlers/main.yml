@@ -1,5 +1,5 @@
 ---
-# handlers vbotka.freebsd-dns
+# handlers vbotka.freebsd_dns
 
 - name: "enable and start named"
   service:
@@ -27,13 +27,13 @@
   service:
     name: "{{ bsd_named_service }}"
     state: restarted
-  when: bsd_named_enable
+  when: bsd_named_enable|bool
 
 - name: "reload named"
   service:
     name: "{{ bsd_named_service }}"
     state: reloaded
-  when: bsd_named_enable
+  when: bsd_named_enable|bool
 
 # TODO: ERROR! 'dict object' has no attribute 'zone'
 #- name: sign zones

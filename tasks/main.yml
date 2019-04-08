@@ -1,5 +1,5 @@
 ---
-# tasks vbotka.freebsd-dns
+# tasks vbotka.freebsd_dns
 
 - import_tasks: debug.yml
   when: bsd_dns_debug

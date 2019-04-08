@@ -1,0 +1,20 @@
+---
+- name: "zones:conf_slave_zone: Configure slave zones {{ item.zone }}"
+  block:
+    - name: "zones:conf_slave_zone: Configure slave zones {{ item.zone }}"
+      blockinfile:
+        dest: "{{ bsd_named_conf_file }}"
+        marker: "// *** {mark} ANSIBLE MANAGED BLOCK slave {{ item.zone }} ***"
+        insertafter: "EOF"
+        owner: "{{ bsd_named_conf_owner }}"
+        group: "{{ bsd_named_conf_group }}"
+        mode: "{{ bsd_named_conf_mode }}"
+        block: "{{ lookup('template', 'block-named-slave-zone.j2') }}"
+        validate: "{{ bsd_named_conf_validate }}"
+        backup: "{{ bsd_named_backup_conf }}"
+      notify: reload named
+  rescue:
+    - name: "zones:conf_slave_zone: Validation failed"
+      fail:
+        msg: "Validation error: {{ ansible_failed_result }}"
+...
