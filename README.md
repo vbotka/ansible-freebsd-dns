@@ -5,6 +5,7 @@ freebsd_dns
 
 [Ansible role.](https://galaxy.ansible.com/vbotka/freebsd_dns/) FreeBSD. Configure DNS.
 
+Please feel free to [share your feedback and report issues](https://github.com/vbotka/ansible-freebsd-dns/issues).
 
 Requirements
 ------------
