@@ -5,13 +5,13 @@
   service:
     name: "{{ bsd_named_service }}"
     state: started
-    enabled: yes
+    enabled: true
 
 - name: "disable and stop named"
   service:
     name: "{{ bsd_named_service }}"
     state: stopped
-    enabled: no
+    enabled: false
 
 - name: "start named"
   service:
@@ -36,7 +36,7 @@
   when: bsd_named_enable|bool
 
 # TODO: ERROR! 'dict object' has no attribute 'zone'
-#- name: sign zones
+# - name: sign zones
 #  command: >
 #    dnssec-signzone -o {{ item.zone }} -k K{{ item.zone }}.KSK
 #    /usr/local/etc/namedb/master/{{ item.zone }} K{{ item.zone }}.ZSK.key

@@ -2,10 +2,11 @@
 # tasks vbotka.freebsd_dns
 
 - import_tasks: debug.yml
-  when: bsd_dns_debug
+  when: bsd_dns_debug|bool
   tags: [bsd_dns_debug, always]
 
 - import_tasks: packages.yml
+  when: bsd_dns_install|bool
   tags: bsd_dns_packages
 
 - import_tasks: dirs.yml

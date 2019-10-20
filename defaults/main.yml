@@ -4,14 +4,16 @@
 bsd_named_enable: false
 bsd_dns_debug: false
 bsd_named_conf_recreate: false
-bsd_named_backup_conf: no
+bsd_named_backup_conf: false
 
 freebsd_install_method: "packages"
-#freebsd_install_method: "ports"
+# freebsd_install_method: "ports"
 freebsd_use_packages: "yes"
 freebsd_install_retries: 10
 freebsd_install_delay: 5
 
+# dns
+bsd_dns_install: true
 bsd_bind_version: "911"
 bsd_dns_packages:
   - "dns/bind{{ bsd_bind_version }}"
@@ -32,11 +34,11 @@ bsd_named_rcconf:
 
 # validate templates
 bsd_named_conf_validate: "named-checkconf %s"
-#bsd_named_zone_validate: "named-checkzone %s"
+# bsd_named_zone_validate: "named-checkzone %s"
 
 # named
-bsd_named_conf_owner: root
-bsd_named_conf_group: wheel
+bsd_named_conf_owner: "root"
+bsd_named_conf_group: "wheel"
 bsd_named_conf_mode: "0644"
 bsd_named_conf_path: "/usr/local/etc/namedb"
 bsd_named_conf_file: "{{ bsd_named_conf_path }}/named.conf"
@@ -68,8 +70,8 @@ bsd_named_zone_signed: ""
 # loging
 bsd_named_conf_log: true
 bsd_named_conf_log_file: "/var/log/named.log"
-bsd_named_conf_log_file_owner: root
-bsd_named_conf_log_file_group: bind
+bsd_named_conf_log_file_owner: "root"
+bsd_named_conf_log_file_group: "bind"
 bsd_named_conf_log_file_mode: "0660"
 bsd_named_conf_log_file_versions: "3"
 bsd_named_conf_log_file_size: "2m"

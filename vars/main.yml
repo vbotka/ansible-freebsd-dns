@@ -1,29 +1,29 @@
 ---
 # vars freebsd-dns
 
-#bsd_named_enable: true
-#bsd_dns_debug: true
-#bsd_named_backup_conf: yes
+# bsd_named_enable: true
+# bsd_dns_debug: true
+# bsd_named_backup_conf: yes
 
-#bsd_named_conf_dnssec_enable: "yes"
-#bsd_named_conf_dnssec_validation: "yes"
+# bsd_named_conf_dnssec_enable: "yes"
+# bsd_named_conf_dnssec_validation: "yes"
 
-#bsd_named_conf_log: yes
+# bsd_named_conf_log: yes
 # severity: (critical | error | warning | notice | info | debug [ level ] | dynamic )
-#bsd_named_conf_log_severity: "info"
+# bsd_named_conf_log_severity: "info"
 
-#bsd_named_serial: "2018110801"
+# bsd_named_serial: "2018110801"
 
-#bsd_named_conf_listen_on:
+# bsd_named_conf_listen_on:
 #  - 127.0.0.1
 #  - 192.168.1.11
 
-#bsd_named_conf_forwarders:
+# bsd_named_conf_forwarders:
 #  - 8.8.8.8
 #  - 8.8.4.4
 
 # Example of master zone
-#bsd_named_conf_zone:
+# bsd_named_conf_zone:
 #  - zone: "example.com"
 #    type: "master"
 #    reverse: "yes"
@@ -56,7 +56,7 @@
 #   dmarc_2: "adkim=r;aspf=r;fo=1;ri=86400;rua=mailto:admin@example.com"
 
 # Example of slave zone
-#bsd_named_conf_zone:
+# bsd_named_conf_zone:
 #  - zone: "example.com"
 #    type: "slave"
 #    masters: "192.168.1.11;"

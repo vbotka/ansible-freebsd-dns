@@ -3,58 +3,59 @@
 - name: Debug
   vars:
     msg: |
-         ansible_architecture [ {{ ansible_architecture }} ]
-         ansible_os_family [ {{ ansible_os_family }} ]
-         ansible_distribution [ {{ ansible_distribution }} ]
-         ansible_distribution_major_version [ {{ ansible_distribution_major_version }} ]
-         ansible_distribution_version [ {{ ansible_distribution_version }} ]
-         ansible_distribution_release [ {{ ansible_distribution_release }} ]
+         ansible_architecture [{{ ansible_architecture }}]
+         ansible_os_family [{{ ansible_os_family }}]
+         ansible_distribution [{{ ansible_distribution }}]
+         ansible_distribution_major_version [{{ ansible_distribution_major_version }}]
+         ansible_distribution_version [{{ ansible_distribution_version }}]
+         ansible_distribution_release [{{ ansible_distribution_release }}]
 
-         freebsd_install_method [ {{ freebsd_install_method }} ]
-         freebsd_use_packages [ {{ freebsd_use_packages }} ]
+         freebsd_install_method [{{ freebsd_install_method }}]
+         freebsd_use_packages [{{ freebsd_use_packages }}]
 
+         bsd_dns_install [{{ bsd_dns_install }}]
          bsd_dns_packages
-         {{ bsd_dns_packages | to_nice_yaml }}
-         bsd_named_enable [ {{ bsd_named_enable }} ]
-         bsd_named_conf_recreate [ {{ bsd_named_conf_recreate }} ]
-         bsd_named_service [ {{ bsd_named_service }} ]
-         bsd_named_program [ {{ bsd_named_program }} ]
-         bsd_named_pidfile [ {{ bsd_named_pidfile }} ]
-         bsd_named_chrootdir [ {{ bsd_named_chrootdir }} ]
-         bsd_named_chroot_autoupdate [ {{ bsd_named_chroot_autoupdate }} ]
-         bsd_named_symlink_enable [ {{ bsd_named_symlink_enable }} ]
-         bsd_named_conf_path [ {{ bsd_named_conf_path }} ]
-         bsd_named_conf_file [ {{ bsd_named_conf_file }} ]
-         bsd_named_conf_working [ {{ bsd_named_conf_working }} ]
-         bsd_named_conf_keys [ {{ bsd_named_conf_keys }} ]
-         bsd_named_conf_managed_keys [ {{ bsd_named_conf_managed_keys }} ]
-         bsd_named_conf_dnssec_enable [ {{ bsd_named_conf_dnssec_enable }} ]
-         bsd_named_conf_dnssec_validation [ {{ bsd_named_conf_dnssec_validation }} ]
-         bsd_named_conf_dnssec_lookaside [ {{ bsd_named_conf_dnssec_lookaside }} ]
+         {{ bsd_dns_packages|to_nice_yaml }}
+         bsd_named_enable [{{ bsd_named_enable }}]
+         bsd_named_conf_recreate [{{ bsd_named_conf_recreate }}]
+         bsd_named_service [{{ bsd_named_service }}]
+         bsd_named_program [{{ bsd_named_program }}]
+         bsd_named_pidfile [{{ bsd_named_pidfile }}]
+         bsd_named_chrootdir [{{ bsd_named_chrootdir }}]
+         bsd_named_chroot_autoupdate [{{ bsd_named_chroot_autoupdate }}]
+         bsd_named_symlink_enable [{{ bsd_named_symlink_enable }}]
+         bsd_named_conf_path [{{ bsd_named_conf_path }}]
+         bsd_named_conf_file [{{ bsd_named_conf_file }}]
+         bsd_named_conf_working [{{ bsd_named_conf_working }}]
+         bsd_named_conf_keys [{{ bsd_named_conf_keys }}]
+         bsd_named_conf_managed_keys [{{ bsd_named_conf_managed_keys }}]
+         bsd_named_conf_dnssec_enable [{{ bsd_named_conf_dnssec_enable }}]
+         bsd_named_conf_dnssec_validation [{{ bsd_named_conf_dnssec_validation }}]
+         bsd_named_conf_dnssec_lookaside [{{ bsd_named_conf_dnssec_lookaside }}]
 
          bsd_named_conf_options
-         {{ bsd_named_conf_options | to_yaml }}
+         {{ bsd_named_conf_options|to_yaml }}
          bsd_named_conf_listen_on
-         {{ bsd_named_conf_listen_on | to_nice_yaml }}
+         {{ bsd_named_conf_listen_on|to_nice_yaml }}
          bsd_named_conf_listen_on_v6
-         {{ bsd_named_conf_listen_on_v6 | to_nice_yaml }}
+         {{ bsd_named_conf_listen_on_v6|to_nice_yaml }}
          bsd_named_conf_forwarders
-         {{ bsd_named_conf_forwarders | to_nice_yaml }}
+         {{ bsd_named_conf_forwarders|to_nice_yaml }}
          bsd_named_conf_allow_transfer_default
-         {{ bsd_named_conf_allow_transfer_default | to_nice_yaml }}
+         {{ bsd_named_conf_allow_transfer_default|to_nice_yaml }}
          bsd_named_rcconf
-         {{ bsd_named_rcconf | to_yaml }}
+         {{ bsd_named_rcconf|to_yaml }}
 
-         bsd_named_conf_log [ {{ bsd_named_conf_log }} ]
-         bsd_named_conf_log_file [ {{ bsd_named_conf_log_file }} ]
-         bsd_named_conf_log_file_versions  [ {{ bsd_named_conf_log_file_versions }} ]
-         bsd_named_conf_log_file_size [ {{ bsd_named_conf_log_file_size }} ]
-         bsd_named_conf_log_severity [ {{ bsd_named_conf_log_severity }} ]
-         bsd_named_conf_log_print_severity [ {{ bsd_named_conf_log_print_severity }} ]
-         bsd_named_conf_log_print_time [ {{ bsd_named_conf_log_print_time }} ]
-         bsd_named_conf_log_print_category [ {{ bsd_named_conf_log_print_category }} ]
+         bsd_named_conf_log [{{ bsd_named_conf_log }}]
+         bsd_named_conf_log_file [{{ bsd_named_conf_log_file }}]
+         bsd_named_conf_log_file_versions  [{{ bsd_named_conf_log_file_versions }}]
+         bsd_named_conf_log_file_size [{{ bsd_named_conf_log_file_size }}]
+         bsd_named_conf_log_severity [{{ bsd_named_conf_log_severity }}]
+         bsd_named_conf_log_print_severity [{{ bsd_named_conf_log_print_severity }}]
+         bsd_named_conf_log_print_time [{{ bsd_named_conf_log_print_time }}]
+         bsd_named_conf_log_print_category [{{ bsd_named_conf_log_print_category }}]
          bsd_named_conf_zone
-         {{ bsd_named_conf_zone | to_yaml }}
+         {{ bsd_named_conf_zone|to_yaml }}
   debug:
     msg: "{{ msg.split('\n') }}"
 

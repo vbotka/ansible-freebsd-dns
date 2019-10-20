@@ -4,7 +4,7 @@
   when: bsd_named_conf_recreate|bool
   file:
     path: "{{ bsd_named_conf_file }}"
-    state: absent
+    state: "absent"
   tags: bsd_named_conf
 
 - name: "named: Stat {{ bsd_named_conf_file }}"
@@ -25,14 +25,14 @@
       lineinfile:
         path: "{{ bsd_named_conf_file }}"
         insertbefore: "^options {"
-        firstmatch: yes
+        firstmatch: true
         line: "// *** BEGIN ANSIBLE MANAGED BLOCK options ***"
     - name: "named: Create END BLOCK options marker in {{ bsd_named_conf_file }}"
       when: not ansible_check_mode
       lineinfile:
         path: "{{ bsd_named_conf_file }}"
         insertafter: "^};"
-        firstmatch: yes
+        firstmatch: true
         line: "// *** END ANSIBLE MANAGED BLOCK options ***"
   tags: bsd_named_conf
 

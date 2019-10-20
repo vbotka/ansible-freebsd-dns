@@ -5,8 +5,8 @@
   pkgng:
     name: "{{ bsd_dns_packages }}"
   register: result
-  retries: "{{ freebsd_install_retries }}"
   until: result is succeeded
+  retries: "{{ freebsd_install_retries }}"
   delay: "{{ freebsd_install_delay }}"
 
 - name: "packages: Install DNS ports."
@@ -16,8 +16,8 @@
     use_packages: "{{ freebsd_use_packages }}"
   loop: "{{ bsd_dns_packages }}"
   register: result
-  retries: "{{ freebsd_install_retries }}"
   until: result is succeeded
+  retries: "{{ freebsd_install_retries }}"
   delay: "{{ freebsd_install_delay }}"
 
 # EOF
