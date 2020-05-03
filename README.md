@@ -1,5 +1,4 @@
-freebsd_dns
-===========
+# freebsd_dns
 
 [![Build Status](https://travis-ci.org/vbotka/ansible-freebsd-dns.svg?branch=master)](https://travis-ci.org/vbotka/ansible-freebsd-dns)
 
@@ -7,23 +6,22 @@ freebsd_dns
 
 Please feel free to [share your feedback and report issues](https://github.com/vbotka/ansible-freebsd-dns/issues).
 
-Requirements
-------------
 
-No requiremenst.
+## Requirements
+
+None.
 
 Recommended: [YAZVS (Yet Another Zone Validation Script)](https://galaxy.ansible.com/vbotka/yazvs/)
 
 
-Variables
----------
+## Role Variables
 
-TBD. Review the defaults and examples in vars.
+Review the defaults and examples in vars.
 
 By default *named* and *dnssec* are disabled.
 
 ```
-bsd_named_enable: False
+bsd_named_enable: false
 bsd_named_conf_dnssec_enable: 'no'
 bsd_named_conf_dnssec_validation: 'no'
 ```
@@ -32,54 +30,53 @@ bsd_named_conf_dnssec_validation: 'no'
 - *dnssec-keygen* binary is needed to generate the keys.
 
 
-Workflow
---------
+## Workflow
 
-1) Change shell to /bin/sh.
-
-```
-# ansible host -e 'ansible_shell_type=csh ansible_shell_executable=/bin/csh' -a 'sudo pw usermod admin -s /bin/sh'
-```
-
-2) Install role.
+1) Change shell to /bin/sh
 
 ```
-# ansible-galaxy install vbotka.freebsd_dns
+shell>  ansible host -e 'ansible_shell_type=csh ansible_shell_executable=/bin/csh' -a 'sudo pw usermod admin -s /bin/sh'
 ```
 
-3) Fit variables.
+2) Install role
 
 ```
-# editor vbotka.freebsd_dns/vars/main.yml
+shell> ansible-galaxy install vbotka.freebsd_dns
 ```
 
-4) Create and run the playbook.
+3) Change variables
 
 ```
-# cat freebsd-dns.yml
+shell> editor vbotka.freebsd_dns/vars/main.yml
+```
+
+4) Create and run the playbook
+
+```
+shell> cat freebsd-dns.yml
 - hosts: ns1.example.com
   roles:
     - vbotka.freebsd_dns
     
-# ansible-playbook freebsd-dns.yml
+shell> ansible-playbook freebsd-dns.yml
 ```
 
-5) If DNSSEC is enabled create keys as described in [Authoritative DNS Server Configuration](http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html#dns-dnssec-auth).
+5) If DNSSEC is enabled create keys as described in [Authoritative DNS Server Configuration](http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html#dns-dnssec-auth)
 
 Example:
 
 ```
-> cd /usr/local/etc/namedb/keys
-> dnssec-keygen -f KSK -a RSASHA256 -b 2048 -n ZONE example.com
-> ln -s Kexample.com.+008+20191.key Kexample.com.KSK.key
-> ln -s Kexample.com.+008+20191.private Kexample.com.KSK.private
-> dnssec-keygen -a RSASHA256 -b 2048 -n ZONE example.com
-> ln -s Kexample.com.+008+35529.key Kexample.com.ZSK.key
-> ln -s Kexample.com.+008+35529.private Kexample.com.ZSK.private
-> chown bind K*
+shell> cd /usr/local/etc/namedb/keys
+shell> dnssec-keygen -f KSK -a RSASHA256 -b 2048 -n ZONE example.com
+shell> ln -s Kexample.com.+008+20191.key Kexample.com.KSK.key
+shell> ln -s Kexample.com.+008+20191.private Kexample.com.KSK.private
+shell> dnssec-keygen -a RSASHA256 -b 2048 -n ZONE example.com
+shell> ln -s Kexample.com.+008+35529.key Kexample.com.ZSK.key
+shell> ln -s Kexample.com.+008+35529.private Kexample.com.ZSK.private
+shell> chown bind K*
 ```  
 
-6) Configure the zones.
+6) Configure the zones
 
 Example of master zone
 
@@ -126,7 +123,7 @@ sd_named_conf_zone:
 7) Run the playbook
 
 ```
-# ansible-playbook freebsd-dns.yml
+shell> ansible-playbook freebsd-dns.yml
 ```
 
 8) Sign the zones, reload the server and test the server as described in [Authoritative DNS Server Configuration](http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html#dns-dnssec-auth). The zones can be signed when the DNSSEC keys are included in the zone files.
@@ -134,24 +131,24 @@ sd_named_conf_zone:
 Sign the zone. Change to the *keys* directory. Otherwise full path to the keys is needed.
 
 ```
-> cd /usr/local/etc/namedb/keys
-> dnssec-signzone -o example.com -k Kexample.com.KSK /usr/local/etc/namedb/master/example.com  Kexample.com.ZSK.key
-> /usr/local/etc/rc.d/named reload
+shell> cd /usr/local/etc/namedb/keys
+shell> dnssec-signzone -o example.com -k Kexample.com.KSK /usr/local/etc/namedb/master/example.com  Kexample.com.ZSK.key
+shell> /usr/local/etc/rc.d/named reload
 ```
 
 Test the server.
 
 ```
-> dig @resolver +dnssec se ds 
+shell> dig @resolver +dnssec se ds 
 ```
 
-9) Update registrar DS records.
+9) Update registrar DS records
 
 - [Add a DS record](https://uk.godaddy.com/help/add-a-ds-record-23865)
-- ["Method used for encrypting the public key"](https://www.edge-cloud.net/2014/06/16/practical-guide-dns-based-authentication-named-entities-dane/) can be found wit the command
+- ["Method used for encrypting the public key"](https://www.edge-cloud.net/2014/06/16/practical-guide-dns-based-authentication-named-entities-dane/) can be found using the command
 
 ```
-dig type48 example.com
+shell> dig type48 example.com
 ```
 
 - [Domain Name System Security (DNSSEC) Algorithm Numbers](http://www.iana.org/assignments/dns-sec-alg-numbers/dns-sec-alg-numbers.xhtml)
@@ -167,24 +164,21 @@ dig type48 example.com
 - [DNS VIZ](http://dnsviz.net/)
 
 
-NOTES
------
+## NOTES
 
 - [In-line Signing](https://deepthought.isc.org/article/AA-00711/0/In-line-Signing-With-NSEC3-in-BIND-9.9-A-Walk-through.html)
   works with the slave as expected, but not with the master.
-
 - Keys from master are copied to the slave manually.
 
 
-TODO
-----
+## TODO
+
 - automate creation of the keys
 - automate signing of the zones
 - automate testing of the server
 
 
-References
-----------
+## References
 
 - [BIND 9.11.3 Release Notes](https://kb.isc.org/article/AA-01597/0/BIND-9.11.3-Release-Notes.html)
 - [USENIX: DNSSEC in 6 minutes](http://static.usenix.org/event/lisa08/dnssec_bof.pdf)
@@ -208,13 +202,11 @@ References
 - [FreeBSD man named-checkzone(8)](https://www.freebsd.org/cgi/man.cgi?query=named-checkzone&sektion=8)
 
 
-License
--------
+## License
 
 [![license](https://img.shields.io/badge/license-BSD-red.svg)](https://www.freebsd.org/doc/en/articles/bsdl-gpl/article.html)
 
 
-Author Information
-------------------
+## Author Information
 
 [Vladimir Botka](https://botka.link)
