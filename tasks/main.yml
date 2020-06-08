@@ -1,5 +1,8 @@
 ---
-# tasks vbotka.freebsd_dns
+# tasks freebsd_dns
+
+- import_tasks: sanity.yml
+  tags: [bsd_dns_sanity, always]
 
 - import_tasks: debug.yml
   when: bsd_dns_debug|bool

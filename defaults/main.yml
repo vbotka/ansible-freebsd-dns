@@ -1,19 +1,21 @@
 ---
 # defaults vbotka.freebsd_dns
 
-bsd_named_enable: false
+bsd_dns_install: true
+bsd_dns_sanity: true
+bsd_dns_sanity_fatal: true
 bsd_dns_debug: false
+bsd_named_enable: false
 bsd_named_conf_recreate: false
 bsd_named_backup_conf: false
 
-freebsd_install_method: "packages"
-# freebsd_install_method: "ports"
-freebsd_use_packages: "yes"
+freebsd_install_method: packages
+# freebsd_install_method: ports
+freebsd_use_packages: true
 freebsd_install_retries: 10
 freebsd_install_delay: 5
 
-# dns
-bsd_dns_install: true
+# packages
 bsd_bind_version: "911"
 bsd_dns_packages:
   - "dns/bind{{ bsd_bind_version }}"

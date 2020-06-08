@@ -9,15 +9,20 @@
          ansible_distribution_major_version [{{ ansible_distribution_major_version }}]
          ansible_distribution_version [{{ ansible_distribution_version }}]
          ansible_distribution_release [{{ ansible_distribution_release }}]
+         ansible_python_version [{{ ansible_python_version }}]
 
          freebsd_install_method [{{ freebsd_install_method }}]
          freebsd_use_packages [{{ freebsd_use_packages }}]
+         freebsd_install_retries [{{ freebsd_install_retries }}]
+         freebsd_install_delay [{{ freebsd_install_delay }}]
 
          bsd_dns_install [{{ bsd_dns_install }}]
-         bsd_dns_packages
-         {{ bsd_dns_packages|to_nice_yaml }}
+         bsd_dns_sanity [{{ bsd_dns_sanity }}]
+         bsd_dns_sanity_fatal [{{ bsd_dns_sanity_fatal }}]
+
          bsd_named_enable [{{ bsd_named_enable }}]
          bsd_named_conf_recreate [{{ bsd_named_conf_recreate }}]
+         bsd_named_backup_conf [{{ bsd_named_backup_conf }}]
          bsd_named_service [{{ bsd_named_service }}]
          bsd_named_program [{{ bsd_named_program }}]
          bsd_named_pidfile [{{ bsd_named_pidfile }}]
@@ -56,6 +61,10 @@
          bsd_named_conf_log_print_category [{{ bsd_named_conf_log_print_category }}]
          bsd_named_conf_zone
          {{ bsd_named_conf_zone|to_yaml }}
+
+         bsd_bind_version [{{ bsd_bind_version }}]
+         bsd_dns_packages
+         {{ bsd_dns_packages|to_nice_yaml }}
   debug:
     msg: "{{ msg.split('\n') }}"
 
