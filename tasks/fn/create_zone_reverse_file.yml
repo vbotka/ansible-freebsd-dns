@@ -1,9 +1,10 @@
 ---
+
 - name: "zones:create_zone_reverse_file: Create zone file {{ item.zone_in }}"
   block:
     - name: "zones:create_zone_reverse_file: Create zone file {{ item.zone_in }}"
-      template:
-        src: "zone-in.j2"
+      ansible.builtin.template:
+        src: zone-in.j2
         dest: "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone_in }}.IN-ADDR.ARPA"
         owner: "{{ bsd_named_conf_owner }}"
         group: "{{ bsd_named_conf_group }}"
@@ -13,6 +14,8 @@
       notify: reload named
   rescue:
     - name: "zones:create_zone_file: Validation failed"
-      fail:
+      ansible.builtin.fail:
         msg: "Validation error: {{ ansible_failed_result }}"
+
+# EOF
 ...

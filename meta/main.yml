@@ -19,4 +19,6 @@ galaxy_info:
     - bind
     - named
 dependencies: []
+collections:
+  - community.general
 ...

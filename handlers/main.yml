@@ -2,35 +2,35 @@
 # handlers vbotka.freebsd_dns
 
 - name: "enable and start named"
-  service:
+  ansible.builtin.service:
     name: "{{ bsd_named_service }}"
     state: started
     enabled: true
 
 - name: "disable and stop named"
-  service:
+  ansible.builtin.service:
     name: "{{ bsd_named_service }}"
     state: stopped
     enabled: false
 
 - name: "start named"
-  service:
+  ansible.builtin.service:
     name: "{{ bsd_named_service }}"
     state: started
 
 - name: "stop named"
-  service:
+  ansible.builtin.service:
     name: "{{ bsd_named_service }}"
     state: stopped
 
 - name: "restart named"
-  service:
+  ansible.builtin.service:
     name: "{{ bsd_named_service }}"
     state: restarted
   when: bsd_named_enable|bool
 
 - name: "reload named"
-  service:
+  ansible.builtin.service:
     name: "{{ bsd_named_service }}"
     state: reloaded
   when: bsd_named_enable|bool
