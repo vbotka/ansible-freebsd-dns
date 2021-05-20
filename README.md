@@ -11,9 +11,13 @@ Feel free to [share your feedback and report issues](https://github.com/vbotka/a
 
 ## Requirements
 
-None.
+### Collections
 
-Recommended: [YAZVS (Yet Another Zone Validation Script)](https://galaxy.ansible.com/vbotka/yazvs/)
+* community.general
+
+### Recommended
+
+* [YAZVS (Yet Another Zone Validation Script)](https://galaxy.ansible.com/vbotka/yazvs/)
 
 
 ## Role Variables

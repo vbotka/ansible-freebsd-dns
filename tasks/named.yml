@@ -1,55 +1,46 @@
 ---
 
 - name: "named: Remove {{ bsd_named_conf_file }}"
-  when: bsd_named_conf_recreate|bool
-  file:
+  ansible.builtin.file:
     path: "{{ bsd_named_conf_file }}"
-    state: "absent"
+    state: absent
+  when: bsd_named_conf_recreate|bool
   tags: bsd_named_conf
 
 - name: "named: Stat {{ bsd_named_conf_file }}"
-  stat:
+  ansible.builtin.stat:
     path: "{{ bsd_named_conf_file }}"
   register: conf_file
   tags: bsd_named_conf
 
 - name: "named: Create {{ bsd_named_conf_file }}"
+  ansible.builtin.copy:
+    remote_src: true
+    src: "{{ bsd_named_conf_file }}.sample"
+    dest: "{{ bsd_named_conf_file }}"
   when: not conf_file.stat.exists
-  block:
-    - name: "named: Create {{ bsd_named_conf_file }}"
-      command: "cp {{ bsd_named_conf_file }}.sample {{ bsd_named_conf_file }}"
-      args:
-        creates: "{{ bsd_named_conf_file }}"
-    - name: "named: Create BEGIN BLOCK options marker in {{ bsd_named_conf_file }}"
-      when: not ansible_check_mode
-      lineinfile:
-        path: "{{ bsd_named_conf_file }}"
-        insertbefore: "^options {"
-        firstmatch: true
-        line: "// *** BEGIN ANSIBLE MANAGED BLOCK options ***"
-    - name: "named: Create END BLOCK options marker in {{ bsd_named_conf_file }}"
-      when: not ansible_check_mode
-      lineinfile:
-        path: "{{ bsd_named_conf_file }}"
-        insertafter: "^};"
-        firstmatch: true
-        line: "// *** END ANSIBLE MANAGED BLOCK options ***"
   tags: bsd_named_conf
 
-- name: "named: Stat {{ bsd_named_conf_file }}"
-  stat:
+- name: "named: Create BEGIN BLOCK options marker in {{ bsd_named_conf_file }}"
+  ansible.builtin.lineinfile:
     path: "{{ bsd_named_conf_file }}"
-  register: conf_file
+    insertbefore: "^options {"
+    firstmatch: true
+    line: "// *** BEGIN ANSIBLE MANAGED BLOCK options ***"
+  when: not ansible_check_mode
   tags: bsd_named_conf
 
-- name: "named: Fail when {{ bsd_named_conf_file }} is missing"
-  when: not conf_file.stat.exists
-  fail:
-    msg: "[ERROR] {{ bsd_named_conf_file }} is missing. End of play."
+- name: "named: Create END BLOCK options marker in {{ bsd_named_conf_file }}"
+  ansible.builtin.lineinfile:
+    path: "{{ bsd_named_conf_file }}"
+    insertafter: "^};"
+    firstmatch: true
+    line: "// *** END ANSIBLE MANAGED BLOCK options ***"
+  when: not ansible_check_mode
   tags: bsd_named_conf
 
 - name: "named: Configure options in {{ bsd_named_conf_file }}"
-  blockinfile:
+  ansible.builtin.blockinfile:
     dest: "{{ bsd_named_conf_file }}"
     marker: "// *** {mark} ANSIBLE MANAGED BLOCK options ***"
     block: "{{ lookup('template', 'block-named-options.j2') }}"
@@ -59,15 +50,15 @@
   tags: bsd_named_conf_options
 
 - name: "named: Configure logging in {{ bsd_named_conf_file }}"
-  when: bsd_named_conf_log|bool
-  blockinfile:
+  ansible.builtin.blockinfile:
     dest: "{{ bsd_named_conf_file }}"
     marker: "// *** {mark} ANSIBLE MANAGED BLOCK logging ***"
-    insertafter: "EOF"
+    insertafter: EOF
     block: "{{ lookup('template', 'block-named-logging.j2') }}"
     validate: "named-checkconf %s"
     backup: "{{ bsd_named_backup_conf }}"
   notify: reload named
+  when: bsd_named_conf_log|bool
   tags: bsd_named_conf_logging
 
 # EOF

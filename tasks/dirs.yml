@@ -1,44 +1,44 @@
 ---
 
 - name: "dirs: Create directory for chrooted named {{ bsd_named_chrootdir }}"
-  when: bsd_named_chrootdir is defined
-  file:
-    state: "directory"
+  ansible.builtin.file:
+    state: directory
     path: "{{ bsd_named_chrootdir }}"
-    owner: "root"
-    group: "wheel"
+    owner: root
+    group: wheel
     mode: "0755"
+  when: bsd_named_chrootdir is defined
   tags: bsd_dns_create_named_chrootdir
 
 - name: "dirs: Create chrooted directory for keys {{ bsd_named_chrootdir }}/{{ bsd_named_conf_keys }}"
-  when: bsd_named_chrootdir is defined
-  file:
-    state: "directory"
+  ansible.builtin.file:
+    state: directory
     path: "{{ bsd_named_chrootdir }}/{{ bsd_named_conf_keys }}"
-    owner: "root"
-    group: "wheel"
+    owner: root
+    group: wheel
     mode: "0755"
+  when: bsd_named_chrootdir is defined
   tags: bsd_dns_create_keydir_chrooted
 
 - name: "dirs: Create directory for keys {{ bsd_named_conf_keys }}"
-  file:
-    state: "directory"
+  ansible.builtin.file:
+    state: directory
     path: "{{ bsd_named_conf_keys }}"
-    owner: "root"
-    group: "wheel"
+    owner: root
+    group: wheel
     mode: "0755"
   tags: bsd_dns_create_keydir
 
 - name: "dirs: Set atributes of {{ bsd_named_conf_log_file }}"
-  when: bsd_named_conf_log
-  file:
-    state: "touch"
+  ansible.builtin.file:
+    state: touch
     path: "{{ bsd_named_conf_log_file }}"
     owner: "{{ bsd_named_conf_log_file_owner }}"
     group: "{{ bsd_named_conf_log_file_group }}"
     mode: "{{ bsd_named_conf_log_file_mode }}"
-    access_time: "preserve"
-    modification_time: "preserve"
+    access_time: preserve
+    modification_time: preserve
+  when: bsd_named_conf_log|bool
   tags: bsd_dns_create_log
 
 # EOF

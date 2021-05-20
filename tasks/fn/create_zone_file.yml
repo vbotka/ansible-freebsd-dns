@@ -1,9 +1,10 @@
 ---
+
 - name: "zones:create_zone_file: Create zone file {{ item.zone }}"
   block:
     - name: "zones:create_zone_file: Create zone file {{ item.zone }}"
-      template:
-        src: "zone.j2"
+      ansible.builtin.template:
+        src: zone.j2
         dest: "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone }}"
         owner: "{{ bsd_named_conf_owner }}"
         group: "{{ bsd_named_conf_group }}"
@@ -14,6 +15,8 @@
       notify: reload named
   rescue:
     - name: "zones:create_zone_file: Validation failed"
-      fail:
+      ansible.builtin.fail:
         msg: "Validation error: {{ ansible_failed_result }}"
+
+# EOF
 ...
