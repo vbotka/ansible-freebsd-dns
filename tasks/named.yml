@@ -18,6 +18,7 @@
     remote_src: true
     src: "{{ bsd_named_conf_file }}.sample"
     dest: "{{ bsd_named_conf_file }}"
+    mode: preserve
   when: not conf_file.stat.exists
   tags: bsd_named_conf
 

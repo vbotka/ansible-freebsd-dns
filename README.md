@@ -22,9 +22,9 @@ Feel free to [share your feedback and report issues](https://github.com/vbotka/a
 
 ## Role Variables
 
-Review the defaults and examples in vars.
+See the defaults and examples in vars.
 
-By default *named* and *dnssec* are disabled.
+By default the service *named* and *dnssec* are disabled.
 
 ```
 bsd_named_enable: false
