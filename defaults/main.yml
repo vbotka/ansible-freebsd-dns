@@ -36,7 +36,9 @@ bsd_named_rcconf:
 
 # validate templates
 bsd_named_conf_validate: "named-checkconf %s"
-# bsd_named_zone_validate: "named-checkzone %s"
+bsd_named_zone_validate_params: ""
+# named-checkzone {{ bsd_named_zone_validate_params }} {{ item.zone }} %s
+
 
 # named
 bsd_named_conf_owner: root

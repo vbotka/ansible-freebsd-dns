@@ -61,6 +61,8 @@
          bsd_named_conf_log_print_category [{{ bsd_named_conf_log_print_category }}]
          bsd_named_conf_zone
          {{ bsd_named_conf_zone|to_yaml }}
+         bsd_named_conf_validate [{{ bsd_named_conf_validate }}]
+         bsd_named_zone_validate_params [{{ bsd_named_zone_validate_params }}]
 
          bsd_bind_version [{{ bsd_bind_version }}]
          bsd_dns_packages

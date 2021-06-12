@@ -9,7 +9,7 @@
         owner: "{{ bsd_named_conf_owner }}"
         group: "{{ bsd_named_conf_group }}"
         mode: "{{ bsd_named_conf_mode }}"
-        validate: "named-checkzone {{ item.zone_in }}.IN-ADDR.ARPA %s"
+        validate: "named-checkzone {{ bsd_named_zone_validate_params }} {{ item.zone_in }}.IN-ADDR.ARPA %s"
         backup: "{{ bsd_named_backup_conf }}"
       notify: reload named
   rescue:

@@ -16,37 +16,49 @@
   when: bsd_named_conf_dnssec_enable|lower == "yes"
 
 - name: "zones: Configure master zones in {{ bsd_named_conf_file }}"
-  include_tasks: fn/conf_master_zone.yml
+  ansible.builtin.include_tasks: fn/conf_master_zone.yml
   loop: "{{ bsd_named_conf_zone }}"
+  loop_control:
+    label: "{{ item.zone }}"
   when: item.type|lower == "master"
 
 - name: "zones: Configure slave zones in {{ bsd_named_conf_file }}"
-  include_tasks: fn/conf_slave_zone.yml
+  ansible.builtin.include_tasks: fn/conf_slave_zone.yml
   loop: "{{ bsd_named_conf_zone }}"
+  loop_control:
+    label: "{{ item.zone }}"
   when: item.type|lower == "slave"
 
 - name: "zones: Configure master reverse zones in {{ bsd_named_conf_file }}"
-  include_tasks: fn/conf_master_zone_reverse.yml
+  ansible.builtin.include_tasks: fn/conf_master_zone_reverse.yml
   loop: "{{ bsd_named_conf_zone }}"
+  loop_control:
+    label: "{{ item.zone }}"
   when:
     - item.type|lower == "master"
     - item.reverse|lower == "yes"
 
 - name: "zones: Configure slave reverse zones in {{ bsd_named_conf_file }}"
-  include_tasks: fn/conf_slave_zone_reverse.yml
+  ansible.builtin.include_tasks: fn/conf_slave_zone_reverse.yml
   loop: "{{ bsd_named_conf_zone }}"
+  loop_control:
+    label: "{{ item.zone }}"
   when:
     - item.type|lower == "slave"
     - item.reverse|lower == "yes"
 
 - name: "zones: Create zone files"
-  include_tasks: fn/create_zone_file.yml
+  ansible.builtin.include_tasks: fn/create_zone_file.yml
   loop: "{{ bsd_named_conf_zone }}"
+  loop_control:
+    label: "{{ item.zone }}"
   when: item.type|lower == "master"
 
 - name: "zones: Create reverse zone files"
-  include_tasks: fn/create_zone_reverse_file.yml
+  ansible.builtin.include_tasks: fn/create_zone_reverse_file.yml
   loop: "{{ bsd_named_conf_zone }}"
+  loop_control:
+    label: "{{ item.zone }}"
   when:
     - item.type|lower == "master"
     - item.reverse|lower == "yes"

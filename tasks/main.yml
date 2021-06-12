@@ -1,27 +1,34 @@
 ---
 # tasks freebsd_dns
 
-- import_tasks: sanity.yml
+- name: Import sanity.yml
+  ansible.builtin.import_tasks: sanity.yml
   tags: [bsd_dns_sanity, always]
 
-- import_tasks: debug.yml
+- name: Import debug.yml
+  ansible.builtin.import_tasks: debug.yml
   when: bsd_dns_debug|bool
   tags: [bsd_dns_debug, always]
 
-- import_tasks: packages.yml
+- name: Import packages.yml
+  ansible.builtin.import_tasks: packages.yml
   when: bsd_dns_install|bool
   tags: bsd_dns_packages
 
-- import_tasks: dirs.yml
+- name: Import dirs.yml
+  ansible.builtin.import_tasks: dirs.yml
   tags: bsd_dns_dirs
 
-- import_tasks: named.yml
+- name: Import named.yml
+  ansible.builtin.import_tasks: named.yml
   tags: bsd_dns_named
 
-- import_tasks: zones.yml
+- name: Import zones.yml
+  ansible.builtin.import_tasks: zones.yml
   tags: bsd_dns_zones
 
-- import_tasks: rcconf.yml
+- name: Import rcconf.yml
+  ansible.builtin.import_tasks: rcconf.yml
   tags: bsd_dns_rcconf
 
 # EOF
