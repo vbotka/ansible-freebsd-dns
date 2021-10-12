@@ -1,7 +1,6 @@
 ---
 
-- name: "zones:create_zone_file: Create zone file {{ item.zone }}"
-  block:
+- block:
     - name: "zones:create_zone_file: Create zone file {{ item.zone }}"
       ansible.builtin.template:
         src: zone.j2

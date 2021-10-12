@@ -26,7 +26,6 @@
     backup: "{{ bsd_named_backup_conf }}"
   loop: "{{ bsd_named_rcconf }}"
   notify: restart named
-  when: bsd_named_enable|bool
 
 # EOF
 ...

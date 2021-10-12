@@ -1,7 +1,6 @@
 ---
 
-- name: "zones:conf_master_zone: Configure master zones {{ item.zone }}"
-  block:
+- block:
     - name: "zones:conf_master_zone: Configure master zones {{ item.zone }}"
       ansible.builtin.blockinfile:
         dest: "{{ bsd_named_conf_file }}"
