@@ -1,7 +1,6 @@
 ---
 
-- name: "zones:conf_slave_zone_reverse: Configure slave reverse zones {{ item.zone }}"
-  block:
+- block:
     - name: "zones:conf_slave_zone_reverse: Configure slave reverse zones {{ item.zone }}"
       ansible.builtin.blockinfile:
         dest: "{{ bsd_named_conf_file }}"
