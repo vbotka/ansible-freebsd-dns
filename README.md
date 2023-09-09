@@ -26,7 +26,8 @@ See the defaults and examples in vars.
 
 By default the service *named* and *dnssec* are disabled.
 
-```
+
+```yaml
 bsd_named_enable: false
 bsd_named_conf_dnssec_enable: 'no'
 bsd_named_conf_dnssec_validation: 'no'
@@ -40,25 +41,25 @@ bsd_named_conf_dnssec_validation: 'no'
 
 1) Change shell to /bin/sh
 
-```
+```bash
 shell>  ansible host -e 'ansible_shell_type=csh ansible_shell_executable=/bin/csh' -a 'sudo pw usermod admin -s /bin/sh'
 ```
 
 2) Install role
 
-```
+```bash
 shell> ansible-galaxy install vbotka.freebsd_dns
 ```
 
 3) Change variables
 
-```
+```bash
 shell> editor vbotka.freebsd_dns/vars/main.yml
 ```
 
 4) Create and run the playbook
 
-```
+```bash
 shell> cat freebsd-dns.yml
 - hosts: ns1.example.com
   roles:
@@ -71,7 +72,7 @@ shell> ansible-playbook freebsd-dns.yml
 
 Example:
 
-```
+```bash
 shell> cd /usr/local/etc/namedb/keys
 shell> dnssec-keygen -f KSK -a RSASHA256 -b 2048 -n ZONE example.com
 shell> ln -s Kexample.com.+008+20191.key Kexample.com.KSK.key
@@ -86,49 +87,49 @@ shell> chown bind K*
 
 Example of master zone
 
-```
+```yaml
 sd_named_conf_zone:
- - zone: "example.com"
-   type: "master"
+ - zone: example.com
+   type: master
    reverse: "yes"
-   zone_ip: "10.1.0.10"
-   zone_in: "0.1.10"
-   primary: "ns1.example.net"
-   primary_ip: "192.168.1.11"
-   secondary: "ns2.example.net"
-   secondary_ip: "192.168.1.12"
-   admin: "admin.example.com"
-   serial: "2016102401"
-   refresh: "10800"
-   retry: "3600"
-   expire: "1209600"
-   negative: "300"
+   zone_ip: 10.1.0.10
+   zone_in: 0.1.10
+   primary: ns1.example.net
+   primary_ip: 192.168.1.11
+   secondary: ns2.example.net
+   secondary_ip: 192.168.1.12
+   admin: admin.example.com
+   serial: 2016102401
+   refresh: '10800'
+   retry: '3600'
+   expire: '1209600'
+   negative: '300'
    server:
-     - "ns1.example.net"
-     - "ns2.example.net"
+     - ns1.example.net
+     - ns2.example.net
    mx:
-     - { server: "srv.example.com", priority: "10" }
+     - {server: srv.example.com, priority: '10'}
    host:
-     - { host: "srv", ip: "10.1.0.10" }
+     - {host: srv, ip: '10.1.0.10'}
    alias:
-     - "www"
-     - "mail"
+     - www
+     - mail
 ```
 
 Example of slave zone
 
-```
+```yaml
 sd_named_conf_zone:
- - zone: "example.com"
-   type: "slave"
-   masters: "192.168.1.11;"
+ - zone: example.com
+   type: slave
+   masters: 192.168.1.11;
    reverse: "yes"
-   zone_in: "0.1.10"
+   zone_in: 0.1.10
 ```
 
 7) Run the playbook
 
-```
+```yaml
 shell> ansible-playbook freebsd-dns.yml
 ```
 
@@ -136,9 +137,9 @@ shell> ansible-playbook freebsd-dns.yml
 
 Sign the zone. Change to the *keys* directory. Otherwise full path to the keys is needed.
 
-```
+```bash
 shell> cd /usr/local/etc/namedb/keys
-shell> dnssec-signzone -o example.com -k Kexample.com.KSK /usr/local/etc/namedb/master/example.com  Kexample.com.ZSK.key
+shell> dnssec-signzone -o example.com -k Kexample.com.KSK /usr/local/etc/namedb/master/example.com Kexample.com.ZSK.key
 shell> /usr/local/etc/rc.d/named reload
 ```
 
@@ -153,7 +154,7 @@ shell> dig @resolver +dnssec se ds
 - [Add a DS record](https://uk.godaddy.com/help/add-a-ds-record-23865)
 - ["Method used for encrypting the public key"](https://www.edge-cloud.net/2014/06/16/practical-guide-dns-based-authentication-named-entities-dane/) can be found using the command
 
-```
+```bash
 shell> dig type48 example.com
 ```
 
@@ -215,4 +216,4 @@ shell> dig type48 example.com
 
 ## Author Information
 
-[Vladimir Botka](https://botka.link)
+[Vladimir Botka](https://botka.info)
