@@ -6,7 +6,7 @@
     path: "{{ bsd_named_chrootdir }}"
     owner: root
     group: wheel
-    mode: "0755"
+    mode: '0755'
   when: bsd_named_chrootdir is defined
   tags: bsd_dns_create_named_chrootdir
 
@@ -16,7 +16,7 @@
     path: "{{ bsd_named_chrootdir }}/{{ bsd_named_conf_keys }}"
     owner: root
     group: wheel
-    mode: "0755"
+    mode: '0755'
   when: bsd_named_chrootdir is defined
   tags: bsd_dns_create_keydir_chrooted
 
@@ -26,7 +26,7 @@
     path: "{{ bsd_named_conf_keys }}"
     owner: root
     group: wheel
-    mode: "0755"
+    mode: '0755'
   tags: bsd_dns_create_keydir
 
 - name: "dirs: Set atributes of {{ bsd_named_conf_log_file }}"

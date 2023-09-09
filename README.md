@@ -129,6 +129,37 @@ sd_named_conf_zone:
 
 7) Run the playbook
 
+Test the syntax
+
+```yaml
+shell> ansible-playbook freebsd-dns.yml --syntax-check
+```
+
+Take a look at the variables
+
+```yaml
+shell> ansible-playbook freebsd-dns.yml  -t bsd_dns_debug  -e bsd_dns_debug=true
+```
+
+Install packages
+
+```yaml
+shell> ansible-playbook freebsd-dns.yml -t bsd_dns_packages  -e bsd_dns_install=true
+```
+Create directories
+
+```yaml
+shell> ansible-playbook freebsd-dns.yml -t bsd_dns_dirs
+```
+
+Dry run and see what will be configured
+
+```yaml
+shell> ansible-playbook freebsd-dns.yml --check --diff
+```
+
+Run the play if this is what you want
+
 ```yaml
 shell> ansible-playbook freebsd-dns.yml
 ```
@@ -167,7 +198,7 @@ shell> dig type48 example.com
 - [dnscheck.iis.se](http://dnscheck.iis.se/)
 - [DNS Check in Pingdom Tools](http://dnscheck.pingdom.com/)
 - [Pingdom. Failed to deliver email. Can safely ignore this failure.](http://serverfault.com/questions/748923/how-can-i-fix-these-soa-dns-problems)
-- [Veisign LABS](http://dnssec-debugger.verisignlabs.com/)
+- [Verisign LABS](http://dnssec-debugger.verisignlabs.com/)
 - [DNS VIZ](http://dnsviz.net/)
 
 

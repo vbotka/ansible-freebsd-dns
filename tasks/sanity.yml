@@ -2,8 +2,10 @@
 
 - name: "sanity: Package(s) not present and installation disabled."
   block:
+
     - name: "sanity: Collect installed packages."
       ansible.builtin.package_facts:
+
     - name: "sanity: Set my_missing_packages"
       ansible.builtin.set_fact:
         my_missing_packages: "{{ bsd_dns_packages|
@@ -15,21 +17,27 @@
       vars:
         my_regex: '^(.*)/(.*)$'
         my_replace: '\1'
+
     - name: "sanity: Fail."
       ansible.builtin.fail:
-        msg: "[ERROR] Packages {{ my_missing_packages }} not installed
-              and installation disabled. Host failed."
+        msg: >
+          [ERROR] Packages {{ my_missing_packages }} not installed
+          and installation disabled. Host failed.
       when:
         - my_missing_packages|length > 0
         - bsd_dns_sanity_fatal|bool
+
     - name: "sanity: Debug. End host when missing packages."
       ansible.builtin.debug:
-        msg: "[ERROR] Packages {{ my_missing_packages }} not installed
-              and installation disabled. End of host."
+        msg: >
+          [ERROR] Packages {{ my_missing_packages }} not installed
+          and installation disabled. End of host.
       when: my_missing_packages|length > 0
+
     - name: "sanity: End host."
       meta: end_host
       when: my_missing_packages|length > 0
+
   when: not bsd_dns_install|bool
 
 # EOF

@@ -1,6 +1,7 @@
 ---
 
 - block:
+
     - name: "zones:create_zone_file: Create zone file {{ item.zone }}"
       ansible.builtin.template:
         src: zone.j2
@@ -12,10 +13,12 @@
         backup: "{{ bsd_named_backup_conf }}"
       register: bsd_named_zones_created
       notify: reload named
+
   rescue:
+
     - name: "zones:create_zone_file: Validation failed"
       ansible.builtin.fail:
-        msg: "Validation error: {{ ansible_failed_result }}"
+        msg: "[ERROR] Validation: {{ ansible_failed_result }}"
 
 # EOF
 ...

@@ -25,27 +25,27 @@
 - name: "named: Create BEGIN BLOCK options marker in {{ bsd_named_conf_file }}"
   ansible.builtin.lineinfile:
     path: "{{ bsd_named_conf_file }}"
-    insertbefore: "^options {"
+    insertbefore: '^options {'
     firstmatch: true
-    line: "// *** BEGIN ANSIBLE MANAGED BLOCK options ***"
+    line: '// *** BEGIN ANSIBLE MANAGED BLOCK options ***'
   when: not ansible_check_mode
   tags: bsd_named_conf
 
 - name: "named: Create END BLOCK options marker in {{ bsd_named_conf_file }}"
   ansible.builtin.lineinfile:
     path: "{{ bsd_named_conf_file }}"
-    insertafter: "^};"
+    insertafter: '^};'
     firstmatch: true
-    line: "// *** END ANSIBLE MANAGED BLOCK options ***"
+    line: '// *** END ANSIBLE MANAGED BLOCK options ***'
   when: not ansible_check_mode
   tags: bsd_named_conf
 
 - name: "named: Configure options in {{ bsd_named_conf_file }}"
   ansible.builtin.blockinfile:
     dest: "{{ bsd_named_conf_file }}"
-    marker: "// *** {mark} ANSIBLE MANAGED BLOCK options ***"
+    marker: '// *** {mark} ANSIBLE MANAGED BLOCK options ***'
     block: "{{ lookup('template', 'block-named-options.j2') }}"
-    validate: "named-checkconf %s"
+    validate: 'named-checkconf %s'
     backup: "{{ bsd_named_backup_conf }}"
   notify: reload named
   tags: bsd_named_conf_options
@@ -53,10 +53,10 @@
 - name: "named: Configure logging in {{ bsd_named_conf_file }}"
   ansible.builtin.blockinfile:
     dest: "{{ bsd_named_conf_file }}"
-    marker: "// *** {mark} ANSIBLE MANAGED BLOCK logging ***"
+    marker: '// *** {mark} ANSIBLE MANAGED BLOCK logging ***'
     insertafter: EOF
     block: "{{ lookup('template', 'block-named-logging.j2') }}"
-    validate: "named-checkconf %s"
+    validate: 'named-checkconf %s'
     backup: "{{ bsd_named_backup_conf }}"
   notify: reload named
   when: bsd_named_conf_log|bool
