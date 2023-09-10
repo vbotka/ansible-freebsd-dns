@@ -52,7 +52,7 @@ _dmarc		IN	TXT	( "{{ item.dmarc_1 }}"
 {% endif %}
 
 ; DNSSEC keys
-{% if bsd_named_conf_dnssec_enable == "yes" %}
+{% if bsd_named_conf_dnssec_enable|bool %}
 $include {{ bsd_named_conf_keys }}/K{{ item.zone }}.KSK.key ; KSK
 $include {{ bsd_named_conf_keys }}/K{{ item.zone }}.ZSK.key ; ZSK
 {% endif %}

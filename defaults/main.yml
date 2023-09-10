@@ -63,7 +63,7 @@ bsd_named_conf_forwarders: []
 bsd_named_conf_allow_transfer_default:
   - '"none"'
 # dnssec
-bsd_named_conf_dnssec_enable: 'no'  # Note 1)
+bsd_named_conf_dnssec_enable: false  # Note 1)
 bsd_named_conf_dnssec_validation: 'no'
 bsd_named_conf_dnssec_lookaside: auto
 bsd_named_conf_dnssec_options:

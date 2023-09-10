@@ -13,7 +13,7 @@
 - name: "zones: Set signed zone files for DNSSEC."
   ansible.builtin.set_fact:
     bsd_named_zone_signed: ".signed"
-  when: bsd_named_conf_dnssec_enable|lower == 'yes'
+  when: bsd_named_conf_dnssec_enable|bool
 
 - name: "zones: Configure master zones in {{ bsd_named_conf_file }}"
   ansible.builtin.include_tasks: fn/conf_master_zone.yml
@@ -36,7 +36,7 @@
     label: "{{ item.zone }}"
   when:
     - item.type|lower == 'master'
-    - item.reverse|lower == 'yes'
+    - item.reverse
 
 - name: "zones: Configure slave reverse zones in {{ bsd_named_conf_file }}"
   ansible.builtin.include_tasks: fn/conf_slave_zone_reverse.yml
@@ -45,7 +45,7 @@
     label: "{{ item.zone }}"
   when:
     - item.type|lower == 'slave'
-    - item.reverse|lower == 'yes'
+    - item.reverse
 
 - name: "zones: Create zone files"
   ansible.builtin.include_tasks: fn/create_zone_file.yml
@@ -61,7 +61,7 @@
     label: "{{ item.zone }}"
   when:
     - item.type|lower == 'master'
-    - item.reverse|lower == 'yes'
+    - item.reverse
 
 # EOF
 ...

@@ -28,8 +28,7 @@ By default the service *named* and *dnssec* are disabled.
 
 ```yaml
 bsd_named_enable: false
-bsd_named_conf_dnssec_enable: 'no'
-bsd_named_conf_dnssec_validation: 'no'
+bsd_named_conf_dnssec_enable: false
 ```
 
 - Keys are needed to enable DNSSEC (see workflow).
@@ -91,7 +90,7 @@ Example of master zone
 sd_named_conf_zone:
  - zone: example.com
    type: master
-   reverse: "yes"
+   reverse: true
    zone_ip: 10.1.0.10
    zone_in: 0.1.10
    primary: ns1.example.net
@@ -123,7 +122,7 @@ sd_named_conf_zone:
  - zone: example.com
    type: slave
    masters: 192.168.1.11;
-   reverse: "yes"
+   reverse: true
    zone_in: 0.1.10
 ```
 
