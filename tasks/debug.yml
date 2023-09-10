@@ -38,8 +38,11 @@
          bsd_named_conf_dnssec_validation: {{ bsd_named_conf_dnssec_validation }}
          bsd_named_conf_dnssec_lookaside: {{ bsd_named_conf_dnssec_lookaside }}
 
+         bsd_named_conf_options_template: {{ bsd_named_conf_options_template }}
          bsd_named_conf_options:
            {{ bsd_named_conf_options|to_yaml(indent=2)|indent(2) }}
+         bsd_named_conf_dnssec_options:
+           {{ bsd_named_conf_dnssec_options|to_yaml(indent=2)|indent(2) }}
          bsd_named_conf_listen_on:
            {{ bsd_named_conf_listen_on|to_nice_yaml(indent=2)|indent(2) }}
          bsd_named_conf_listen_on_v6:
@@ -48,10 +51,8 @@
            {{ bsd_named_conf_forwarders|to_nice_yaml(indent=2)|indent(2) }}
          bsd_named_conf_allow_transfer_default:
            {{ bsd_named_conf_allow_transfer_default|to_nice_yaml(indent=2)|indent(2) }}
-         bsd_named_rcconf:
-           {{ bsd_named_rcconf|to_yaml(indent=2)|indent(2) }}
-
          bsd_named_conf_log: {{ bsd_named_conf_log }}
+         bsd_named_conf_log_template: {{ bsd_named_conf_log_template }}
          bsd_named_conf_log_file: {{ bsd_named_conf_log_file }}
          bsd_named_conf_log_file_versions: {{ bsd_named_conf_log_file_versions }}
          bsd_named_conf_log_file_size: {{ bsd_named_conf_log_file_size }}
@@ -59,10 +60,14 @@
          bsd_named_conf_log_print_severity: {{ bsd_named_conf_log_print_severity }}
          bsd_named_conf_log_print_time: {{ bsd_named_conf_log_print_time }}
          bsd_named_conf_log_print_category: {{ bsd_named_conf_log_print_category }}
+
          bsd_named_conf_zone:
            {{ bsd_named_conf_zone|to_yaml(indent=2)|indent(2) }}
          bsd_named_conf_validate: {{ bsd_named_conf_validate }}
          bsd_named_zone_validate_params: {{ bsd_named_zone_validate_params }}
+
+         bsd_named_rcconf:
+           {{ bsd_named_rcconf|to_yaml(indent=2)|indent(2) }}
 
          bsd_bind_version: {{ bsd_bind_version }}
          bsd_dns_packages:

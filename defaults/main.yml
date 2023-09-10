@@ -39,8 +39,7 @@ bsd_named_conf_validate: 'named-checkconf %s'
 bsd_named_zone_validate_params: ''
 # named-checkzone {{ bsd_named_zone_validate_params }} {{ item.zone }} %s
 
-
-# named
+# named.conf
 bsd_named_conf_owner: root
 bsd_named_conf_group: wheel
 bsd_named_conf_mode: '0644'
@@ -49,6 +48,9 @@ bsd_named_conf_file: "{{ bsd_named_conf_path }}/named.conf"
 bsd_named_conf_working: "{{ bsd_named_conf_path }}/working"
 bsd_named_conf_keys: "{{ bsd_named_conf_path }}/keys"
 bsd_named_conf_managed_keys: "{{ bsd_named_conf_path }}/dynamic"
+
+# named.conf options
+bsd_named_conf_options_template: block-named-options.j2
 bsd_named_conf_options:
   - {key: directory, val: '"{{ bsd_named_conf_working }}"'}
   - {key: key-directory, val: '"{{ bsd_named_conf_keys }}"'}
@@ -60,7 +62,6 @@ bsd_named_conf_listen_on_v6: []
 bsd_named_conf_forwarders: []
 bsd_named_conf_allow_transfer_default:
   - '"none"'
-
 # dnssec
 bsd_named_conf_dnssec_enable: 'no'  # Note 1)
 bsd_named_conf_dnssec_validation: 'no'
@@ -69,10 +70,10 @@ bsd_named_conf_dnssec_options:
   - {key: dnssec-validation, val: "{{ bsd_named_conf_dnssec_validation }}"}
 # - {key: dnssec-enable, val: "{{ bsd_named_conf_dnssec_enable }}"}
 # - {key: dnssec-lookaside, val: "{{ bsd_named_conf_dnssec_lookaside }}"}
-bsd_named_zone_signed: ''
 
-# loging
+# named.conf loging
 bsd_named_conf_log: true
+bsd_named_conf_log_template: block-named-logging.j2
 bsd_named_conf_log_file: /var/log/named.log
 bsd_named_conf_log_file_owner: root
 bsd_named_conf_log_file_group: bind
@@ -93,6 +94,8 @@ bsd_named_conf_template_slave_zone_reverse: block-named-slave-zone-reverse.j2
 
 # see example of zone in vars
 bsd_named_conf_zone: {}
+
+bsd_named_zone_signed: ''
 
 # Notes
 #

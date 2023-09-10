@@ -44,7 +44,7 @@
   ansible.builtin.blockinfile:
     dest: "{{ bsd_named_conf_file }}"
     marker: '// *** {mark} ANSIBLE MANAGED BLOCK options ***'
-    block: "{{ lookup('template', 'block-named-options.j2') }}"
+    block: "{{ lookup('template', bsd_named_conf_options_template) }}"
     validate: 'named-checkconf %s'
     backup: "{{ bsd_named_backup_conf }}"
   notify: reload named
@@ -55,7 +55,7 @@
     dest: "{{ bsd_named_conf_file }}"
     marker: '// *** {mark} ANSIBLE MANAGED BLOCK logging ***'
     insertafter: EOF
-    block: "{{ lookup('template', 'block-named-logging.j2') }}"
+    block: "{{ lookup('template', bsd_named_conf_log_template) }}"
     validate: 'named-checkconf %s'
     backup: "{{ bsd_named_backup_conf }}"
   notify: reload named
