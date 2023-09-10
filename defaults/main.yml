@@ -93,7 +93,7 @@ bsd_named_conf_template_slave_zone: block-named-slave-zone.j2
 bsd_named_conf_template_slave_zone_reverse: block-named-slave-zone-reverse.j2
 
 # see example of zone in vars
-bsd_named_conf_zone: {}
+bsd_named_conf_zone: []
 
 bsd_named_zone_signed: ''
 
