@@ -98,7 +98,7 @@ sd_named_conf_zone:
    secondary: ns2.example.net
    secondary_ip: 192.168.1.12
    admin: admin.example.com
-   serial: 2016102401
+   serial: '2016102401'
    refresh: '10800'
    retry: '3600'
    expire: '1209600'
@@ -217,13 +217,11 @@ shell> dig type48 example.com
 
 ## References
 
-- [BIND 9.11.3 Release Notes](https://kb.isc.org/article/AA-01597/0/BIND-9.11.3-Release-Notes.html)
+- [BIND Release Notes](https://kb.isc.org/docs/a-note-about-bind-release-notes)
 - [USENIX: DNSSEC in 6 minutes](http://static.usenix.org/event/lisa08/dnssec_bof.pdf)
 - [BSD: Domain Name System (DNS)](https://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html)
 - [BSD: Authoritative DNS Server Configuration](http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html#dns-dnssec-auth)
-- [ISC: BIND 9 Configuration Reference](https://ftp.isc.org/isc/bind9/cur/9.10/doc/arm/Bv9ARM.ch06.html)
-- [ISC: Inline Signing in ISC BIND 9.9.0](https://kb.isc.org/article/AA-00626/0/Inline-Signing-in-ISC-BIND-9.9.0-Examples.html)
-- [ISC: BIND DNSSEC Guide](https://users.isc.org/~jreed/dnssec-guide/dnssec-guide.html)
+- [ISC: BIND 9 Administrator Reference Manual](https://ftp.isc.org/isc/bind9/cur/9.19/doc/arm/html/)
 - [Zytrax: DNS for Rocket Scientists](http://www.zytrax.com/books/dns/)
 - [Zytrax: BIND (Berkeley Internet Name Domain)](http://www.zytrax.com/books/dns/ch5/)
 - [Zytrax: DNS BIND Zone Transfers and Updates](http://www.zytrax.com/books/dns/ch7/xfer.html)
