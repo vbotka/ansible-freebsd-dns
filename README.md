@@ -1,4 +1,3 @@
-# freebsd_dns
 
 [![quality](https://img.shields.io/ansible/quality/27910)](https://galaxy.ansible.com/vbotka/freebsd_dns)[![Build Status](https://travis-ci.org/vbotka/ansible-freebsd-dns.svg?branch=master)](https://travis-ci.org/vbotka/ansible-freebsd-dns)
 
@@ -35,6 +34,7 @@ bsd_named_conf_dnssec_validation: 'no'
 
 - Keys are needed to enable DNSSEC (see workflow).
 - *dnssec-keygen* binary is needed to generate the keys.
+- Set 'bsd_named_conf_recreate=true' to copy *named.conf.sample* to *named.conf* before the configuration. Set it to false (default) to make the tasks *named.yml* idempotent.
 
 
 ## Workflow
@@ -57,7 +57,7 @@ shell> ansible-galaxy install vbotka.freebsd_dns
 shell> editor vbotka.freebsd_dns/vars/main.yml
 ```
 
-4) Create and run the playbook
+4) Create the playbook and check the syntax
 
 ```bash
 shell> cat freebsd-dns.yml
@@ -65,7 +65,7 @@ shell> cat freebsd-dns.yml
   roles:
     - vbotka.freebsd_dns
     
-shell> ansible-playbook freebsd-dns.yml
+shell> ansible-playbook freebsd-dns.yml --syntax-check
 ```
 
 5) If DNSSEC is enabled create keys as described in [Authoritative DNS Server Configuration](http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html#dns-dnssec-auth)
