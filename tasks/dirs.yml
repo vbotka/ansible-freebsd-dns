@@ -10,13 +10,15 @@
   when: bsd_named_chrootdir is defined
   tags: bsd_dns_create_named_chrootdir
 
-- name: "dirs: Create chrooted directory for keys {{ bsd_named_chrootdir }}/{{ bsd_named_conf_keys }}"
+- name: "dirs: Create chrooted directory for keys {{ path }}"
   ansible.builtin.file:
     state: directory
-    path: "{{ bsd_named_chrootdir }}/{{ bsd_named_conf_keys }}"
+    path: "{{ path }}"
     owner: root
     group: wheel
     mode: '0755'
+  vars:
+    path: "{{ [bsd_named_chrootdir, bsd_named_conf_keys]|join('/')|replace('//', '/') }}"
   when: bsd_named_chrootdir is defined
   tags: bsd_dns_create_keydir_chrooted
 
