@@ -14,11 +14,23 @@
   tags: bsd_named_conf
 
 - name: "named: Create {{ bsd_named_conf_file }}"
-  ansible.builtin.copy:
-    remote_src: true
-    src: "{{ bsd_named_conf_file }}.sample"
-    dest: "{{ bsd_named_conf_file }}"
-    mode: preserve
+  block:
+
+    - name: "named: Copy sample to {{ bsd_named_conf_file }}"
+      ansible.builtin.copy:
+        remote_src: true
+        src: "{{ bsd_named_conf_file }}.sample"
+        dest: "{{ bsd_named_conf_file }}"
+        mode: preserve
+      when: bsd_named_conf_recreate_from_sample|bool
+
+    - name: "named: Create {{ bsd_named_conf_file }} from template"
+      ansible.builtin.template:
+        src: "{{ bsd_named_conf_recreate_template }}"
+        dest: "{{ bsd_named_conf_file }}"
+        validate: 'named-checkconf %s'
+      when: not bsd_named_conf_recreate_from_sample|bool
+
   when: not conf_file.stat.exists
   tags: bsd_named_conf
 

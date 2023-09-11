@@ -4,7 +4,7 @@
 
     - name: "zones:create_zone_file: Create zone file {{ item.zone }}"
       ansible.builtin.template:
-        src: zone.j2
+        src: "{{ item.template|d('zone.j2') }}"
         dest: "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone }}"
         owner: "{{ bsd_named_conf_owner }}"
         group: "{{ bsd_named_conf_group }}"

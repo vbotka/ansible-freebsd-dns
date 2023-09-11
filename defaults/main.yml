@@ -6,8 +6,11 @@ bsd_dns_sanity: true
 bsd_dns_sanity_fatal: true
 bsd_dns_debug: false
 bsd_named_enable: false
-bsd_named_conf_recreate: false
 bsd_named_backup_conf: false
+
+bsd_named_conf_recreate: false
+bsd_named_conf_recreate_from_sample: true
+bsd_named_conf_recreate_template: named-forward-only.j2
 
 freebsd_install_method: packages
 # freebsd_install_method: ports

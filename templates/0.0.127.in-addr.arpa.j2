@@ -1,0 +1,16 @@
+$TTL 3600	; 1 hour default TTL
+
+@	IN	SOA	{{ bsd_named_srv_name }}. {{ bsd_named_admin }}. (
+
+				{{ bsd_named_serial }} ; serial
+				{{ bsd_named_refresh }} ; refresh
+				{{ bsd_named_retry }} ; retry
+				{{ bsd_named_expire }} ; expire
+				{{ bsd_named_negative }} ; negative caching TTL
+)
+
+; DNS Servers
+	IN	NS	{{ bsd_named_srv_name }}.
+
+; Machine Names
+1 	IN	PTR	localhost.

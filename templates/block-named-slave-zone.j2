@@ -1,16 +1,16 @@
 zone "{{ item.zone }}" {
 	type {{ item.type }};
-{% for option in item.options|default({}) %}
+{% for option in item.options|default([]) %}
 	{{ option.key }} {{ option.val }};
 {% endfor %}
-{% if item.masters|length > 0 %}
+{% if item.masters|d([])|length > 0 %}
 	masters {
 	{% for host in item.masters %}
 	{{ host }};
 	{% endfor %}
 	};
 {% endif %}
-{% if item.allow_notify|length > 0 %}
+{% if item.allow_notify|d([])|length > 0 %}
 	allow-notify {
 	{% for host in item.allow_notify %}
 	{{ host }};

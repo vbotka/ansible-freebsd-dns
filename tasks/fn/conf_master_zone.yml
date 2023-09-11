@@ -2,7 +2,7 @@
 
 - block:
 
-    - name: "zones:conf_master_zone: Configure master zones {{ item.zone }}"
+    - name: "zones:conf_master_zone: Configure master zone {{ item.zone }}"
       ansible.builtin.blockinfile:
         dest: "{{ bsd_named_conf_file }}"
         marker: "// *** {mark} ANSIBLE MANAGED BLOCK master {{ item.zone }} ***"

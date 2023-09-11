@@ -22,6 +22,8 @@
 
          bsd_named_enable: {{ bsd_named_enable }}
          bsd_named_conf_recreate: {{ bsd_named_conf_recreate }}
+         bsd_named_conf_recreate_from_sample: {{ bsd_named_conf_recreate_from_sample }}
+         bsd_named_conf_recreate_template: {{ bsd_named_conf_recreate_template }}
          bsd_named_backup_conf: {{ bsd_named_backup_conf }}
          bsd_named_service: {{ bsd_named_service }}
          bsd_named_program: {{ bsd_named_program }}
@@ -37,6 +39,12 @@
          bsd_named_conf_dnssec_enable: {{ bsd_named_conf_dnssec_enable }}
          bsd_named_conf_dnssec_validation: {{ bsd_named_conf_dnssec_validation }}
          bsd_named_conf_dnssec_lookaside: {{ bsd_named_conf_dnssec_lookaside }}
+
+         bsd_named_serial: {{ bsd_named_serial|d('UNDEFINED') }}
+         bsd_named_refresh: {{ bsd_named_refresh|d('UNDEFINED') }}
+         bsd_named_retry: {{ bsd_named_retry|d('UNDEFINED') }}
+         bsd_named_expire: {{ bsd_named_expire|d('UNDEFINED') }}
+         bsd_named_negative: {{ bsd_named_negative|d('UNDEFINED') }}
 
          bsd_named_conf_options_template: {{ bsd_named_conf_options_template }}
          bsd_named_conf_options:

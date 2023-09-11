@@ -29,6 +29,15 @@
     mode: '0755'
   tags: bsd_dns_create_keydir
 
+- name: "dirs: Create working directory {{ bsd_named_conf_working }}"
+  ansible.builtin.file:
+    state: directory
+    path: "{{ bsd_named_conf_working }}"
+    owner: bind
+    group: bind
+    mode: '0755'
+  tags: bsd_dns_create_workingdir
+
 - name: "dirs: Set atributes of {{ bsd_named_conf_log_file }}"
   ansible.builtin.file:
     state: touch
