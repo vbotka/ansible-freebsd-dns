@@ -23,17 +23,29 @@ Feel free to [share your feedback and report issues](https://github.com/vbotka/a
 
 See the defaults and examples in vars.
 
-By default the service *named* and *dnssec* are disabled.
-
+* By default the service *named* and *dnssec* are disabled.
 
 ```yaml
 bsd_named_enable: false
 bsd_named_conf_dnssec_enable: false
 ```
 
-- Keys are needed to enable DNSSEC (see workflow).
-- *dnssec-keygen* binary is needed to generate the keys.
-- Set 'bsd_named_conf_recreate=true' to copy *named.conf.sample* to *named.conf* before the configuration. Set it to false (default) to make the tasks *named.yml* idempotent.
+* Keys are needed to enable DNSSEC (see the workflow below).
+
+* *dnssec-keygen* binary is needed to generate the keys.
+
+* See samples in *vars*
+
+
+### Recreate named.conf
+
+Set 'bsd_named_conf_recreate=true' to either:
+
+* copy *named.conf.sample* to *named.conf* when 'bsd_named_conf_recreate_from_sample=true' (default), or
+
+* create *named.conf* from a template when 'bsd_named_conf_recreate_from_sample=false' (default 'bsd_named_conf_recreate_template=named-forward-only.j2')
+
+Set 'bsd_named_conf_recreate=false' (default) to make the tasks *named.yml* idempotent.
 
 
 ## Workflow
@@ -229,6 +241,7 @@ shell> dig type48 example.com
 - [Zytrax: Define an SPF Record](http://www.zytrax.com/books/dns/ch9/spf.html)
 - [OpenSPF: How a receiving mail server uses SPF](http://www.openspf.org/FAQ/Examples)
 
+- [IBM: Configuring a forward only name server](https://www.ibm.com/docs/en/aix/7.1?topic=resolution-configuring-forward-only-name-server)
 - [Enabling DNSSec in Bind](http://networking.ringofsaturn.com/Unix/dnssec.php)
 - [Invalid TLD error when changing nameservers in godaddy](https://www.howtoforge.com/community/threads/invalid-tld-error-when-changing-nameservers-in-godaddy.62932/)
 - [www.bind9.net](http://www.bind9.net/)
