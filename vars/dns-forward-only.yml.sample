@@ -1,0 +1,46 @@
+---
+
+bsd_dns_install: true
+bsd_dns_debug: false
+bsd_dns_sanity: false
+bsd_dns_sanity_fatal: false
+bsd_named_enable: true
+bsd_named_conf_log: true
+bsd_named_backup_conf: true
+
+bsd_named_ip: 10.1.0.10
+bsd_named_forwarder_ip: 192.168.1.1
+bsd_named_admin: admin.bastion.example.org
+bsd_named_srv_name: bastion.example.org
+bsd_named_serial: '2023090901'
+bsd_named_refresh: '10800'
+bsd_named_retry: '3600'
+bsd_named_expire: '1209600'
+bsd_named_negative: '300'
+
+bsd_named_conf_recreate: false
+bsd_named_conf_recreate_from_sample: false
+bsd_named_conf_recreate_template: named-forward-only.j2
+
+bsd_named_conf_options:
+  - {key: directory, val: '"/usr/local/etc/namedb/working"'}
+  - {key: forward only}
+bsd_named_conf_dnssec_options: []
+bsd_named_conf_dnssec_enable: false
+bsd_named_conf_dnssec_validation: 'no'
+bsd_named_conf_listen_on:
+  - 127.0.0.1
+  - "{{ bsd_named_ip }}"
+bsd_named_conf_listen_on_v6: []
+bsd_named_conf_forwarders:
+  - "{{ bsd_named_forwarder_ip }}"
+bsd_named_conf_allow_transfer_default:
+  - '"none"'
+bsd_named_conf_zone:
+  - zone: 0.0.127.in-addr.arpa
+    type: master
+    reverse: false
+    template: 0.0.127.in-addr.arpa.j2
+
+# EOF
+...
