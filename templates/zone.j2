@@ -21,7 +21,7 @@ $TTL 3600	; 1 hour default TTL
 
 ; Machine Names
 {% for host in item.host %}
-{{ host.host }}	IN	A	{{ host.ip }}
+{{ host.host|d(host.hostname) }}	IN	A	{{ host.ip }}
 {% endfor %}
 
 ; Aliases
