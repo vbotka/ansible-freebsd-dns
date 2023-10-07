@@ -1,6 +1,7 @@
 ---
 
 - block:
+
     - name: "zones:conf_slave_zone_reverse: Configure slave reverse zones {{ item.zone }}"
       ansible.builtin.blockinfile:
         dest: "{{ bsd_named_conf_file }}"
@@ -13,10 +14,12 @@
         validate: "{{ bsd_named_conf_validate }}"
         backup: "{{ bsd_named_backup_conf }}"
       notify: reload named
+
   rescue:
+
     - name: "zones:conf_slave_zone_reverse: Validation failed"
       ansible.builtin.fail:
-        msg: "Validation error: {{ ansible_failed_result }}"
+        msg: "[ERROR] Validation: {{ ansible_failed_result }}"
 
 # EOF
 ...

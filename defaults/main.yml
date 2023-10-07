@@ -6,8 +6,11 @@ bsd_dns_sanity: true
 bsd_dns_sanity_fatal: true
 bsd_dns_debug: false
 bsd_named_enable: false
-bsd_named_conf_recreate: false
 bsd_named_backup_conf: false
+
+bsd_named_conf_recreate: false
+bsd_named_conf_recreate_from_sample: true
+bsd_named_conf_recreate_template: named-forward-only.j2
 
 freebsd_install_method: packages
 # freebsd_install_method: ports
@@ -16,7 +19,7 @@ freebsd_install_retries: 10
 freebsd_install_delay: 5
 
 # packages
-bsd_bind_version: "916"
+bsd_bind_version: '916'
 bsd_dns_packages:
   - "dns/bind{{ bsd_bind_version }}"
 
@@ -25,8 +28,8 @@ bsd_named_service: named
 bsd_named_program: /usr/local/sbin/named
 bsd_named_pidfile: /var/run/named/pid
 bsd_named_chrootdir: /var/named
-bsd_named_chroot_autoupdate: "NO"
-bsd_named_symlink_enable: "YES"
+bsd_named_chroot_autoupdate: 'NO'
+bsd_named_symlink_enable: 'YES'
 bsd_named_rcconf:
   - {key: named_program, val: "{{ bsd_named_program }}"}
 # - {key: named_pidfile, val: "{{ bsd_named_pidfile }}"}
@@ -35,20 +38,22 @@ bsd_named_rcconf:
 # - {key: named_symlink_enable, val: "{{ bsd_named_symlink_enable }}"}
 
 # validate templates
-bsd_named_conf_validate: "named-checkconf %s"
-bsd_named_zone_validate_params: ""
+bsd_named_conf_validate: 'named-checkconf %s'
+bsd_named_zone_validate_params: ''
 # named-checkzone {{ bsd_named_zone_validate_params }} {{ item.zone }} %s
 
-
-# named
+# named.conf
 bsd_named_conf_owner: root
 bsd_named_conf_group: wheel
-bsd_named_conf_mode: "0644"
+bsd_named_conf_mode: '0644'
 bsd_named_conf_path: /usr/local/etc/namedb
 bsd_named_conf_file: "{{ bsd_named_conf_path }}/named.conf"
 bsd_named_conf_working: "{{ bsd_named_conf_path }}/working"
 bsd_named_conf_keys: "{{ bsd_named_conf_path }}/keys"
 bsd_named_conf_managed_keys: "{{ bsd_named_conf_path }}/dynamic"
+
+# named.conf options
+bsd_named_conf_options_template: block-named-options.j2
 bsd_named_conf_options:
   - {key: directory, val: '"{{ bsd_named_conf_working }}"'}
   - {key: key-directory, val: '"{{ bsd_named_conf_keys }}"'}
@@ -60,30 +65,29 @@ bsd_named_conf_listen_on_v6: []
 bsd_named_conf_forwarders: []
 bsd_named_conf_allow_transfer_default:
   - '"none"'
-
 # dnssec
-bsd_named_conf_dnssec_enable: "no"  # Note 1)
-bsd_named_conf_dnssec_validation: "no"
+bsd_named_conf_dnssec_enable: false  # Note 1)
+bsd_named_conf_dnssec_validation: 'no'
 bsd_named_conf_dnssec_lookaside: auto
 bsd_named_conf_dnssec_options:
   - {key: dnssec-validation, val: "{{ bsd_named_conf_dnssec_validation }}"}
 # - {key: dnssec-enable, val: "{{ bsd_named_conf_dnssec_enable }}"}
 # - {key: dnssec-lookaside, val: "{{ bsd_named_conf_dnssec_lookaside }}"}
-bsd_named_zone_signed: ""
 
-# loging
+# named.conf loging
 bsd_named_conf_log: true
+bsd_named_conf_log_template: block-named-logging.j2
 bsd_named_conf_log_file: /var/log/named.log
 bsd_named_conf_log_file_owner: root
 bsd_named_conf_log_file_group: bind
-bsd_named_conf_log_file_mode: "0660"
-bsd_named_conf_log_file_versions: "3"
+bsd_named_conf_log_file_mode: '0660'
+bsd_named_conf_log_file_versions: '3'
 bsd_named_conf_log_file_size: 2m
 # severity: (critical | error | warning | notice | info | debug [ level ] | dynamic )
 bsd_named_conf_log_severity: info
-bsd_named_conf_log_print_severity: "yes"
-bsd_named_conf_log_print_time: "yes"
-bsd_named_conf_log_print_category: "yes"
+bsd_named_conf_log_print_severity: 'yes'
+bsd_named_conf_log_print_time: 'yes'
+bsd_named_conf_log_print_category: 'yes'
 
 # zones
 bsd_named_conf_template_master_zone: block-named-master-zone.j2
@@ -92,7 +96,9 @@ bsd_named_conf_template_slave_zone: block-named-slave-zone.j2
 bsd_named_conf_template_slave_zone_reverse: block-named-slave-zone-reverse.j2
 
 # see example of zone in vars
-bsd_named_conf_zone: {}
+bsd_named_conf_zone: []
+
+bsd_named_zone_signed: ''
 
 # Notes
 #

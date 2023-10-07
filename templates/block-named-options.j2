@@ -1,6 +1,10 @@
 options {
 {% for item in bsd_named_conf_options %}
+{% if item.val|default('')|length > 0 %}
 	{{ item.key }} {{ item.val }};
+{% else %}
+	{{ item.key }};
+{% endif %}
 {% endfor %}
 {% for item in bsd_named_conf_dnssec_options %}
 	{{ item.key }} {{ item.val }};
@@ -10,7 +14,7 @@ options {
 	{% for item in bsd_named_conf_listen_on %}
 	{{ item }};
 	{% endfor %}
-        };
+	};
 {% endif %}
 {% if bsd_named_conf_listen_on_v6|length > 0 %}
 	listen-on-v6 {
@@ -33,7 +37,7 @@ options {
 	{% endfor %}
 	};
 {% endif %}
-        disable-empty-zone "255.255.255.255.IN-ADDR.ARPA";
-        disable-empty-zone "0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.IP6.ARPA";
-        disable-empty-zone "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.IP6.ARPA";
+	disable-empty-zone "255.255.255.255.IN-ADDR.ARPA";
+	disable-empty-zone "0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.IP6.ARPA";
+	disable-empty-zone "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.IP6.ARPA";
 };

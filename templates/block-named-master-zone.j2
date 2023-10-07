@@ -1,9 +1,9 @@
 zone "{{ item.zone }}" {
 	type {{ item.type }};
-{% for option in item.options|default({}) %}
+{% for option in item.options|d({}) %}
 	{{ option.key }} {{ option.val }};
 {% endfor %}
-{% if item.allow_transfer|length > 0 %}
+{% if item.allow_transfer|d([])|length > 0 %}
 	allow-transfer  {
 	{% for host in item.allow_transfer %}
 	{{ host }};

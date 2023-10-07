@@ -1,0 +1,20 @@
+options {
+	directory "/usr/local/etc/namedb/working";
+	listen-on { 127.0.0.1; };
+	forward only;
+	forwarders { 8.8.8.8; 8.8.4.4; };
+	disable-empty-zone "255.255.255.255.IN-ADDR.ARPA";
+	disable-empty-zone "0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.IP6.ARPA";
+	disable-empty-zone "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.IP6.ARPA";
+};
+
+# Note: This zone will be created in a block. See forward-only.yml.sample in vars
+# zone "0.0.127.in-addr.arpa" {
+# 	type master;
+# 	file "/usr/local/etc/namedb/master/0.0.127.in-addr.arpa";
+# };
+
+zone "." {
+	type hint;
+	file "/usr/local/etc/namedb/named.root";
+};

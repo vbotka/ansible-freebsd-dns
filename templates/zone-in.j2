@@ -15,5 +15,5 @@ $TTL 3600	; 1 hour default TTL
 
 ; Machine Names
 {% for host in item.host %}
-{{ host.ip.split('.')[-1] }}	IN	PTR	{{ host.host }}.{{ item.zone }}.
+{{ host.ip.split('.')[-1] }}	IN	PTR	{{ host.host|d(host.hostname) }}.{{ item.zone }}.
 {% endfor %}

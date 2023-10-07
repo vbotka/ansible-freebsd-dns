@@ -1,6 +1,6 @@
 zone "{{ item.zone_in }}.IN-ADDR.ARPA" {
 	type {{ item.type }};
-{% if item.masters|length > 0 %}
+{% if item.masters|d([])|length > 0 %}
 	masters {
 	{% for host in item.masters %}
 	{{ host }};

@@ -21,7 +21,7 @@ $TTL 3600	; 1 hour default TTL
 
 ; Machine Names
 {% for host in item.host %}
-{{ host.host }}	IN	A	{{ host.ip }}
+{{ host.host|d(host.hostname) }}	IN	A	{{ host.ip }}
 {% endfor %}
 
 ; Aliases
@@ -52,7 +52,7 @@ _dmarc		IN	TXT	( "{{ item.dmarc_1 }}"
 {% endif %}
 
 ; DNSSEC keys
-{% if bsd_named_conf_dnssec_enable == "yes" %}
+{% if bsd_named_conf_dnssec_enable|bool %}
 $include {{ bsd_named_conf_keys }}/K{{ item.zone }}.KSK.key ; KSK
 $include {{ bsd_named_conf_keys }}/K{{ item.zone }}.ZSK.key ; ZSK
 {% endif %}
