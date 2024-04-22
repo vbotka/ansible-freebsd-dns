@@ -19,9 +19,11 @@ Major Changes
 Minor Changes
 -------------
 * Update ansible lint config.
+* Use default rules in local ansible-lint
+* Fix Ansible lint.
 * Update README.
 * Formatting travis.yml
-* Fix Ansible lint.
+
 
 Bugfixes
 --------
