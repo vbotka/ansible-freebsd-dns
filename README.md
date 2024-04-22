@@ -1,5 +1,5 @@
 
-[![quality](https://img.shields.io/ansible/quality/27910)](https://galaxy.ansible.com/vbotka/freebsd_dns)[![Build Status](https://travis-ci.org/vbotka/ansible-freebsd-dns.svg?branch=master)](https://travis-ci.org/vbotka/ansible-freebsd-dns)
+[![quality](https://img.shields.io/ansible/quality/27910)](https://galaxy.ansible.com/vbotka/freebsd_dns)[![Build Status](https://app.travis-ci.com/vbotka/ansible-freebsd-dns.svg?branch=master)](https://app.travis-ci.com/vbotka/ansible-freebsd-dns)[![GitHub tag](https://img.shields.io/github/v/tag/vbotka/ansible-freebsd-dns)](https://github.com/vbotka/ansible-freebsd-dns/tags)
 
 [Ansible role.](https://galaxy.ansible.com/vbotka/freebsd_dns/) FreeBSD. Configure DNS.
 
@@ -50,19 +50,19 @@ Set 'bsd_named_conf_recreate=false' (default) to make the tasks *named.yml* idem
 
 ## Workflow
 
-1) Change shell to /bin/sh
+1) Change shell to /bin/sh if necessary
 
 ```bash
 shell>  ansible host -e 'ansible_shell_type=csh ansible_shell_executable=/bin/csh' -a 'sudo pw usermod admin -s /bin/sh'
 ```
 
-2) Install role
+2) Install the role
 
 ```bash
-shell> ansible-galaxy install vbotka.freebsd_dns
+shell> ansible-galaxy role install vbotka.freebsd_dns
 ```
 
-3) Change variables
+3) Change variables, for example, in vars
 
 ```bash
 shell> editor vbotka.freebsd_dns/vars/main.yml
@@ -169,7 +169,7 @@ Dry run and see what will be configured
 shell> ansible-playbook freebsd-dns.yml --check --diff
 ```
 
-Run the play if this is what you want
+If this is what you want run the play
 
 ```yaml
 shell> ansible-playbook freebsd-dns.yml
@@ -187,7 +187,7 @@ shell> /usr/local/etc/rc.d/named reload
 
 Test the server.
 
-```
+```bash
 shell> dig @resolver +dnssec se ds 
 ```
 
@@ -218,6 +218,17 @@ shell> dig type48 example.com
 - [In-line Signing](https://deepthought.isc.org/article/AA-00711/0/In-line-Signing-With-NSEC3-in-BIND-9.9-A-Walk-through.html)
   works with the slave as expected, but not with the master.
 - Keys from master are copied to the slave manually.
+
+
+## Ansible lint
+
+Use the configuration file *.ansible-lint.local* when running
+*ansible-lint*. Some rules might be disabled and some warnings might
+be ignored. See the notes in the configuration file.
+
+```bash
+shell> ansible-lint -c .ansible-lint.local
+```
 
 
 ## TODO
