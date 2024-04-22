@@ -1,87 +1,85 @@
 ---
-
 - name: Debug
   vars:
     msg: |-
-         ansible_architecture: {{ ansible_architecture }}
-         ansible_os_family: {{ ansible_os_family }}
-         ansible_distribution: {{ ansible_distribution }}
-         ansible_distribution_major_version: {{ ansible_distribution_major_version }}
-         ansible_distribution_version: {{ ansible_distribution_version }}
-         ansible_distribution_release: {{ ansible_distribution_release }}
-         ansible_python_version: {{ ansible_python_version }}
+      ansible_architecture: {{ ansible_architecture }}
+      ansible_os_family: {{ ansible_os_family }}
+      ansible_distribution: {{ ansible_distribution }}
+      ansible_distribution_major_version: {{ ansible_distribution_major_version }}
+      ansible_distribution_version: {{ ansible_distribution_version }}
+      ansible_distribution_release: {{ ansible_distribution_release }}
+      ansible_python_version: {{ ansible_python_version }}
 
-         freebsd_install_method: {{ freebsd_install_method }}
-         freebsd_use_packages: {{ freebsd_use_packages }}
-         freebsd_install_retries: {{ freebsd_install_retries }}
-         freebsd_install_delay: {{ freebsd_install_delay }}
+      freebsd_install_method: {{ freebsd_install_method }}
+      freebsd_use_packages: {{ freebsd_use_packages }}
+      freebsd_install_retries: {{ freebsd_install_retries }}
+      freebsd_install_delay: {{ freebsd_install_delay }}
 
-         bsd_dns_install: {{ bsd_dns_install }}
-         bsd_dns_sanity: {{ bsd_dns_sanity }}
-         bsd_dns_sanity_fatal: {{ bsd_dns_sanity_fatal }}
+      bsd_dns_install: {{ bsd_dns_install }}
+      bsd_dns_sanity: {{ bsd_dns_sanity }}
+      bsd_dns_sanity_fatal: {{ bsd_dns_sanity_fatal }}
 
-         bsd_named_enable: {{ bsd_named_enable }}
-         bsd_named_conf_recreate: {{ bsd_named_conf_recreate }}
-         bsd_named_conf_recreate_from_sample: {{ bsd_named_conf_recreate_from_sample }}
-         bsd_named_conf_recreate_template: {{ bsd_named_conf_recreate_template }}
-         bsd_named_backup_conf: {{ bsd_named_backup_conf }}
-         bsd_named_service: {{ bsd_named_service }}
-         bsd_named_program: {{ bsd_named_program }}
-         bsd_named_pidfile: {{ bsd_named_pidfile }}
-         bsd_named_chrootdir: {{ bsd_named_chrootdir }}
-         bsd_named_chroot_autoupdate: {{ bsd_named_chroot_autoupdate }}
-         bsd_named_symlink_enable: {{ bsd_named_symlink_enable }}
-         bsd_named_conf_path: {{ bsd_named_conf_path }}
-         bsd_named_conf_file: {{ bsd_named_conf_file }}
-         bsd_named_conf_working: {{ bsd_named_conf_working }}
-         bsd_named_conf_keys: {{ bsd_named_conf_keys }}
-         bsd_named_conf_managed_keys: {{ bsd_named_conf_managed_keys }}
-         bsd_named_conf_dnssec_enable: {{ bsd_named_conf_dnssec_enable }}
-         bsd_named_conf_dnssec_validation: {{ bsd_named_conf_dnssec_validation }}
-         bsd_named_conf_dnssec_lookaside: {{ bsd_named_conf_dnssec_lookaside }}
+      bsd_named_enable: {{ bsd_named_enable }}
+      bsd_named_conf_recreate: {{ bsd_named_conf_recreate }}
+      bsd_named_conf_recreate_from_sample: {{ bsd_named_conf_recreate_from_sample }}
+      bsd_named_conf_recreate_template: {{ bsd_named_conf_recreate_template }}
+      bsd_named_backup_conf: {{ bsd_named_backup_conf }}
+      bsd_named_service: {{ bsd_named_service }}
+      bsd_named_program: {{ bsd_named_program }}
+      bsd_named_pidfile: {{ bsd_named_pidfile }}
+      bsd_named_chrootdir: {{ bsd_named_chrootdir }}
+      bsd_named_chroot_autoupdate: {{ bsd_named_chroot_autoupdate }}
+      bsd_named_symlink_enable: {{ bsd_named_symlink_enable }}
+      bsd_named_conf_path: {{ bsd_named_conf_path }}
+      bsd_named_conf_file: {{ bsd_named_conf_file }}
+      bsd_named_conf_working: {{ bsd_named_conf_working }}
+      bsd_named_conf_keys: {{ bsd_named_conf_keys }}
+      bsd_named_conf_managed_keys: {{ bsd_named_conf_managed_keys }}
+      bsd_named_conf_dnssec_enable: {{ bsd_named_conf_dnssec_enable }}
+      bsd_named_conf_dnssec_validation: {{ bsd_named_conf_dnssec_validation }}
+      bsd_named_conf_dnssec_lookaside: {{ bsd_named_conf_dnssec_lookaside }}
 
-         bsd_named_serial: {{ bsd_named_serial|d('UNDEFINED') }}
-         bsd_named_refresh: {{ bsd_named_refresh|d('UNDEFINED') }}
-         bsd_named_retry: {{ bsd_named_retry|d('UNDEFINED') }}
-         bsd_named_expire: {{ bsd_named_expire|d('UNDEFINED') }}
-         bsd_named_negative: {{ bsd_named_negative|d('UNDEFINED') }}
+      bsd_named_serial: {{ bsd_named_serial | d('UNDEFINED') }}
+      bsd_named_refresh: {{ bsd_named_refresh | d('UNDEFINED') }}
+      bsd_named_retry: {{ bsd_named_retry | d('UNDEFINED') }}
+      bsd_named_expire: {{ bsd_named_expire | d('UNDEFINED') }}
+      bsd_named_negative: {{ bsd_named_negative | d('UNDEFINED') }}
 
-         bsd_named_conf_options_template: {{ bsd_named_conf_options_template }}
-         bsd_named_conf_options:
-           {{ bsd_named_conf_options|to_yaml(indent=2)|indent(2) }}
-         bsd_named_conf_dnssec_options:
-           {{ bsd_named_conf_dnssec_options|to_yaml(indent=2)|indent(2) }}
-         bsd_named_conf_listen_on:
-           {{ bsd_named_conf_listen_on|to_nice_yaml(indent=2)|indent(2) }}
-         bsd_named_conf_listen_on_v6:
-           {{ bsd_named_conf_listen_on_v6|to_nice_yaml(indent=2)|indent(2) }}
-         bsd_named_conf_forwarders:
-           {{ bsd_named_conf_forwarders|to_nice_yaml(indent=2)|indent(2) }}
-         bsd_named_conf_allow_transfer_default:
-           {{ bsd_named_conf_allow_transfer_default|to_nice_yaml(indent=2)|indent(2) }}
-         bsd_named_conf_log: {{ bsd_named_conf_log }}
-         bsd_named_conf_log_template: {{ bsd_named_conf_log_template }}
-         bsd_named_conf_log_file: {{ bsd_named_conf_log_file }}
-         bsd_named_conf_log_file_versions: {{ bsd_named_conf_log_file_versions }}
-         bsd_named_conf_log_file_size: {{ bsd_named_conf_log_file_size }}
-         bsd_named_conf_log_severity: {{ bsd_named_conf_log_severity }}
-         bsd_named_conf_log_print_severity: {{ bsd_named_conf_log_print_severity }}
-         bsd_named_conf_log_print_time: {{ bsd_named_conf_log_print_time }}
-         bsd_named_conf_log_print_category: {{ bsd_named_conf_log_print_category }}
+      bsd_named_conf_options_template: {{ bsd_named_conf_options_template }}
+      bsd_named_conf_options:
+        {{ bsd_named_conf_options | to_yaml(indent=2) | indent(2) }}
+      bsd_named_conf_dnssec_options:
+        {{ bsd_named_conf_dnssec_options | to_yaml(indent=2) | indent(2) }}
+      bsd_named_conf_listen_on:
+        {{ bsd_named_conf_listen_on | to_nice_yaml(indent=2) | indent(2) }}
+      bsd_named_conf_listen_on_v6:
+        {{ bsd_named_conf_listen_on_v6 | to_nice_yaml(indent=2) | indent(2) }}
+      bsd_named_conf_forwarders:
+        {{ bsd_named_conf_forwarders | to_nice_yaml(indent=2) | indent(2) }}
+      bsd_named_conf_allow_transfer_default:
+        {{ bsd_named_conf_allow_transfer_default | to_nice_yaml(indent=2) | indent(2) }}
+      bsd_named_conf_log: {{ bsd_named_conf_log }}
+      bsd_named_conf_log_template: {{ bsd_named_conf_log_template }}
+      bsd_named_conf_log_file: {{ bsd_named_conf_log_file }}
+      bsd_named_conf_log_file_versions: {{ bsd_named_conf_log_file_versions }}
+      bsd_named_conf_log_file_size: {{ bsd_named_conf_log_file_size }}
+      bsd_named_conf_log_severity: {{ bsd_named_conf_log_severity }}
+      bsd_named_conf_log_print_severity: {{ bsd_named_conf_log_print_severity }}
+      bsd_named_conf_log_print_time: {{ bsd_named_conf_log_print_time }}
+      bsd_named_conf_log_print_category: {{ bsd_named_conf_log_print_category }}
 
-         bsd_named_conf_zone:
-           {{ bsd_named_conf_zone|to_yaml(indent=2)|indent(2) }}
-         bsd_named_conf_validate: {{ bsd_named_conf_validate }}
-         bsd_named_zone_validate_params: {{ bsd_named_zone_validate_params }}
+      bsd_named_conf_zone:
+        {{ bsd_named_conf_zone | to_yaml(indent=2) | indent(2) }}
+      bsd_named_conf_validate: {{ bsd_named_conf_validate }}
+      bsd_named_zone_validate_params: {{ bsd_named_zone_validate_params }}
 
-         bsd_named_rcconf:
-           {{ bsd_named_rcconf|to_yaml(indent=2)|indent(2) }}
+      bsd_named_rcconf:
+        {{ bsd_named_rcconf | to_yaml(indent=2) | indent(2) }}
 
-         bsd_bind_version: {{ bsd_bind_version }}
-         bsd_dns_packages:
-           {{ bsd_dns_packages|to_nice_yaml(indent=2)|indent(2) }}
+      bsd_bind_version: {{ bsd_bind_version }}
+      bsd_dns_packages:
+        {{ bsd_dns_packages | to_nice_yaml(indent=2) | indent(2) }}
   ansible.builtin.debug:
     msg: "{{ '{}'.format(msg) }}"
 
 # EOF
-...

@@ -1,24 +1,20 @@
 ---
-
 - block:
-
-    - name: "zones:create_zone_file: Create zone file {{ item.zone }}"
+    - name: "Zones:create_zone_file: Create zone file {{ item.zone }}"
       ansible.builtin.template:
-        src: "{{ item.template|d('zone.j2') }}"
+        src: "{{ item.template | d('zone.j2') }}"
         dest: "{{ bsd_named_conf_path }}/{{ item.type }}/{{ item.zone }}"
         owner: "{{ bsd_named_conf_owner }}"
         group: "{{ bsd_named_conf_group }}"
         mode: "{{ bsd_named_conf_mode }}"
-        validate: "named-checkzone {{ bsd_named_zone_validate_params }} {{ item.zone }} %s"
+        validate: named-checkzone {{ bsd_named_zone_validate_params }} {{ item.zone }} %s
         backup: "{{ bsd_named_backup_conf }}"
       register: bsd_named_zones_created
       notify: reload named
 
   rescue:
-
-    - name: "zones:create_zone_file: Validation failed"
+    - name: "Zones:create_zone_file: Validation failed"
       ansible.builtin.fail:
         msg: "[ERROR] Validation: {{ ansible_failed_result }}"
 
 # EOF
-...

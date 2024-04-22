@@ -1,6 +1,5 @@
 ---
-
-- name: "package: Install DNS packages."
+- name: "Package: Install DNS packages."
   community.general.pkgng:
     name: "{{ bsd_dns_packages }}"
   register: result
@@ -9,7 +8,7 @@
   delay: "{{ freebsd_install_delay }}"
   when: freebsd_install_method|lower == 'packages'
 
-- name: "packages: Install DNS ports."
+- name: "Packages: Install DNS ports."
   community.general.portinstall:
     name: "{{ item }}"
     use_packages: "{{ freebsd_use_packages }}"
@@ -21,4 +20,3 @@
   when: freebsd_install_method|lower == 'ports'
 
 # EOF
-...
