@@ -5,6 +5,20 @@ vbotka.freebsd_dns 2.6 Release Notes
 .. contents:: Topics
 
 
+2.6.1
+=====
+
+Release Summary
+---------------
+Bugfix release.
+
+Major Changes
+-------------
+
+Minor Changes
+-------------
+
+
 2.6.0
 =====
 
