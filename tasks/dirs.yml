@@ -48,7 +48,7 @@
     mode: "{{ bsd_named_conf_log_file_mode }}"
     access_time: preserve
     modification_time: preserve
-  when: bsd_named_conf_log|bool
+  when: bsd_named_conf_log | bool
   tags: bsd_dns_create_log
 
 # EOF

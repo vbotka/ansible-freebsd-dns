@@ -4,29 +4,29 @@
     path: "{{ bsd_named_conf_file }}"
   register: conf_file
 
-- name: "Zones: Fail when {{ bsd_named_conf_file }} is missing."
+- name: "Zones: Fail when missing {{ bsd_named_conf_file }}"
   ansible.builtin.fail:
-    msg: "[ERROR] {{ bsd_named_conf_file }} is missing. End of play."
+    msg: "[ERR] {{ bsd_named_conf_file }} is missing. End of play."
   when: not conf_file.stat.exists
 
 - name: "Zones: Set signed zone files for DNSSEC."
   ansible.builtin.set_fact:
     bsd_named_zone_signed: .signed
-  when: bsd_named_conf_dnssec_enable|bool
+  when: bsd_named_conf_dnssec_enable | bool
 
 - name: "Zones: Configure master zones in {{ bsd_named_conf_file }}"
   ansible.builtin.include_tasks: fn/conf_master_zone.yml
   loop: "{{ bsd_named_conf_zone }}"
   loop_control:
     label: "{{ item.zone }}"
-  when: item.type|lower == 'master'
+  when: item.type | lower == 'master'
 
 - name: "Zones: Configure slave zones in {{ bsd_named_conf_file }}"
   ansible.builtin.include_tasks: fn/conf_slave_zone.yml
   loop: "{{ bsd_named_conf_zone }}"
   loop_control:
     label: "{{ item.zone }}"
-  when: item.type|lower == 'slave'
+  when: item.type | lower == 'slave'
 
 - name: "Zones: Configure master reverse zones in {{ bsd_named_conf_file }}"
   ansible.builtin.include_tasks: fn/conf_master_zone_reverse.yml
@@ -34,7 +34,7 @@
   loop_control:
     label: "{{ item.zone }}"
   when:
-    - item.type|lower == 'master'
+    - item.type | lower == 'master'
     - item.reverse
 
 - name: "Zones: Configure slave reverse zones in {{ bsd_named_conf_file }}"
@@ -43,7 +43,7 @@
   loop_control:
     label: "{{ item.zone }}"
   when:
-    - item.type|lower == 'slave'
+    - item.type | lower == 'slave'
     - item.reverse
 
 - name: "Zones: Create zone files"
@@ -51,7 +51,7 @@
   loop: "{{ bsd_named_conf_zone }}"
   loop_control:
     label: "{{ item.zone }}"
-  when: item.type|lower == 'master'
+  when: item.type | lower == 'master'
 
 - name: "Zones: Create reverse zone files"
   ansible.builtin.include_tasks: fn/create_zone_reverse_file.yml
@@ -59,7 +59,7 @@
   loop_control:
     label: "{{ item.zone }}"
   when:
-    - item.type|lower == 'master'
+    - item.type | lower == 'master'
     - item.reverse
 
 # EOF

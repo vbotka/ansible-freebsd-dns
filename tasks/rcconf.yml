@@ -6,7 +6,7 @@
     line: named_enable="YES"
     backup: "{{ bsd_named_backup_conf }}"
   notify: enable and start named
-  when: bsd_named_enable|bool
+  when: bsd_named_enable | bool
 
 - name: "Rcconf: Disable and stop named."
   ansible.builtin.lineinfile:
@@ -15,7 +15,7 @@
     line: named_enable="NO"
     backup: "{{ bsd_named_backup_conf }}"
   notify: disable and stop named
-  when: not bsd_named_enable|bool
+  when: not bsd_named_enable | bool
 
 - name: "Rcconf: Configure named."
   ansible.builtin.lineinfile:

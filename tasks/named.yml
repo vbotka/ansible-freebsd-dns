@@ -3,7 +3,7 @@
   ansible.builtin.file:
     path: "{{ bsd_named_conf_file }}"
     state: absent
-  when: bsd_named_conf_recreate|bool
+  when: bsd_named_conf_recreate | bool
   tags: bsd_named_conf
 
 - name: "Named: Stat {{ bsd_named_conf_file }}"
@@ -15,22 +15,23 @@
 - name: "Named: Create {{ bsd_named_conf_file }}"
   when: not conf_file.stat.exists
   tags: bsd_named_conf
-
   block:
+
     - name: "Named: Copy sample to {{ bsd_named_conf_file }}"
       ansible.builtin.copy:
         remote_src: true
         src: "{{ bsd_named_conf_file }}.sample"
         dest: "{{ bsd_named_conf_file }}"
         mode: preserve
-      when: bsd_named_conf_recreate_from_sample|bool
+      when: bsd_named_conf_recreate_from_sample | bool
 
-    - name: "Named: Create {{ bsd_named_conf_file }} from template"
+    - name: "Named: Create from template {{ bsd_named_conf_file }}"
       ansible.builtin.template:
         src: "{{ bsd_named_conf_recreate_template }}"
         dest: "{{ bsd_named_conf_file }}"
+        mode: "{{ bsd_named_conf_mode }}"
         validate: named-checkconf %s
-      when: not bsd_named_conf_recreate_from_sample|bool
+      when: not bsd_named_conf_recreate_from_sample | bool
 
 - name: "Named: Create BEGIN BLOCK options marker in {{ bsd_named_conf_file }}"
   ansible.builtin.lineinfile:
@@ -69,7 +70,7 @@
     validate: named-checkconf %s
     backup: "{{ bsd_named_backup_conf }}"
   notify: reload named
-  when: bsd_named_conf_log|bool
+  when: bsd_named_conf_log | bool
   tags: bsd_named_conf_logging
 
 # EOF

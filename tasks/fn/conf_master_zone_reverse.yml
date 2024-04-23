@@ -1,5 +1,7 @@
 ---
-- block:
+- name: Configure master reverse zones
+  block:
+
     - name: "Zones:conf_master_zone_reverse: Configure master reverse zones {{ item.zone }}"
       ansible.builtin.blockinfile:
         dest: "{{ bsd_named_conf_file }}"
@@ -14,8 +16,9 @@
       notify: reload named
 
   rescue:
+
     - name: "Zones:conf_master_zone_reverse: Validation failed"
       ansible.builtin.fail:
-        msg: "[ERROR] Validation: {{ ansible_failed_result }}"
+        msg: "[ERR] Validation: {{ ansible_failed_result }}"
 
 # EOF

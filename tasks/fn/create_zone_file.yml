@@ -1,5 +1,7 @@
 ---
-- block:
+- name: Create zone file
+  block:
+
     - name: "Zones:create_zone_file: Create zone file {{ item.zone }}"
       ansible.builtin.template:
         src: "{{ item.template | d('zone.j2') }}"
@@ -13,8 +15,9 @@
       notify: reload named
 
   rescue:
+
     - name: "Zones:create_zone_file: Validation failed"
       ansible.builtin.fail:
-        msg: "[ERROR] Validation: {{ ansible_failed_result }}"
+        msg: "[ERR] Validation: {{ ansible_failed_result }}"
 
 # EOF
