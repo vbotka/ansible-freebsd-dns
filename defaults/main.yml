@@ -19,7 +19,7 @@ freebsd_install_retries: 10
 freebsd_install_delay: 5
 
 # packages
-bsd_bind_version: "916"
+bsd_bind_version: "918"
 bsd_dns_packages:
   - dns/bind{{ bsd_bind_version }}
 

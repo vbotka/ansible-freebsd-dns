@@ -10,11 +10,12 @@ vbotka.freebsd_dns 2.6 Release Notes
 
 Release Summary
 ---------------
-Ansible 2.16 update
+Ansible 2.16 update. Update to dns/bind918
 
 Major Changes
 -------------
 * Support FreeBSD 13.3. and 14.0
+* Update to dns/bind918
 
 Minor Changes
 -------------
