@@ -79,11 +79,10 @@ shell> cat freebsd-dns.yml
 shell> ansible-playbook freebsd-dns.yml --syntax-check
 ```
 
-5) If DNSSEC is enabled create keys as described in [Authoritative DNS Server Configuration]
-(http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html#dns-dnssec-auth).
+5) If DNSSEC is enabled create keys as described in <TODO>. See [Domain Name System (DNS)](https://docs.freebsd.org/en/books/handbook/network-servers/#network-dns).
 Create the directories first if necessary. See how to run the playbook below.
 
-Example:
+xample:
 
 ```bash
 shell> cd /usr/local/etc/namedb/keys
@@ -177,7 +176,7 @@ If this is what you want run the play
 shell> ansible-playbook freebsd-dns.yml
 ```
 
-8) Sign the zones, reload the server and test the server as described in [Authoritative DNS Server Configuration](http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html#dns-dnssec-auth). The zones can be signed when the DNSSEC keys are included in the zone files.
+8) Sign the zones, reload the server and test the server as described in <TODO>. The zones can be signed when the DNSSEC keys are included in the zone files.
 
 Sign the zone. Change to the *keys* directory. Otherwise, full path to the keys is needed.
 
@@ -196,7 +195,6 @@ shell> dig @resolver +dnssec se ds
 9) Update registrar DS records
 
 - [Add a DS record](https://uk.godaddy.com/help/add-a-ds-record-23865)
-- ["Method used for encrypting the public key"](https://www.edge-cloud.net/2014/06/16/practical-guide-dns-based-authentication-named-entities-dane/) can be found using the command
 
 ```bash
 shell> dig type48 example.com
@@ -217,10 +215,7 @@ shell> dig type48 example.com
 
 ## NOTES
 
-- [In-line Signing](https://deepthought.isc.org/article/AA-00711/0/In-line-Signing-With-NSEC3-in-BIND-9.9-A-Walk-through.html)
-  works with the slave as expected, but not with the master.
-- Keys from master are copied to the slave manually.
-
+See: [isc.org DNSSEC search results](https://www.isc.org/search/?s=dnssec)
 
 ## Ansible lint
 
@@ -245,19 +240,16 @@ shell> ansible-lint -c .ansible-lint.local
 - [BIND Release Notes](https://kb.isc.org/docs/a-note-about-bind-release-notes)
 - [USENIX: DNSSEC in 6 minutes](http://static.usenix.org/event/lisa08/dnssec_bof.pdf)
 - [BSD: Domain Name System (DNS)](https://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html)
-- [BSD: Authoritative DNS Server Configuration](http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html#dns-dnssec-auth)
 - [ISC: BIND 9 Administrator Reference Manual](https://ftp.isc.org/isc/bind9/cur/9.19/doc/arm/html/)
 - [Zytrax: DNS for Rocket Scientists](http://www.zytrax.com/books/dns/)
 - [Zytrax: BIND (Berkeley Internet Name Domain)](http://www.zytrax.com/books/dns/ch5/)
 - [Zytrax: DNS BIND Zone Transfers and Updates](http://www.zytrax.com/books/dns/ch7/xfer.html)
 - [Zytrax: Define a DMARC Record](http://www.zytrax.com/books/dns/ch9/dmarc.html)
 - [Zytrax: Define an SPF Record](http://www.zytrax.com/books/dns/ch9/spf.html)
-- [OpenSPF: How a receiving mail server uses SPF](http://www.openspf.org/FAQ/Examples)
+- [OpenSPF: Sender Policy Framework](http://www.open-spf.org/)
 
 - [IBM: Configuring a forward only name server](https://www.ibm.com/docs/en/aix/7.1?topic=resolution-configuring-forward-only-name-server)
-- [Enabling DNSSec in Bind](http://networking.ringofsaturn.com/Unix/dnssec.php)
 - [Invalid TLD error when changing nameservers in godaddy](https://www.howtoforge.com/community/threads/invalid-tld-error-when-changing-nameservers-in-godaddy.62932/)
-- [www.bind9.net](http://www.bind9.net/)
 - [www.dnssec.net](http://www.dnssec.net/)
 - [FreeBSD man named-checkconf(8)](https://www.freebsd.org/cgi/man.cgi?query=named-checkconf&sektion=8)
 - [FreeBSD man named-checkzone(8)](https://www.freebsd.org/cgi/man.cgi?query=named-checkzone&sektion=8)
