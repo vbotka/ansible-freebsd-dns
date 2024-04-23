@@ -1,11 +1,11 @@
 ---
+- name: Configure master zone
+  block:
 
-- block:
-
-    - name: "zones:conf_master_zone: Configure master zone {{ item.zone }}"
+    - name: "Zones:conf_master_zone: Configure master zone {{ item.zone }}"
       ansible.builtin.blockinfile:
         dest: "{{ bsd_named_conf_file }}"
-        marker: "// *** {mark} ANSIBLE MANAGED BLOCK master {{ item.zone }} ***"
+        marker: // *** {mark} ANSIBLE MANAGED BLOCK master {{ item.zone }} ***
         insertafter: EOF
         owner: "{{ bsd_named_conf_owner }}"
         group: "{{ bsd_named_conf_group }}"
@@ -17,9 +17,8 @@
 
   rescue:
 
-    - name: "zones:conf_master_zone: Validation failed"
+    - name: "Zones:conf_master_zone: Validation failed"
       ansible.builtin.fail:
-        msg: "[ERROR] Validation: {{ ansible_failed_result }}"
+        msg: "[ERR] Validation: {{ ansible_failed_result }}"
 
 # EOF
-...

@@ -1,43 +1,39 @@
 ---
-
-- name: "sanity: Package(s) not present and installation disabled."
+- name: Package(s) not present and installation disabled.
+  when: not bsd_dns_install | bool
   block:
 
-    - name: "sanity: Collect installed packages."
+    - name: "Sanity: Collect installed packages."
       ansible.builtin.package_facts:
 
-    - name: "sanity: Set my_missing_packages"
+    - name: "Sanity: Set my_missing_packages"
       ansible.builtin.set_fact:
-        my_missing_packages: "{{ required_packages|
-                                 difference(ansible_facts.packages.keys()) }}"
+        my_missing_packages: "{{ required_packages | difference(ansible_facts.packages.keys()) }}"
       vars:
-        required_packages: "{{ bsd_dns_packages|map('split', '/')|map('last') }}"
+        required_packages: "{{ bsd_dns_packages | map('split', '/') | map('last') }}"
 
-    - name: "sanity: Debug missing packages."
+    - name: "Sanity: Debug missing packages."
       ansible.builtin.debug:
         msg: >
-          [ERROR] Packages {{ my_missing_packages }} not installed
-          and installation disabled. {{ action }}
-      when: my_missing_packages|length > 0
+          [ERR] Packages {{ my_missing_packages }} not installed
+          and installation disabled. {{ _action }}
+      when: my_missing_packages | length > 0
       vars:
-        action: "{{ bsd_dns_sanity_fatal|ternary('End play.', 'End host.') }}"
+        _action: "{{ bsd_dns_sanity_fatal | ternary('End play.', 'End host.') }}"
 
-    - name: "sanity: End play."
-      meta: end_play
+    - name: "Sanity: End play."
+      ansible.builtin.meta: end_play
       when:
-        - my_missing_packages|length > 0
-        - bsd_dns_sanity_fatal|bool
+        - my_missing_packages | length > 0
+        - bsd_dns_sanity_fatal | bool
 
-    - name: "sanity: End host."
-      meta: end_host
-      when: my_missing_packages|length > 0
+    - name: "Sanity: End host."
+      ansible.builtin.meta: end_host
+      when: my_missing_packages | length > 0
 
-    - name: "sanity: Debug required packages installed."
+    - name: "Sanity: Debug required packages installed."
       ansible.builtin.debug:
-        msg: '[OK] Required packages installed.'
-      when: bsd_dns_debug|bool
-
-  when: not bsd_dns_install|bool
+        msg: "[OK]  Required packages installed."
+      when: bsd_dns_debug | bool
 
 # EOF
-...

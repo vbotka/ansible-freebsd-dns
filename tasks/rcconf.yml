@@ -1,31 +1,29 @@
 ---
-
-- name: "rcconf: Enable and start named."
+- name: "Rcconf: Enable and start named."
   ansible.builtin.lineinfile:
     dest: /etc/rc.conf
-    regexp: '^\s*named_enable\s*=(.*)$'
-    line: 'named_enable="YES"'
+    regexp: ^\s*named_enable\s*=(.*)$
+    line: named_enable="YES"
     backup: "{{ bsd_named_backup_conf }}"
   notify: enable and start named
-  when: bsd_named_enable|bool
+  when: bsd_named_enable | bool
 
-- name: "rcconf: Disable and stop named."
+- name: "Rcconf: Disable and stop named."
   ansible.builtin.lineinfile:
     dest: /etc/rc.conf
-    regexp: '^\s*named_enable\s*=(.*)$'
-    line: 'named_enable="NO"'
+    regexp: ^\s*named_enable\s*=(.*)$
+    line: named_enable="NO"
     backup: "{{ bsd_named_backup_conf }}"
   notify: disable and stop named
-  when: not bsd_named_enable|bool
+  when: not bsd_named_enable | bool
 
-- name: "rcconf: Configure named."
+- name: "Rcconf: Configure named."
   ansible.builtin.lineinfile:
     dest: /etc/rc.conf
-    regexp: '^\s*{{ item.key }}\s*=(.*)$'
+    regexp: ^\s*{{ item.key }}\s*=(.*)$
     line: '{{ item.key }}="{{ item.val }}"'
     backup: "{{ bsd_named_backup_conf }}"
   loop: "{{ bsd_named_rcconf }}"
   notify: restart named
 
 # EOF
-...
