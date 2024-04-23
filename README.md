@@ -79,7 +79,9 @@ shell> cat freebsd-dns.yml
 shell> ansible-playbook freebsd-dns.yml --syntax-check
 ```
 
-5) If DNSSEC is enabled create keys as described in [Authoritative DNS Server Configuration](http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html#dns-dnssec-auth)
+5) If DNSSEC is enabled create keys as described in [Authoritative DNS Server Configuration]
+(http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html#dns-dnssec-auth).
+Create the directories first if necessary. See how to run the playbook below.
 
 Example:
 
@@ -92,7 +94,7 @@ shell> dnssec-keygen -a RSASHA256 -b 2048 -n ZONE example.com
 shell> ln -s Kexample.com.+008+35529.key Kexample.com.ZSK.key
 shell> ln -s Kexample.com.+008+35529.private Kexample.com.ZSK.private
 shell> chown bind K*
-```  
+```
 
 6) Configure the zones
 
@@ -177,7 +179,7 @@ shell> ansible-playbook freebsd-dns.yml
 
 8) Sign the zones, reload the server and test the server as described in [Authoritative DNS Server Configuration](http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-dns.html#dns-dnssec-auth). The zones can be signed when the DNSSEC keys are included in the zone files.
 
-Sign the zone. Change to the *keys* directory. Otherwise full path to the keys is needed.
+Sign the zone. Change to the *keys* directory. Otherwise, full path to the keys is needed.
 
 ```bash
 shell> cd /usr/local/etc/namedb/keys
