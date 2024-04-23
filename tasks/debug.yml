@@ -1,5 +1,5 @@
 ---
-- name: Debug
+- name: "Debug bsd_dns_debug={{ bsd_dns_debug | bool }}"
   vars:
     msg: |-
       ansible_architecture: {{ ansible_architecture }}
@@ -16,6 +16,9 @@
       freebsd_install_delay: {{ freebsd_install_delay }}
 
       bsd_dns_install: {{ bsd_dns_install }}
+      bsd_bind_version: {{ bsd_bind_version }}
+      bsd_dns_packages:
+        {{ bsd_dns_packages | to_nice_yaml(indent=2) | indent(2) }}
       bsd_dns_sanity: {{ bsd_dns_sanity }}
       bsd_dns_sanity_fatal: {{ bsd_dns_sanity_fatal }}
 
@@ -75,10 +78,6 @@
 
       bsd_named_rcconf:
         {{ bsd_named_rcconf | to_yaml(indent=2) | indent(2) }}
-
-      bsd_bind_version: {{ bsd_bind_version }}
-      bsd_dns_packages:
-        {{ bsd_dns_packages | to_nice_yaml(indent=2) | indent(2) }}
   ansible.builtin.debug:
     msg: "{{ '{}'.format(msg) }}"
 

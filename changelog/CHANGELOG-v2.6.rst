@@ -24,7 +24,7 @@ Minor Changes
 * Fix Ansible lint.
 * Update README.
 * Formatting travis.yml
-
+* Update debug.yml formatting
 
 Bugfixes
 --------
