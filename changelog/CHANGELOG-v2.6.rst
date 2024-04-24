@@ -17,6 +17,7 @@ Major Changes
 
 Minor Changes
 -------------
+* Fix README label.
 
 
 2.6.0
