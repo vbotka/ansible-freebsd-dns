@@ -18,6 +18,7 @@ Major Changes
 Minor Changes
 -------------
 * Fix README label.
+* Update skip_list in local ansible-lint config.
 
 
 2.6.0
