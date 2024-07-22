@@ -1,5 +1,6 @@
 ---
 # defaults vbotka.freebsd_dns
+bsd_dns_role_version: 2.6.1
 
 bsd_dns_install: true
 bsd_dns_sanity: true
@@ -28,6 +29,7 @@ bsd_named_service: named
 bsd_named_program: /usr/local/sbin/named
 bsd_named_pidfile: /var/run/named/pid
 bsd_named_chrootdir: /var/named
+bsd_named_chrootdir_keys: "{{ [bsd_named_chrootdir, bsd_named_conf_keys] | join('/') | replace('//', '/') }}"
 bsd_named_chroot_autoupdate: "NO"
 bsd_named_symlink_enable: "YES"
 bsd_named_rcconf:
@@ -48,9 +50,19 @@ bsd_named_conf_group: wheel
 bsd_named_conf_mode: "0644"
 bsd_named_conf_path: /usr/local/etc/namedb
 bsd_named_conf_file: "{{ bsd_named_conf_path }}/named.conf"
-bsd_named_conf_working: "{{ bsd_named_conf_path }}/working"
+bsd_named_conf_master: "{{ bsd_named_conf_path }}/master"
+bsd_named_conf_slave: "{{ bsd_named_conf_path }}/slave"
 bsd_named_conf_keys: "{{ bsd_named_conf_path }}/keys"
+bsd_named_conf_working: "{{ bsd_named_conf_path }}/working"
 bsd_named_conf_managed_keys: "{{ bsd_named_conf_path }}/dynamic"
+bsd_named_conf_dirs:
+  - {dir: "{{ bsd_named_conf_master }}", owner: root, group: wheel, mode: "0755"}
+  - {dir: "{{ bsd_named_conf_slave }}", owner: bind, group: bind, mode: "0755"}
+  - {dir: "{{ bsd_named_conf_keys }}", owner: root, group: wheel, mode: "0755"}
+  - {dir: "{{ bsd_named_conf_managed_keys }}", owner: bind, group: bind, mode: "0755"}
+  - {dir: "{{ bsd_named_conf_working }}", owner: bind, group: bind, mode: "0755"}
+  - {dir: "{{ bsd_named_chrootdir }}", owner: root, group: wheel, mode: "0755"}
+  - {dir: "{{ bsd_named_chrootdir_keys }}", owner: root, group: wheel, mode: "0755"}
 
 # named.conf options
 bsd_named_conf_options_template: block-named-options.j2
@@ -65,6 +77,7 @@ bsd_named_conf_listen_on_v6: []
 bsd_named_conf_forwarders: []
 bsd_named_conf_allow_transfer_default:
   - '"none"'
+
 # dnssec
 bsd_named_conf_dnssec_enable: false # Note 1)
 bsd_named_conf_dnssec_validation: "no"

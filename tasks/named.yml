@@ -12,7 +12,7 @@
   register: conf_file
   tags: bsd_named_conf
 
-- name: "Named: Create {{ bsd_named_conf_file }}"
+- name: Create bsd_named_conf_file
   when: not conf_file.stat.exists
   tags: bsd_named_conf
   block:
@@ -33,23 +33,37 @@
         validate: named-checkconf %s
       when: not bsd_named_conf_recreate_from_sample | bool
 
-- name: "Named: Create BEGIN BLOCK options marker in {{ bsd_named_conf_file }}"
-  ansible.builtin.lineinfile:
-    path: "{{ bsd_named_conf_file }}"
-    insertbefore: ^options {
-    firstmatch: true
-    line: // *** BEGIN ANSIBLE MANAGED BLOCK options ***
-  when: not ansible_check_mode
-  tags: bsd_named_conf
+- name: "Named: Check begin marker options in {{ bsd_named_conf_file }}"
+  ansible.builtin.command:
+    cmd: >
+      grep -q '// \*\*\* BEGIN ANSIBLE MANAGED BLOCK options \*\*\*' {{ bsd_named_conf_file }}
+  register: checkmarker
+  check_mode: false
+  ignore_errors: true
+  changed_when: false
+  tags: bsd_named_conf_options
 
-- name: "Named: Create END BLOCK options marker in {{ bsd_named_conf_file }}"
-  ansible.builtin.lineinfile:
-    path: "{{ bsd_named_conf_file }}"
-    insertafter: ^};
-    firstmatch: true
-    line: // *** END ANSIBLE MANAGED BLOCK options ***
-  when: not ansible_check_mode
-  tags: bsd_named_conf
+- name: Create ANSIBLE MANAGED BLOCK options marker in bsd_named_conf_file
+  when: checkmarker.rc != 0
+  tags: bsd_named_conf_options
+  block:
+
+    - name: "Mark-block: Create begin marker options"
+      ansible.builtin.replace:
+        path: "{{ bsd_named_conf_file }}"
+        regexp: ^options {
+        replace: |-
+          // *** BEGIN ANSIBLE MANAGED BLOCK options ***
+          options {
+
+    - name: "Mark-block: Create end marker options"
+      ansible.builtin.replace:
+        path: "{{ bsd_named_conf_file }}"
+        regexp: (^options {[\s\S]*?)^};
+        replace: |-
+          \g<1>
+          };
+          // *** END ANSIBLE MANAGED BLOCK options ***
 
 - name: "Named: Configure options in {{ bsd_named_conf_file }}"
   ansible.builtin.blockinfile:

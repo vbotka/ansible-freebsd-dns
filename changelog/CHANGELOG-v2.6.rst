@@ -5,6 +5,31 @@ vbotka.freebsd_dns 2.6 Release Notes
 .. contents:: Topics
 
 
+2.6.1
+=====
+
+Release Summary
+---------------
+Ansible 2.17 maintenance update.
+
+Major Changes
+-------------
+* Add supported 14.1
+
+Minor Changes
+-------------
+* Update README.
+* Update skip_list in local ansible-lint config.
+* Update debug, sanity, zones
+* Update ANSIBLE MANAGED BLOCK markers
+* Add var bsd_dns_role_version
+* Add vars +bsd_named_conf_master, bsd_named_conf_slave, bsd_named_conf_dirs
+* Create dirs in loop
+* Tags removed: bsd_dns_create_named_chrootdir,
+  bsd_dns_create_keydir_chrooted, bsd_dns_create_keydir,
+  bsd_dns_create_workingdir
+
+
 2.6.0
 =====
 
