@@ -1,43 +1,15 @@
 ---
-- name: "Dirs: Create directory for chrooted named {{ bsd_named_chrootdir }}"
+- name: "Dirs: Create directories in {{ bsd_named_conf_path }}"
   ansible.builtin.file:
     state: directory
-    path: "{{ bsd_named_chrootdir }}"
-    owner: root
-    group: wheel
-    mode: "0755"
-  when: bsd_named_chrootdir is defined
-  tags: bsd_dns_create_named_chrootdir
-
-- name: "Dirs: Create chrooted directory for keys {{ path }}"
-  ansible.builtin.file:
-    state: directory
-    path: "{{ path }}"
-    owner: root
-    group: wheel
-    mode: "0755"
-  vars:
-    path: "{{ [bsd_named_chrootdir, bsd_named_conf_keys] | join('/') | replace('//', '/') }}"
-  when: bsd_named_chrootdir is defined
-  tags: bsd_dns_create_keydir_chrooted
-
-- name: "Dirs: Create directory for keys {{ bsd_named_conf_keys }}"
-  ansible.builtin.file:
-    state: directory
-    path: "{{ bsd_named_conf_keys }}"
-    owner: root
-    group: wheel
-    mode: "0755"
-  tags: bsd_dns_create_keydir
-
-- name: "Dirs: Create working directory {{ bsd_named_conf_working }}"
-  ansible.builtin.file:
-    state: directory
-    path: "{{ bsd_named_conf_working }}"
-    owner: bind
-    group: bind
-    mode: "0755"
-  tags: bsd_dns_create_workingdir
+    path: "{{ item.dir }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    mode: "{{ item.mode }}"
+  loop: "{{ bsd_named_conf_dirs }}"
+  loop_control:
+    label: "{{ item.dir }}"
+  tags: bsd_dns_create_named_dirs
 
 - name: "Dirs: Set atributes of {{ bsd_named_conf_log_file }}"
   ansible.builtin.file:

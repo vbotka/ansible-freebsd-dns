@@ -2,6 +2,7 @@
 - name: "Debug bsd_dns_debug={{ bsd_dns_debug | bool }}"
   vars:
     msg: |-
+      bsd_dns_role_version: {{ bsd_dns_role_version }}
       ansible_architecture: {{ ansible_architecture }}
       ansible_os_family: {{ ansible_os_family }}
       ansible_distribution: {{ ansible_distribution }}
@@ -35,9 +36,15 @@
       bsd_named_symlink_enable: {{ bsd_named_symlink_enable }}
       bsd_named_conf_path: {{ bsd_named_conf_path }}
       bsd_named_conf_file: {{ bsd_named_conf_file }}
-      bsd_named_conf_working: {{ bsd_named_conf_working }}
+
+      bsd_named_conf_master: {{ bsd_named_conf_master }}
+      bsd_named_conf_slave: {{ bsd_named_conf_slave }}
       bsd_named_conf_keys: {{ bsd_named_conf_keys }}
       bsd_named_conf_managed_keys: {{ bsd_named_conf_managed_keys }}
+      bsd_named_conf_working: {{ bsd_named_conf_working }}
+      bsd_named_chrootdir_keys: {{ bsd_named_chrootdir_keys }}
+      bsd_named_conf_dirs:
+        {{ bsd_named_conf_dirs | to_yaml(indent=2) | indent(2) }}
       bsd_named_conf_dnssec_enable: {{ bsd_named_conf_dnssec_enable }}
       bsd_named_conf_dnssec_validation: {{ bsd_named_conf_dnssec_validation }}
       bsd_named_conf_dnssec_lookaside: {{ bsd_named_conf_dnssec_lookaside }}

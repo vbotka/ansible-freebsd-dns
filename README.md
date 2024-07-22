@@ -1,8 +1,10 @@
 # freebsd_dns
 
-[![quality](https://img.shields.io/ansible/quality/27910)](https://galaxy.ansible.com/vbotka/freebsd_dns)[![Build Status](https://app.travis-ci.com/vbotka/ansible-freebsd-dns.svg?branch=master)](https://app.travis-ci.com/vbotka/ansible-freebsd-dns)[![GitHub tag](https://img.shields.io/github/v/tag/vbotka/ansible-freebsd-dns)](https://github.com/vbotka/ansible-freebsd-dns/tags)
+[![quality](https://img.shields.io/ansible/quality/27910)](https://galaxy.ansible.com/vbotka/freebsd_dns)
+[![Build Status](https://app.travis-ci.com/vbotka/ansible-freebsd-dns.svg?branch=master)](https://app.travis-ci.com/vbotka/ansible-freebsd-dns)
+[![GitHub tag](https://img.shields.io/github/v/tag/vbotka/ansible-freebsd-dns)](https://github.com/vbotka/ansible-freebsd-dns/tags)
 
-[Ansible role.](https://galaxy.ansible.com/vbotka/freebsd_dns/) FreeBSD. Configure DNS.
+[Ansible role.](https://galaxy.ansible.com/vbotka/freebsd_dns/) FreeBSD. Install and configure DNS.
 
 Feel free to [share your feedback and report issues](https://github.com/vbotka/ansible-freebsd-dns/issues).
 
@@ -63,11 +65,7 @@ shell>  ansible host -e 'ansible_shell_type=csh ansible_shell_executable=/bin/cs
 shell> ansible-galaxy role install vbotka.freebsd_dns
 ```
 
-3) Change variables, for example, in vars
-
-```bash
-shell> editor vbotka.freebsd_dns/vars/main.yml
-```
+3) Change variables
 
 4) Create the playbook and check the syntax
 
@@ -83,7 +81,7 @@ shell> ansible-playbook freebsd-dns.yml --syntax-check
 5) If DNSSEC is enabled create keys as described in <TODO>. See [Domain Name System (DNS)](https://docs.freebsd.org/en/books/handbook/network-servers/#network-dns).
 Create the directories first if necessary. See how to run the playbook below.
 
-xample:
+Example:
 
 ```bash
 shell> cd /usr/local/etc/namedb/keys
@@ -151,13 +149,13 @@ shell> ansible-playbook freebsd-dns.yml --syntax-check
 Take a look at the variables
 
 ```yaml
-shell> ansible-playbook freebsd-dns.yml  -t bsd_dns_debug  -e bsd_dns_debug=true
+shell> ansible-playbook freebsd-dns.yml -t bsd_dns_debug -e bsd_dns_debug=true
 ```
 
 Install packages
 
 ```yaml
-shell> ansible-playbook freebsd-dns.yml -t bsd_dns_packages  -e bsd_dns_install=true
+shell> ansible-playbook freebsd-dns.yml -t bsd_dns_packages -e bsd_dns_install=true
 ```
 Create directories
 
@@ -217,6 +215,7 @@ shell> dig type48 example.com
 ## NOTES
 
 See: [isc.org DNSSEC search results](https://www.isc.org/search/?s=dnssec)
+
 
 ## Ansible lint
 
