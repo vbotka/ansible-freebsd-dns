@@ -4,6 +4,7 @@ vbotka.freebsd_dns 2.6 Release Notes
 
 .. contents:: Topics
 # BEGIN Commits 2.6.2
+- Update python 3.11 in .travis.yml
 - Update tests/test.yml playbook
 - Start 2.6.2 devel.
 # END Commits 2.6.2
@@ -16,6 +17,10 @@ Major Changes
 -------------
 Minor Changes
 -------------
+- Update python 3.11 in .travis.yml
+- Update tests/test.yml playbook
+- Start 2.6.2 devel.
+
 Bugfixes
 --------
 Breaking Changes / Porting Guide
